@@ -2,7 +2,7 @@
 from PIL import Image
 
 SRC = "public/assets/iramako-hero-3-sloiki-crop.png"
-OUT = "public/assets/iramako-hero-3-sloiki-baked.png"
+OUT = "src/assets/iramako-hero-3-sloiki-baked.png"
 
 RENDERED_W = 690.21875
 SCALE = 1.2

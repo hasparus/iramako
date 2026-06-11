@@ -27,8 +27,8 @@ def cut(im: Image.Image, name: str) -> None:
     x0, y0, x1, y1 = alpha_bbox(im)
     x0, y0 = max(0, x0 - MARGIN), max(0, y0 - MARGIN)
     x1, y1 = min(im.width, x1 + MARGIN), min(im.height, y1 + MARGIN)
-    out = f"public/assets/products/{name}.png"
-    im.crop((x0, y0, x1, y1)).save(out)
+    out = f"src/assets/products/{name}.webp"
+    im.crop((x0, y0, x1, y1)).save(out, quality=95, exact=True)
     print(f"{out}: {x1 - x0}x{y1 - y0} (bbox {x0},{y0}..{x1},{y1})")
 
 

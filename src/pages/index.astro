@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Button from "../components/Button.astro";
 import Eyebrow from "../components/Eyebrow.astro";
@@ -8,8 +9,12 @@ import ProductListItem from "../components/ProductListItem.astro";
 import Section from "../components/Section.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import Navbar from "../components/Navbar.astro";
+import heroImage from "../assets/iramako-hero-3-sloiki-baked.png";
+import kremRetinol from "../assets/products/krem-retinol.webp";
+import kremB3 from "../assets/products/krem-b3.webp";
+import glinka from "../assets/products/glinka.webp";
+import hydrolat from "../assets/products/hydrolat.webp";
 
-const heroImage = "/assets/iramako-hero-3-sloiki-baked.png";
 const instagramUrl = "https://www.instagram.com/ira.mako/";
 
 const products = [
@@ -19,7 +24,7 @@ const products = [
     description:
       "odżywiający krem z roślinnym retinolem, różą damasceńską i olejem z nasion malin",
     accent: "#a80070",
-    image: "/assets/products/krem-retinol.png",
+    image: kremRetinol,
     alt: "Słoik kremu z retinolem roślinnym z fuksjową plamą na etykiecie",
   },
   {
@@ -28,7 +33,7 @@ const products = [
     description:
       "nawilżający krem z witaminą B3 i mocznikiem do codziennego komfortu skóry",
     accent: "#1b2a96",
-    image: "/assets/products/krem-b3.png",
+    image: kremB3,
     alt: "Słoik kremu nawilżającego z kobaltową plamą na etykiecie",
   },
   {
@@ -36,7 +41,7 @@ const products = [
     size: "40 g",
     description: "mineralna pielęgnacja do mycia twarzy i robienia maseczek",
     accent: "#5f6f8c",
-    image: "/assets/products/glinka.png",
+    image: glinka,
     alt: "Słoik glinki białej kaolinowej z logo iramako",
   },
   {
@@ -44,8 +49,9 @@ const products = [
     size: "100 ml",
     description: "naturalna mgiełka tonizująca z płatków róży damasceńskiej",
     accent: "#b5235c",
-    image: "/assets/products/hydrolat.png",
+    image: hydrolat,
     alt: "Słoik iramako w ciepłym świetle",
+    previewClass: "max-h-100 translate-y-[-63%]",
   },
 ];
 ---
@@ -77,11 +83,13 @@ const products = [
       </div>
 
       <figure class="m-0">
-        <img
+        <Image
           class="max-h-[640px] max-w-none object-contain object-bottom mix-blend-multiply"
           style="width: 105.856%; margin-left: -6.005%; padding: 18.337% 0 2.731% 0"
           src={heroImage}
           alt="Trzy słoiki kremów iramako na jasnym tle"
+          loading="eager"
+          quality={95}
         />
       </figure>
     </Section>
@@ -157,12 +165,10 @@ const products = [
               class="absolute inset-0 m-0 hidden data-active:block"
               data-preview={index}
             >
-              <img
+              <Image
                 class:list={[
                   "absolute left-1/2 top-1/2 -translate-x-1/2 object-contain",
-                  product.image.endsWith("hydrolat.png")
-                    ? "max-h-100 translate-y-[-63%]"
-                    : "max-h-60 translate-y-[-58%]",
+                  product.previewClass ?? "max-h-60 translate-y-[-58%]",
                 ]}
                 src={product.image}
                 alt={product.alt}
@@ -193,6 +199,8 @@ const products = [
       </style>
 
       <script>
+        import { onScrollHit } from "../scripts/scroll-hit";
+
         const list = document.getElementById("product-list");
         const preview = document.getElementById("product-preview");
 
@@ -204,6 +212,12 @@ const products = [
           const cards = Array.from(
             preview.querySelectorAll<HTMLElement>("[data-preview]"),
           );
+
+          // markup says lazy so phones never fetch these; on hover-capable
+          // devices prefetch now so the first hover doesn't race the network
+          for (const img of preview.querySelectorAll("img")) {
+            img.loading = "eager";
+          }
 
           const setRow = (row: HTMLElement | null) => {
             for (const card of cards) {
@@ -224,41 +238,13 @@ const products = [
             moveTo(event.clientX, event.clientY);
           });
 
-          // scrolling moves rows under a stationary pointer without firing
-          // any pointer events; re-hit-test so the preview is never stale.
-          // rAF-coalesced: at most one elementFromPoint per frame, reading
-          // layout the browser has already committed
-          let lastX: number | undefined;
-          let lastY: number | undefined;
-          let rafPending = false;
-
-          window.addEventListener(
-            "pointermove",
-            (event) => {
-              lastX = event.clientX;
-              lastY = event.clientY;
-            },
-            { passive: true },
-          );
-
-          window.addEventListener(
-            "scroll",
-            () => {
-              if (lastX === undefined || lastY === undefined || rafPending)
-                return;
-              rafPending = true;
-              requestAnimationFrame(() => {
-                rafPending = false;
-                // button held: user is selecting text, leave the cursor alone
-                if (!list.hasAttribute("data-cursor-none")) return;
-                const hit = document.elementFromPoint(lastX!, lastY!);
-                const row = hit?.closest<HTMLElement>("[data-product]") ?? null;
-                if (row) moveTo(lastX!, lastY!);
-                setRow(row);
-              });
-            },
-            { passive: true },
-          );
+          onScrollHit((hit, x, y) => {
+            // button held: user is selecting text, leave the cursor alone
+            if (!list.hasAttribute("data-cursor-none")) return;
+            const row = hit?.closest<HTMLElement>("[data-product]") ?? null;
+            if (row) moveTo(x, y);
+            setRow(row);
+          });
 
           for (const row of list.querySelectorAll<HTMLElement>(
             "[data-product]",
