@@ -10,23 +10,37 @@ interface Props {
 const { instagramUrl } = Astro.props;
 ---
 
-<footer id="kontakt" class="relative z-40 border-t border-rule" aria-label="kontakt">
+<footer
+  id="kontakt"
+  class="relative z-40 border-t border-rule"
+  aria-label="kontakt"
+>
   <Container class="py-10 pb-5 sm:py-12 sm:pb-[clamp(24px,4vw,58px)]">
-    <div class="flex flex-col gap-10 sm:flex-row sm:items-center sm:justify-between">
-    <p class="max-w-[880px] font-medium leading-relaxed text-muted sm:text-lg">
-      <span class="block [text-box:trim-start_cap_alphabetic]">iramako Irena Makowska</span>
-      <span class="block">pl. Uniwersytecki 7, 50-137 Wrocław</span>
-      <span class="block">NIP 9121835398 · REGON 541674780</span>
-    </p>
-    <Logo class="w-[68px] sm:w-[84px]" />
+    <div
+      class="flex flex-col gap-10 sm:flex-row sm:items-center sm:justify-between"
+    >
+      <p
+        class="max-w-[880px] font-medium leading-relaxed text-muted sm:text-lg"
+      >
+        <span class="block [text-box:trim-start_cap_alphabetic]"
+          >iramako Irena Makowska</span
+        >
+        <span class="block">pl. Uniwersytecki 7, 50-137 Wrocław</span>
+        <span class="block">NIP 9121835398 · REGON 541674780</span>
+      </p>
+      <Logo class="w-[68px] sm:w-[84px]" />
     </div>
 
-    <div class="flex flex-col gap-10 sm:flex-row sm:items-center sm:justify-between py-10 sm:py-16 lg:pt-24">
+    <div
+      class="flex flex-col gap-10 sm:flex-row sm:items-center sm:justify-between py-10 sm:py-16 lg:pt-24"
+    >
       <div
         class="flex flex-col gap-3 text-[15px] font-medium leading-tight text-ink sm:flex-row sm:items-center sm:gap-[clamp(28px,5vw,72px)] sm:text-base"
       >
-        <NavLink href={instagramUrl} target="_blank" rel="noreferrer">instagram</NavLink>
-        <NavLink href="mailto:kontakt@iramako.pl">kontakt@iramako.pl</NavLink>
+        <NavLink href={instagramUrl} target="_blank" rel="noreferrer"
+          >instagram</NavLink
+        >
+        <NavLink href="mailto:centrala@iramako.pl">centrala@iramako.pl</NavLink>
       </div>
     </div>
   </Container>
