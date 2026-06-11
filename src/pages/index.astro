@@ -4,6 +4,7 @@ import Button from "../components/Button.astro";
 import Eyebrow from "../components/Eyebrow.astro";
 import ContactIcon from "../components/icons/Contact.astro";
 import InstagramIcon from "../components/icons/Instagram.astro";
+import ProductListItem from "../components/ProductListItem.astro";
 import Section from "../components/Section.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import Navbar from "../components/Navbar.astro";
@@ -11,29 +12,12 @@ import Navbar from "../components/Navbar.astro";
 const heroImage = "/assets/iramako-hero-3-sloiki-baked.png";
 const instagramUrl = "https://www.instagram.com/ira.mako/";
 
-const formulas = [
-  {
-    number: "01",
-    name: "róża",
-    copy: "hydrolat z róży pomaga skórze wrócić do komfortu.",
-  },
-  {
-    number: "02",
-    name: "malina",
-    copy: "olej z nasion malin zostawia miękkość bez ciężaru.",
-  },
-  {
-    number: "03",
-    name: "komfort",
-    copy: "kremowa formuła na poranek i wieczór.",
-  },
-];
-
 const products = [
   {
     name: "Krem Róża + Malina z retinolem roślinnym 2%",
     size: "30 i 60 ml",
-    description: "odżywiający krem z roślinnym retinolem, różą damasceńską i olejem z nasion malin",
+    description:
+      "odżywiający krem z roślinnym retinolem, różą damasceńską i olejem z nasion malin",
     accent: "#a80070",
     image: "/assets/products/krem-retinol.png",
     alt: "Słoik kremu z retinolem roślinnym z fuksjową plamą na etykiecie",
@@ -41,7 +25,8 @@ const products = [
   {
     name: "Krem Róża + Malina nawilżający z wit. B3",
     size: "30 i 60 ml",
-    description: "nawilżający krem z witaminą B3 i mocznikiem do codziennego komfortu skóry",
+    description:
+      "nawilżający krem z witaminą B3 i mocznikiem do codziennego komfortu skóry",
     accent: "#1b2a96",
     image: "/assets/products/krem-b3.png",
     alt: "Słoik kremu nawilżającego z kobaltową plamą na etykiecie",
@@ -101,25 +86,32 @@ const products = [
       </figure>
     </Section>
 
-    <Section id="skladniki" aria-label="składniki" containerClass="grid grid-cols-1 lg:grid-cols-3">
-      {
-        formulas.map((formula, index) => (
-          <article
-            class:list={[
-              "border-b border-rule py-8 lg:min-h-[220px] lg:border-b-0 lg:py-[clamp(34px,4vw,58px)]",
-              index !== formulas.length - 1 && "lg:border-r",
-              index === 0 ? "lg:pr-[clamp(26px,4vw,78px)]" : "lg:px-[clamp(26px,4vw,78px)]",
-              index === formulas.length - 1 && "border-b-0 lg:pr-0",
-            ]}
-          >
-            <p class="mb-6 text-[0.92rem] font-bold leading-none text-ink">{formula.number}</p>
-            <h2 class="mb-4 text-[clamp(2rem,3vw,3.1rem)] font-bold leading-[0.95] tracking-[-0.04em] text-ink">
-              {formula.name}
-            </h2>
-            <p class="m-0 max-w-[260px] text-[clamp(1rem,1.1vw,1.18rem)] leading-[1.45] text-muted">{formula.copy}</p>
-          </article>
-        ))
-      }
+    <Section
+      id="skladniki"
+      aria-label="składniki"
+      containerClass="grid grid-cols-1 lg:grid-cols-3"
+    >
+      <ProductListItem
+        number="01"
+        name="róża"
+        copy="hydrolat z róży pomaga skórze wrócić do komfortu."
+        index={0}
+        total={3}
+      />
+      <ProductListItem
+        number="02"
+        name="malina"
+        copy="olej z nasion malin zostawia miękkość bez ciężaru."
+        index={1}
+        total={3}
+      />
+      <ProductListItem
+        number="03"
+        name="komfort"
+        copy="kremowa formuła na poranek i wieczór."
+        index={2}
+        total={3}
+      />
     </Section>
 
     <Section
@@ -129,7 +121,9 @@ const products = [
     >
       <div class="max-w-[520px]">
         <Eyebrow>codzienny rytuał</Eyebrow>
-        <h2 class="m-0 text-[clamp(3rem,5vw,5.4rem)] font-bold leading-[0.98] tracking-[-0.04em] text-ink">
+        <h2
+          class="m-0 text-[clamp(3rem,5vw,5.4rem)] font-bold leading-[0.98] tracking-[-0.04em] text-ink"
+        >
           Kosmetyki bez nadmiaru.
         </h2>
       </div>
@@ -159,9 +153,17 @@ const products = [
       >
         {
           products.map((product, index) => (
-            <figure class="absolute inset-0 m-0 hidden data-active:block" data-preview={index}>
+            <figure
+              class="absolute inset-0 m-0 hidden data-active:block"
+              data-preview={index}
+            >
               <img
-                class="absolute left-1/2 top-1/2 max-h-[240px] -translate-x-1/2 -translate-y-1/2 object-contain"
+                class:list={[
+                  "absolute left-1/2 top-1/2 -translate-x-1/2 object-contain",
+                  product.image.endsWith("hydrolat.png")
+                    ? "max-h-[320px] -translate-y-[calc(50%+10px)]"
+                    : "max-h-[240px] -translate-y-1/2",
+                ]}
                 src={product.image}
                 alt={product.alt}
                 loading="lazy"
@@ -175,17 +177,28 @@ const products = [
         const list = document.getElementById("product-list");
         const preview = document.getElementById("product-preview");
 
-        if (list && preview && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-          const cards = Array.from(preview.querySelectorAll<HTMLElement>("[data-preview]"));
+        if (
+          list &&
+          preview &&
+          window.matchMedia("(hover: hover) and (pointer: fine)").matches
+        ) {
+          const cards = Array.from(
+            preview.querySelectorAll<HTMLElement>("[data-preview]"),
+          );
 
           list.addEventListener("pointermove", (event) => {
             preview.style.transform = `translate3d(${event.clientX - 130}px, ${event.clientY - 150}px, 0)`;
           });
 
-          for (const row of list.querySelectorAll<HTMLElement>("[data-product]")) {
+          for (const row of list.querySelectorAll<HTMLElement>(
+            "[data-product]",
+          )) {
             row.addEventListener("pointerenter", () => {
               for (const card of cards) {
-                card.toggleAttribute("data-active", card.dataset.preview === row.dataset.product);
+                card.toggleAttribute(
+                  "data-active",
+                  card.dataset.preview === row.dataset.product,
+                );
               }
             });
           }
@@ -198,9 +211,11 @@ const products = [
     </Section>
 
     <Section containerClass="py-20 sm:py-[clamp(84px,12vw,180px)]">
-      <p class="m-0 w-full max-w-[970px] text-[clamp(2.1rem,4vw,4.6rem)] font-medium leading-[1.05] tracking-[-0.04em] text-ink">
-        Naturalne oleje, hydrolat z róży damasceńskiej i proste składy. iramako robi pielęgnację spokojną, codzienną,
-        przyjemną w użyciu.
+      <p
+        class="m-0 w-full max-w-[970px] text-[clamp(2.1rem,4vw,4.6rem)] font-medium leading-[1.05] tracking-[-0.04em] text-ink"
+      >
+        Naturalne oleje, hydrolat z róży damasceńskiej i proste składy. iramako
+        robi pielęgnację spokojną, codzienną, przyjemną w użyciu.
       </p>
     </Section>
 

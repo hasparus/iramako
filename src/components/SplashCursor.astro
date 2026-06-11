@@ -1,0 +1,63 @@
+---
+import type { ImageMetadata } from "astro";
+
+const splashes = Object.values(
+  import.meta.glob<{ default: ImageMetadata }>("./splashes/*.webp", {
+    eager: true,
+  }),
+).map((mod) => mod.default);
+---
+
+<div
+  id="splash-cursor"
+  aria-hidden="true"
+  class="pointer-events-none fixed left-0 top-0 z-30 hidden h-40 w-40 lg:block"
+>
+  {
+    splashes.map((splash, index) => (
+      <img
+        class="absolute inset-0 m-auto hidden w-37.5 mix-blend-multiply data-active:block"
+        data-splash-card={index}
+        src={splash.src}
+        alt=""
+        loading="lazy"
+      />
+    ))
+  }
+</div>
+
+<script>
+  const overlay = document.getElementById("splash-cursor");
+
+  if (
+    overlay &&
+    window.matchMedia("(hover: hover) and (pointer: fine)").matches &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    const cards = Array.from(
+      overlay.querySelectorAll<HTMLElement>("[data-splash-card]"),
+    );
+
+    const move = (event: PointerEvent) => {
+      overlay.style.transform = `translate3d(${event.clientX - 80}px, ${event.clientY - 80}px, 0)`;
+    };
+
+    document
+      .querySelectorAll<HTMLElement>("[data-splash]")
+      .forEach((link, index) => {
+        link.addEventListener("pointerenter", (event) => {
+          move(event);
+          for (const card of cards) {
+            card.toggleAttribute(
+              "data-active",
+              Number(card.dataset.splashCard) === index % cards.length,
+            );
+          }
+        });
+        link.addEventListener("pointermove", move);
+        link.addEventListener("pointerleave", () => {
+          for (const card of cards) card.removeAttribute("data-active");
+        });
+      });
+  }
+</script>

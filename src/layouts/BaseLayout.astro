@@ -1,5 +1,6 @@
 ---
 import Analytics from "@vercel/analytics/astro";
+import SplashCursor from "../components/SplashCursor.astro";
 import "../styles/global.css";
 
 const {
@@ -17,59 +18,16 @@ const {
     <link rel="icon" type="image/png" href="/assets/iramako-logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Beth+Ellen&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Beth+Ellen&display=swap"
+      rel="stylesheet"
+    />
     <title>{title}</title>
   </head>
   <body>
     <slot />
 
     <Analytics />
-
-    <div
-      id="splash-cursor"
-      aria-hidden="true"
-      class="pointer-events-none fixed left-0 top-0 z-30 hidden h-[160px] w-[160px] lg:block"
-    >
-      {
-        ["szary", "kobalt", "fuksja"].map((name, index) => (
-          <img
-            class="absolute inset-0 m-auto hidden w-[150px] mix-blend-multiply data-active:block"
-            data-splash-card={index}
-            src={`/assets/splashes/${name}.webp`}
-            alt=""
-            loading="lazy"
-          />
-        ))
-      }
-    </div>
-
-    <script>
-      const overlay = document.getElementById("splash-cursor");
-
-      if (
-        overlay &&
-        window.matchMedia("(hover: hover) and (pointer: fine)").matches &&
-        !window.matchMedia("(prefers-reduced-motion: reduce)").matches
-      ) {
-        const cards = Array.from(overlay.querySelectorAll<HTMLElement>("[data-splash-card]"));
-
-        const move = (event: PointerEvent) => {
-          overlay.style.transform = `translate3d(${event.clientX - 80}px, ${event.clientY - 80}px, 0)`;
-        };
-
-        document.querySelectorAll<HTMLElement>("[data-splash]").forEach((link, index) => {
-          link.addEventListener("pointerenter", (event) => {
-            move(event);
-            for (const card of cards) {
-              card.toggleAttribute("data-active", Number(card.dataset.splashCard) === index % cards.length);
-            }
-          });
-          link.addEventListener("pointermove", move);
-          link.addEventListener("pointerleave", () => {
-            for (const card of cards) card.removeAttribute("data-active");
-          });
-        });
-      }
-    </script>
+    <SplashCursor />
   </body>
 </html>
