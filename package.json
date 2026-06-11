@@ -1,0 +1,18 @@
+{
+  "name": "iramako",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "4.3.0",
+    "@types/bun": "latest",
+    "tailwindcss": "4.3.0"
+  },
+  "dependencies": {
+    "astro": "6.4.4"
+  }
+}
