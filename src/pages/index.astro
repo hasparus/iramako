@@ -216,9 +216,49 @@ const products = [
 
           list.setAttribute("data-cursor-none", "");
 
+          const moveTo = (x: number, y: number) => {
+            preview.style.transform = `translate3d(${x - 130}px, ${y - 150}px, 0)`;
+          };
+
           list.addEventListener("pointermove", (event) => {
-            preview.style.transform = `translate3d(${event.clientX - 130}px, ${event.clientY - 150}px, 0)`;
+            moveTo(event.clientX, event.clientY);
           });
+
+          // scrolling moves rows under a stationary pointer without firing
+          // any pointer events; re-hit-test so the preview is never stale.
+          // rAF-coalesced: at most one elementFromPoint per frame, reading
+          // layout the browser has already committed
+          let lastX: number | undefined;
+          let lastY: number | undefined;
+          let rafPending = false;
+
+          window.addEventListener(
+            "pointermove",
+            (event) => {
+              lastX = event.clientX;
+              lastY = event.clientY;
+            },
+            { passive: true },
+          );
+
+          window.addEventListener(
+            "scroll",
+            () => {
+              if (lastX === undefined || lastY === undefined || rafPending)
+                return;
+              rafPending = true;
+              requestAnimationFrame(() => {
+                rafPending = false;
+                // button held: user is selecting text, leave the cursor alone
+                if (!list.hasAttribute("data-cursor-none")) return;
+                const hit = document.elementFromPoint(lastX!, lastY!);
+                const row = hit?.closest<HTMLElement>("[data-product]") ?? null;
+                if (row) moveTo(lastX!, lastY!);
+                setRow(row);
+              });
+            },
+            { passive: true },
+          );
 
           for (const row of list.querySelectorAll<HTMLElement>(
             "[data-product]",
