@@ -1,0 +1,12 @@
+---
+interface Props {
+  class?: string;
+  href?: string;
+}
+
+const { class: className, href = "/" } = Astro.props;
+---
+
+<a class:list={["block", className]} href={href} aria-label="iramako">
+  <img class="h-auto w-full" src="/assets/iramako-logo.png" alt="iramako" />
+</a>

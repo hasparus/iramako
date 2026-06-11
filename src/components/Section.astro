@@ -1,0 +1,33 @@
+---
+import Container from "./Container.astro";
+
+interface Props {
+  id?: string;
+  border?: "bottom" | "top" | "none";
+  class?: string;
+  containerClass?: string;
+  "aria-label"?: string;
+}
+
+const {
+  id,
+  border = "bottom",
+  class: className,
+  containerClass,
+  "aria-label": ariaLabel,
+} = Astro.props;
+---
+
+<section
+  id={id}
+  class:list={[
+    border === "bottom" && "border-b border-rule",
+    border === "top" && "border-t border-rule",
+    className,
+  ]}
+  aria-label={ariaLabel}
+>
+  <Container class={containerClass}>
+    <slot />
+  </Container>
+</section>
