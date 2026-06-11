@@ -1,0 +1,26 @@
+---
+import Container from "./Container.astro";
+import Logo from "./Logo.astro";
+import NavLink from "./NavLink.astro";
+
+interface Props {
+  instagramUrl: string;
+}
+
+const { instagramUrl } = Astro.props;
+---
+
+<header class="border-b border-rule">
+  <Container class="flex flex-col gap-5 pb-5 pt-5 sm:flex-row sm:items-center sm:justify-between sm:gap-8 sm:py-7">
+    <Logo class="-ml-2.5 w-14.5 sm:w-[clamp(56px,4.6vw,74px)]" />
+    <nav
+      class="flex flex-wrap items-center gap-x-5 gap-y-2 text-[0.92rem] leading-tight text-ink sm:justify-end sm:gap-x-[clamp(18px,4vw,72px)] sm:text-[clamp(.9rem,1.1vw,1.08rem)]"
+      aria-label="główna"
+    >
+      <NavLink href="#skladniki">składniki</NavLink>
+      <NavLink href="#kosmetyki">kosmetyki</NavLink>
+      <NavLink href={instagramUrl} target="_blank" rel="noreferrer">instagram</NavLink>
+      <NavLink href="#kontakt">kontakt</NavLink>
+    </nav>
+  </Container>
+</header>
