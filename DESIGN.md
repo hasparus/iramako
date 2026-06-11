@@ -1,0 +1,2 @@
+- minimalism
+- no animations nor transitions

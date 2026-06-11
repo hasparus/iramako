@@ -8,7 +8,7 @@ import Section from "../components/Section.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import Navbar from "../components/Navbar.astro";
 
-const heroImage = "/assets/iramako-hero-3-sloiki.png";
+const heroImage = "/assets/iramako-hero-3-sloiki-crop.png";
 const instagramUrl = "https://www.instagram.com/ira.mako/";
 
 const formulas = [
@@ -34,21 +34,33 @@ const products = [
     name: "Krem Róża + Malina z retinolem roślinnym 2%",
     size: "30 i 60 ml",
     description: "odżywiający krem z roślinnym retinolem, różą damasceńską i olejem z nasion malin",
+    accent: "#a80070",
+    image: "/assets/products/krem-retinol.png",
+    alt: "Słoik kremu z retinolem roślinnym z fuksjową plamą na etykiecie",
   },
   {
     name: "Krem Róża + Malina nawilżający z wit. B3",
     size: "30 i 60 ml",
     description: "nawilżający krem z witaminą B3 i mocznikiem do codziennego komfortu skóry",
+    accent: "#1b2a96",
+    image: "/assets/products/krem-b3.png",
+    alt: "Słoik kremu nawilżającego z kobaltową plamą na etykiecie",
   },
   {
     name: "Glinka biała kaolinowa",
     size: "40 g",
     description: "mineralna pielęgnacja do mycia twarzy i robienia maseczek",
+    accent: "#5f6f8c",
+    image: "/assets/products/glinka.png",
+    alt: "Słoik glinki białej kaolinowej z logo iramako",
   },
   {
     name: "Hydrolat różany",
     size: "100 ml",
     description: "naturalna mgiełka tonizująca z płatków róży damasceńskiej",
+    accent: "#b5235c",
+    image: "/assets/products/hydrolat.png",
+    alt: "Słoik iramako w ciepłym świetle",
   },
 ];
 ---
@@ -121,17 +133,67 @@ const products = [
         </h2>
       </div>
 
-      <div class="border-t border-rule">
+      <div class="border-t border-rule" id="product-list">
         {
-          products.map((product) => (
-            <article class="grid grid-cols-1 gap-2 border-b border-rule py-6 text-[clamp(1rem,1.2vw,1.22rem)] leading-snug text-ink sm:grid-cols-[minmax(220px,.42fr)_minmax(100px,.18fr)_minmax(0,1fr)] sm:gap-[clamp(24px,4vw,64px)]">
-              <h3 class="m-0 font-medium">{product.name}</h3>
+          products.map((product, index) => (
+            <article
+              class="group grid grid-cols-1 gap-2 border-b border-rule py-6 text-[clamp(1rem,1.2vw,1.22rem)] leading-snug text-ink sm:grid-cols-[minmax(220px,.42fr)_minmax(100px,.18fr)_minmax(0,1fr)] sm:gap-[clamp(24px,4vw,64px)]"
+              style={`--accent: ${product.accent}`}
+              data-product={index}
+            >
+              <h3 class="m-0 font-medium group-hover:text-(--accent)">
+                {product.name}
+              </h3>
               <p class="m-0 text-muted">{product.size}</p>
               <p class="m-0 text-muted">{product.description}</p>
             </article>
           ))
         }
       </div>
+
+      <div
+        id="product-preview"
+        aria-hidden="true"
+        class="pointer-events-none fixed left-0 top-0 z-40 hidden h-[300px] w-[260px] will-change-transform lg:block"
+      >
+        {
+          products.map((product, index) => (
+            <figure class="absolute inset-0 m-0 hidden data-active:block" data-preview={index}>
+              <img
+                class="absolute left-1/2 top-1/2 max-h-[240px] -translate-x-1/2 -translate-y-1/2 object-contain"
+                src={product.image}
+                alt={product.alt}
+                loading="lazy"
+              />
+            </figure>
+          ))
+        }
+      </div>
+
+      <script>
+        const list = document.getElementById("product-list");
+        const preview = document.getElementById("product-preview");
+
+        if (list && preview && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+          const cards = Array.from(preview.querySelectorAll<HTMLElement>("[data-preview]"));
+
+          list.addEventListener("pointermove", (event) => {
+            preview.style.transform = `translate3d(${event.clientX - 130}px, ${event.clientY - 150}px, 0)`;
+          });
+
+          for (const row of list.querySelectorAll<HTMLElement>("[data-product]")) {
+            row.addEventListener("pointerenter", () => {
+              for (const card of cards) {
+                card.toggleAttribute("data-active", card.dataset.preview === row.dataset.product);
+              }
+            });
+          }
+
+          list.addEventListener("pointerleave", () => {
+            for (const card of cards) card.removeAttribute("data-active");
+          });
+        }
+      </script>
     </Section>
 
     <Section containerClass="py-20 sm:py-[clamp(84px,12vw,180px)]">
