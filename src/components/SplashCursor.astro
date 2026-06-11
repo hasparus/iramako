@@ -8,10 +8,14 @@ const splashes = Object.entries(
   import.meta.glob<{ default: ImageMetadata }>("./splashes/*.webp", {
     eager: true,
   }),
-).map(([path, mod]) => ({
-  image: mod.default,
-  dark: darkSplashes.some((name) => path.includes(name)),
-}));
+).map(([path, mod]) => {
+  const name = path.split("/").pop()!.replace(/\.webp$/, "");
+  return {
+    name,
+    image: mod.default,
+    dark: darkSplashes.includes(name),
+  };
+});
 ---
 
 <div
@@ -24,6 +28,7 @@ const splashes = Object.entries(
       <img
         class="absolute inset-0 m-auto hidden w-37.5 mix-blend-multiply data-active:block"
         data-splash-card={index}
+        data-splash-name={splash.name}
         data-splash-dark={splash.dark}
         src={splash.image.src}
         alt=""
@@ -54,15 +59,16 @@ const splashes = Object.entries(
       .forEach((link, index) => {
         link.addEventListener("pointerenter", (event) => {
           move(event);
+          // data-splash can name a specific splash; default is by index
+          const named = cards.find(
+            (card) => card.dataset.splashName === link.dataset.splash,
+          );
+          const active = named ?? cards[index % cards.length];
           for (const card of cards) {
-            const isActive =
-              Number(card.dataset.splashCard) === index % cards.length;
-            card.toggleAttribute("data-active", isActive);
-            if (isActive) {
-              link.style.color =
-                card.dataset.splashDark === "true" ? "#fff" : "";
-            }
+            card.toggleAttribute("data-active", card === active);
           }
+          link.style.color =
+            active.dataset.splashDark === "true" ? "#fff" : "";
         });
         link.addEventListener("pointermove", move);
         link.addEventListener("pointerleave", () => {
