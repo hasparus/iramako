@@ -2,23 +2,18 @@
 interface Props {
   number: string;
   name: string;
-  copy: string;
-  index: number;
-  total: number;
-  class?: string;
+  description: string;
+  className?: string;
 }
 
-const { number, name, copy, index, total, class: className } = Astro.props;
+const { number, name, description, className } = Astro.props;
 ---
 
 <article
   class:list={[
-    "border-b border-rule py-8 lg:min-h-55 lg:border-b-0 lg:py-[clamp(34px,4vw,58px)]",
-    index !== total - 1 && "lg:border-r",
-    index === 0
-      ? "lg:pr-[clamp(26px,4vw,78px)]"
-      : "lg:px-[clamp(26px,4vw,78px)]",
-    index === total - 1 && "border-b-0 lg:pr-0",
+    "border-b border-rule py-8 last:border-b-0",
+    "lg:min-h-55 lg:border-b-0 lg:border-r lg:py-[clamp(34px,4vw,58px)] lg:last:border-r-0",
+    "lg:px-[clamp(26px,4vw,78px)] lg:first:pl-0 lg:last:pr-0",
     className,
   ]}
 >
@@ -33,6 +28,6 @@ const { number, name, copy, index, total, class: className } = Astro.props;
   <p
     class="m-0 max-w-65 text-[clamp(1rem,1.1vw,1.18rem)] leading-[1.45] text-muted"
   >
-    {copy}
+    {description}
   </p>
 </article>
