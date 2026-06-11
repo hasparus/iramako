@@ -161,8 +161,8 @@ const products = [
                 class:list={[
                   "absolute left-1/2 top-1/2 -translate-x-1/2 object-contain",
                   product.image.endsWith("hydrolat.png")
-                    ? "max-h-100 translate-y-[-62%]"
-                    : "max-h-60 translate-y-[-55%]",
+                    ? "max-h-100 translate-y-[-63%]"
+                    : "max-h-60 translate-y-[-58%]",
                 ]}
                 src={product.image}
                 alt={product.alt}
@@ -171,7 +171,26 @@ const products = [
             </figure>
           ))
         }
+        <div
+          data-cursor-dot
+          class="absolute left-[122px] top-[142px] hidden size-4 rounded-full border border-ink/50 bg-white/10"
+        >
+        </div>
       </div>
+
+      <style>
+        /* the preview replaces the cursor; set from the script so the
+           cursor never disappears without the picture (no JS, coarse pointer) */
+        #product-list[data-cursor-none] [data-product] {
+          cursor: none;
+        }
+
+        /* ink dot standing in for the hidden cursor, centered on the
+           pointer (the overlay is translated so the pointer sits at 130,150) */
+        #product-preview:has([data-active]) [data-cursor-dot] {
+          display: block;
+        }
+      </style>
 
       <script>
         const list = document.getElementById("product-list");
@@ -186,6 +205,17 @@ const products = [
             preview.querySelectorAll<HTMLElement>("[data-preview]"),
           );
 
+          const setRow = (row: HTMLElement | null) => {
+            for (const card of cards) {
+              card.toggleAttribute(
+                "data-active",
+                row !== null && card.dataset.preview === row.dataset.product,
+              );
+            }
+          };
+
+          list.setAttribute("data-cursor-none", "");
+
           list.addEventListener("pointermove", (event) => {
             preview.style.transform = `translate3d(${event.clientX - 130}px, ${event.clientY - 150}px, 0)`;
           });
@@ -193,19 +223,26 @@ const products = [
           for (const row of list.querySelectorAll<HTMLElement>(
             "[data-product]",
           )) {
-            row.addEventListener("pointerenter", () => {
-              for (const card of cards) {
-                card.toggleAttribute(
-                  "data-active",
-                  card.dataset.preview === row.dataset.product,
-                );
-              }
+            row.addEventListener("pointerenter", (event) => {
+              if (event.buttons === 0) setRow(row);
             });
           }
 
-          list.addEventListener("pointerleave", () => {
-            for (const card of cards) card.removeAttribute("data-active");
+          // button pressed: hide the picture and show the cursor so text
+          // can be selected; both come back on release
+          list.addEventListener("pointerdown", () => {
+            list.removeAttribute("data-cursor-none");
+            setRow(null);
           });
+
+          window.addEventListener("pointerup", (event) => {
+            list.setAttribute("data-cursor-none", "");
+            const target =
+              event.target instanceof Element ? event.target : null;
+            setRow(target?.closest<HTMLElement>("[data-product]") ?? null);
+          });
+
+          list.addEventListener("pointerleave", () => setRow(null));
         }
       </script>
     </Section>

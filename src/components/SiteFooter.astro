@@ -37,10 +37,15 @@ const { instagramUrl } = Astro.props;
       <div
         class="flex flex-col gap-3 text-[15px] font-medium leading-tight text-ink sm:flex-row sm:items-center sm:gap-[clamp(28px,5vw,72px)] sm:text-base"
       >
-        <NavLink href={instagramUrl} target="_blank" rel="noreferrer"
-          >instagram</NavLink
+        <NavLink
+          href={instagramUrl}
+          target="_blank"
+          rel="noreferrer"
+          splash="kolko13">instagram</NavLink
         >
-        <NavLink href="mailto:centrala@iramako.pl">centrala@iramako.pl</NavLink>
+        <NavLink href="mailto:centrala@iramako.pl" splash="szary"
+          >centrala@iramako.pl</NavLink
+        >
       </div>
     </div>
   </Container>

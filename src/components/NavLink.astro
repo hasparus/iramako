@@ -3,11 +3,13 @@ interface Props {
   href: string;
   target?: string;
   rel?: string;
+  /** splash name (e.g. "kolko13") to always show on hover; defaults by index */
+  splash?: string;
 }
 
-const { href, target, rel } = Astro.props;
+const { href, target, rel, splash } = Astro.props;
 ---
 
-<a href={href} target={target} rel={rel} data-splash>
+<a href={href} target={target} rel={rel} data-splash={splash ?? ""}>
   <slot />
 </a>
