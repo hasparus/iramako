@@ -1,0 +1,148 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const heroImage = "/assets/iramako-hero-3-sloiki.png";
+const instagramUrl = "https://www.instagram.com/ira.mako/";
+
+const formulas = [
+  {
+    number: "01",
+    name: "róża",
+    copy: "hydrolat z róży pomaga skórze wrócić do komfortu.",
+  },
+  {
+    number: "02",
+    name: "malina",
+    copy: "olej z nasion malin zostawia miękkość bez ciężaru.",
+  },
+  {
+    number: "03",
+    name: "komfort",
+    copy: "kremowa formuła na poranek i wieczór.",
+  },
+];
+
+const products = [
+  {
+    name: "Krem Róża + Malina z retinolem roślinnym 2%",
+    size: "30 i 60 ml",
+    description: "odżywiający krem z roślinnym retinolem, różą damasceńską i olejem z nasion malin",
+  },
+  {
+    name: "Krem Róża + Malina nawilżający z wit. B3",
+    size: "30 i 60 ml",
+    description: "nawilżający krem z witaminą B3 i mocznikiem do codziennego komfortu skóry",
+  },
+  {
+    name: "Glinka biała kaolinowa",
+    size: "40 g",
+    description: "mineralna pielęgnacja do mycia twarzy i robienia maseczek",
+  },
+  {
+    name: "Hydrolat różany",
+    size: "100 ml",
+    description: "naturalna mgiełka tonizująca z płatków róży damasceńskiej",
+  },
+];
+---
+
+<BaseLayout>
+  <main class="mx-auto min-h-screen w-full max-w-[1500px] px-5 py-5 sm:px-[clamp(24px,4vw,58px)] sm:py-[clamp(24px,4vw,58px)]">
+    <nav class="flex flex-col gap-5 border-b border-rule pb-5 sm:flex-row sm:items-center sm:justify-between sm:gap-8 sm:pb-7" aria-label="główna">
+      <a class="-ml-[10px] block w-[58px] sm:w-[clamp(56px,4.6vw,74px)]" href="/" aria-label="iramako">
+        <img class="h-auto w-full" src="/assets/iramako-logo.png" alt="iramako" />
+      </a>
+      <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-[0.92rem] leading-tight text-ink sm:justify-end sm:gap-x-[clamp(18px,4vw,72px)] sm:text-[clamp(.9rem,1.1vw,1.08rem)]">
+        <a class="border-b border-transparent hover:border-current" href="#skladniki">składniki</a>
+        <a class="border-b border-transparent hover:border-current" href="#kosmetyki">kosmetyki</a>
+        <a class="border-b border-transparent hover:border-current" href={instagramUrl} target="_blank" rel="noreferrer">instagram</a>
+        <a class="border-b border-transparent hover:border-current" href="#kontakt">kontakt</a>
+      </div>
+    </nav>
+
+    <section class="grid min-h-auto grid-cols-1 items-center gap-11 border-b border-rule py-14 sm:py-[clamp(72px,8vw,130px)] lg:min-h-[calc(100vh-156px)] lg:grid-cols-[minmax(360px,.92fr)_minmax(0,1.08fr)] lg:gap-[clamp(42px,7vw,112px)] lg:pb-[clamp(64px,7vw,98px)]">
+      <div class="max-w-[660px]">
+        <p class="mb-6 font-hand text-[clamp(1.25rem,2vw,2rem)] leading-[1.15] text-primary">naturalnie i lokalnie</p>
+        <h1 class="m-0 text-[clamp(3.25rem,14vw,7.75rem)] font-bold leading-[0.98] tracking-[-0.04em] text-ink lg:text-[clamp(4rem,7.2vw,7.75rem)]">
+          Naturalne kremy dla skóry.
+        </h1>
+        <div class="mt-10 sm:mt-16 flex flex-wrap gap-3">
+          <a class="inline-flex min-h-12 items-center gap-3 border border-primary px-4 text-[clamp(.92rem,1vw,1.05rem)] uppercase tracking-[0.12em] text-primary hover:bg-primary hover:text-cream [text-box:trim-both_cap_alphabetic]" href="#kontakt">
+            <svg class="size-4 translate-y-[0.5px]" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256" aria-hidden="true">
+              <path d="M227.32,28.68a16,16,0,0,0-15.66-4.08l-.15,0L19.57,82.84a16,16,0,0,0-2.49,29.8L102,154l41.3,84.87A15.86,15.86,0,0,0,157.74,248q.69,0,1.38-.06a15.88,15.88,0,0,0,14-11.51l58.2-191.94c0-.05,0-.1,0-.15A16,16,0,0,0,227.32,28.68ZM157.83,231.85l-.05.14,0-.07-40.06-82.3,48-48a8,8,0,0,0-11.31-11.31l-48,48L24.08,98.25l-.07,0,.14,0L216,40Z"></path>
+            </svg>
+            kontakt
+          </a>
+          <a class="inline-flex min-h-12 items-center gap-3 border border-primary px-4 text-[clamp(.92rem,1vw,1.05rem)] uppercase tracking-[0.12em] text-primary hover:bg-primary hover:text-cream [text-box:trim-both_cap_alphabetic]" href={instagramUrl} target="_blank" rel="noreferrer">
+            <svg class="size-4 translate-y-[0.5px]" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="currentColor" d="M7.05.07C5.78.13 4.9.33 4.14.63c-.79.3-1.46.72-2.13 1.38C1.35 2.68.94 3.35.63 4.14.33 4.9.13 5.78.07 7.05.02 8.33 0 8.74 0 12s.02 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.3.79.72 1.46 1.38 2.13.67.66 1.34 1.08 2.13 1.38.76.3 1.64.5 2.91.56 1.28.05 1.69.07 4.95.07s3.67-.02 4.95-.07c1.27-.06 2.15-.26 2.91-.56.79-.3 1.46-.72 2.13-1.38.66-.67 1.08-1.34 1.38-2.13.3-.76.5-1.64.56-2.91.05-1.28.07-1.69.07-4.95s-.02-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91-.3-.79-.72-1.46-1.38-2.13C21.32 1.35 20.65.94 19.86.63 19.1.33 18.22.13 16.95.07 15.67.02 15.26 0 12 0S8.33.02 7.05.07Zm.1 21.7c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9c-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23-.06-1.26-.07-1.64-.07-4.85s.01-3.59.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.43-.16 1.06-.36 2.23-.41 1.26-.06 1.64-.07 4.85-.07s3.59.01 4.85.07c1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.43.36 1.06.41 2.23.06 1.26.07 1.64.07 4.85s-.01 3.59-.07 4.85c-.05 1.17-.25 1.81-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.43.16-1.06.36-2.23.41-1.26.06-1.64.07-4.85.07s-3.59-.01-4.85-.07ZM12 5.84A6.16 6.16 0 1 0 12 18.16 6.16 6.16 0 0 0 12 5.84ZM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm7.85-10.4a1.44 1.44 0 1 1-2.88 0 1.44 1.44 0 0 1 2.88 0Z" />
+            </svg>
+            instagram
+          </a>
+        </div>
+      </div>
+
+      <figure class="m-0">
+        <img class="mx-auto max-h-[640px] w-full object-contain object-bottom mix-blend-multiply" src={heroImage} alt="Trzy słoiki kremów iramako na jasnym tle" />
+      </figure>
+    </section>
+
+    <section id="skladniki" class="grid grid-cols-1 border-b border-rule lg:grid-cols-3" aria-label="składniki">
+      {formulas.map((formula, index) => (
+        <article class:list={[
+          "border-b border-rule py-8 lg:min-h-[220px] lg:border-b-0 lg:py-[clamp(34px,4vw,58px)]",
+          index !== formulas.length - 1 && "lg:border-r",
+          index === 0 ? "lg:pr-[clamp(26px,4vw,78px)]" : "lg:px-[clamp(26px,4vw,78px)]",
+          index === formulas.length - 1 && "border-b-0 lg:pr-0",
+        ]}>
+          <p class="mb-6 text-[0.92rem] font-bold leading-none text-ink">{formula.number}</p>
+          <h2 class="mb-4 text-[clamp(2rem,3vw,3.1rem)] font-bold leading-[0.95] tracking-[-0.04em] text-ink">{formula.name}</h2>
+          <p class="m-0 max-w-[260px] text-[clamp(1rem,1.1vw,1.18rem)] leading-[1.45] text-muted">{formula.copy}</p>
+        </article>
+      ))}
+    </section>
+
+    <section id="kosmetyki" class="grid grid-cols-1 gap-11 border-b border-rule py-20 sm:py-[clamp(84px,10vw,150px)] lg:grid-cols-[minmax(260px,.44fr)_minmax(0,1fr)] lg:gap-[clamp(48px,8vw,116px)]" aria-label="kosmetyki">
+      <div class="max-w-[520px]">
+        <p class="mb-6 font-hand text-[clamp(1.25rem,2vw,2rem)] leading-[1.15] text-primary">codzienny rytuał</p>
+        <h2 class="m-0 text-[clamp(3rem,5vw,5.4rem)] font-bold leading-[0.98] tracking-[-0.04em] text-ink">
+          Kosmetyki bez nadmiaru.
+        </h2>
+      </div>
+
+      <div class="border-t border-rule">
+        {products.map((product) => (
+          <article class="grid grid-cols-1 gap-2 border-b border-rule py-6 text-[clamp(1rem,1.2vw,1.22rem)] leading-snug text-ink sm:grid-cols-[minmax(220px,.42fr)_minmax(100px,.18fr)_minmax(0,1fr)] sm:gap-[clamp(24px,4vw,64px)]">
+            <h3 class="m-0 font-medium">{product.name}</h3>
+            <p class="m-0 text-muted">{product.size}</p>
+            <p class="m-0 text-muted">{product.description}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="border-b border-rule py-20 sm:py-[clamp(84px,12vw,180px)]">
+      <p class="m-0 w-full max-w-[970px] text-[clamp(2.1rem,4vw,4.6rem)] font-medium leading-[1.05] tracking-[-0.04em] text-ink">
+        Naturalne oleje, hydrolat z róży damasceńskiej i proste składy. iramako robi pielęgnację spokojną, codzienną, przyjemną w użyciu.
+      </p>
+    </section>
+
+    <footer id="kontakt" class="border-t border-rule py-10 sm:py-12" aria-label="kontakt">
+      <div class="flex flex-col gap-10 sm:flex-row sm:items-center sm:justify-between">
+        <a class="-ml-4 block w-[94px] sm:w-[116px]" href="/" aria-label="iramako">
+          <img class="h-auto w-full" src="/assets/iramako-logo.png" alt="iramako" />
+        </a>
+        <div class="flex flex-col gap-3 text-[15px] font-medium leading-tight text-ink sm:flex-row sm:items-center sm:gap-[clamp(28px,5vw,72px)] sm:text-base">
+          <a class="border-b border-transparent hover:border-current" href={instagramUrl} target="_blank" rel="noreferrer">instagram</a>
+          <a class="border-b border-transparent hover:border-current" href="mailto:kontakt@iramako.pl">kontakt@iramako.pl</a>
+        </div>
+      </div>
+
+      <p class="mt-10 max-w-[880px] text-[13.5px] font-medium leading-relaxed text-muted sm:mt-12 sm:text-sm">
+        <span class="block">iramako Irena Makowska</span>
+        <span class="block">pl. Uniwersytecki 7, 50-137 Wrocław</span>
+        <span class="block">NIP 9121835398 · REGON 541674780</span>
+      </p>
+    </footer>
+  </main>
+</BaseLayout>
