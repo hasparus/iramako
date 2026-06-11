@@ -1,11 +1,17 @@
 ---
 import type { ImageMetadata } from "astro";
 
-const splashes = Object.values(
+// splashes too dark for ink text; hovered link turns white on these
+const darkSplashes = ["kobalt", "kolko13"];
+
+const splashes = Object.entries(
   import.meta.glob<{ default: ImageMetadata }>("./splashes/*.webp", {
     eager: true,
   }),
-).map((mod) => mod.default);
+).map(([path, mod]) => ({
+  image: mod.default,
+  dark: darkSplashes.some((name) => path.includes(name)),
+}));
 ---
 
 <div
@@ -18,7 +24,8 @@ const splashes = Object.values(
       <img
         class="absolute inset-0 m-auto hidden w-37.5 mix-blend-multiply data-active:block"
         data-splash-card={index}
-        src={splash.src}
+        data-splash-dark={splash.dark}
+        src={splash.image.src}
         alt=""
         loading="lazy"
       />
@@ -48,15 +55,19 @@ const splashes = Object.values(
         link.addEventListener("pointerenter", (event) => {
           move(event);
           for (const card of cards) {
-            card.toggleAttribute(
-              "data-active",
-              Number(card.dataset.splashCard) === index % cards.length,
-            );
+            const isActive =
+              Number(card.dataset.splashCard) === index % cards.length;
+            card.toggleAttribute("data-active", isActive);
+            if (isActive) {
+              link.style.color =
+                card.dataset.splashDark === "true" ? "#fff" : "";
+            }
           }
         });
         link.addEventListener("pointermove", move);
         link.addEventListener("pointerleave", () => {
           for (const card of cards) card.removeAttribute("data-active");
+          link.style.color = "";
         });
       });
   }

@@ -8,6 +8,6 @@ interface Props {
 const { href, target, rel } = Astro.props;
 ---
 
-<a class="border-b border-transparent hover:border-current" href={href} target={target} rel={rel} data-splash>
+<a href={href} target={target} rel={rel} data-splash>
   <slot />
 </a>
