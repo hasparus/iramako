@@ -1,22 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import type { ImageMetadata } from "astro";
-
-// splashes too dark for ink text; hovered link turns white on these
-const darkSplashes = ["kobalt", "kolko13"];
-
-const splashes = Object.entries(
-  import.meta.glob<{ default: ImageMetadata }>("./splashes/*.webp", {
-    eager: true,
-  }),
-).map(([path, mod]) => {
-  const name = path.split("/").pop()!.replace(/\.webp$/, "");
-  return {
-    name,
-    image: mod.default,
-    dark: darkSplashes.includes(name),
-  };
-});
+import { splashes } from "../assets/splashes";
 ---
 
 <div
@@ -25,10 +9,10 @@ const splashes = Object.entries(
   class="pointer-events-none fixed left-0 top-0 z-30 hidden h-40 w-40 lg:block"
 >
   {
-    splashes.map((splash, index) => (
+    splashes.map((splash) => (
       <Image
         class="absolute inset-0 m-auto hidden w-37.5 mix-blend-multiply data-active:block"
-        data-splash-card={index}
+        data-splash-card
         data-splash-name={splash.name}
         data-splash-dark={splash.dark}
         src={splash.image}
@@ -40,31 +24,14 @@ const splashes = Object.entries(
 </div>
 
 <script>
-  import { onScrollHit } from "../scripts/scroll-hit";
+  import { initCursorOverlay } from "../scripts/cursor-overlay";
 
   const overlay = document.getElementById("splash-cursor");
 
-  if (
-    overlay &&
-    window.matchMedia("(hover: hover) and (pointer: fine)").matches &&
-    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  ) {
+  if (overlay) {
     const cards = Array.from(
-      overlay.querySelectorAll<HTMLElement>("[data-splash-card]"),
+      overlay.querySelectorAll<HTMLImageElement>("img[data-splash-card]"),
     );
-    const links = Array.from(
-      document.querySelectorAll<HTMLElement>("[data-splash]"),
-    );
-
-    // markup says lazy so phones never fetch these; on hover-capable
-    // devices prefetch now so the first hover doesn't race the network
-    for (const card of cards) {
-      if (card instanceof HTMLImageElement) card.loading = "eager";
-    }
-
-    const moveTo = (x: number, y: number) => {
-      overlay.style.transform = `translate3d(${x - 80}px, ${y - 80}px, 0)`;
-    };
 
     let current: HTMLElement | null = null;
 
@@ -72,47 +39,49 @@ const splashes = Object.entries(
       if (link === current) return;
       if (current) current.style.color = "";
       current = link;
-      // data-splash can name a specific splash; default is by index
       const active = link
         ? (cards.find(
             (card) => card.dataset.splashName === link.dataset.splash,
-          ) ?? cards[links.indexOf(link) % cards.length])
+          ) ?? null)
         : null;
       for (const card of cards) {
         card.toggleAttribute("data-active", card === active);
       }
-      if (link && active) {
-        if (active.dataset.splashDark !== "true") return;
+      if (link && active?.dataset.splashDark === "true") {
         // white is only readable on top of the splash; if the image hasn't
         // decoded yet stay ink (readable on bare cream) and flip on arrival
-        if (active instanceof HTMLImageElement && !active.complete) {
+        if (active.complete) {
+          link.style.color = "#fff";
+        } else {
           active
             .decode()
             .then(() => {
               if (current === link) link.style.color = "#fff";
             })
             .catch(() => {});
-        } else {
-          link.style.color = "#fff";
         }
       }
     };
 
-    for (const link of links) {
-      link.addEventListener("pointerenter", (event) => {
-        moveTo(event.clientX, event.clientY);
-        setLink(link);
-      });
-      link.addEventListener("pointermove", (event) =>
-        moveTo(event.clientX, event.clientY),
-      );
-      link.addEventListener("pointerleave", () => setLink(null));
-    }
-
-    onScrollHit((hit, x, y) => {
-      const link = hit?.closest<HTMLElement>("[data-splash]") ?? null;
-      if (link) moveTo(x, y);
-      setLink(link);
+    const moveTo = initCursorOverlay({
+      overlay,
+      target: "[data-splash]",
+      setTarget: setLink,
     });
+
+    if (moveTo) {
+      for (const link of document.querySelectorAll<HTMLElement>(
+        "[data-splash]",
+      )) {
+        link.addEventListener("pointerenter", (event) => {
+          moveTo(event.clientX, event.clientY);
+          setLink(link);
+        });
+        link.addEventListener("pointermove", (event) =>
+          moveTo(event.clientX, event.clientY),
+        );
+        link.addEventListener("pointerleave", () => setLink(null));
+      }
+    }
   }
 </script>
