@@ -1,13 +1,23 @@
 ---
+import type { SplashName } from "../assets/splashes";
+
 interface Props {
   href: string;
   target?: string;
   rel?: string;
+  /** splash shown by the cursor overlay while this link is hovered */
+  splash: SplashName;
 }
 
-const { href, target, rel } = Astro.props;
+const { href, target, rel, splash } = Astro.props;
 ---
 
-<a class="border-b border-transparent hover:border-current" href={href} target={target} rel={rel}>
+<a
+  class="lg:data-on-dark-splash:text-white max-lg:hover:underline"
+  href={href}
+  target={target}
+  rel={rel}
+  data-splash={splash}
+>
   <slot />
 </a>
