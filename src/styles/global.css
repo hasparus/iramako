@@ -22,6 +22,7 @@
   --color-cream: #f0f0e2;
   --color-paper: #fbfbfa;
   --color-primary: #b5235c;
+  --color-cobalt: #1F30A1;
   --color-rule: rgba(40, 36, 29, 0.38);
   --font-sans: "Greycliff CF", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
   --font-hand: "Beth Ellen", cursive;
@@ -29,7 +30,7 @@
 
 @layer base {
   html {
-    @apply scroll-smooth bg-cream;
+    @apply scroll-smooth bg-cream selection:bg-cobalt/20
   }
 
   body {

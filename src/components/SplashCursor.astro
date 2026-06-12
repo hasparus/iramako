@@ -1,0 +1,78 @@
+---
+import { Image } from "astro:assets";
+import { splashes } from "../assets/splashes";
+---
+
+<div
+  id="splash-cursor"
+  aria-hidden="true"
+  class="pointer-events-none fixed left-0 top-0 z-30 hidden h-40 w-40 lg:block"
+>
+  {
+    splashes.map((splash) => (
+      <Image
+        class="absolute inset-0 m-auto hidden w-37.5 mix-blend-multiply data-active:block"
+        data-splash-card
+        data-splash-name={splash.name}
+        data-splash-dark={splash.dark}
+        src={splash.image}
+        alt=""
+        loading="lazy"
+      />
+    ))
+  }
+</div>
+
+<script>
+  import { initCursorOverlay } from "../scripts/cursor-overlay";
+
+  const overlay = document.getElementById("splash-cursor");
+
+  if (overlay) {
+    const cards = Array.from(
+      overlay.querySelectorAll<HTMLImageElement>("img[data-splash-card]"),
+    );
+
+    let current: HTMLElement | null = null;
+
+    // the lg-gated rule in NavLink paints links white while this attribute
+    // is present, so shrinking the window below lg can't strand white text
+    const onDark = (link: HTMLElement, on: boolean) =>
+      link.toggleAttribute("data-on-dark-splash", on);
+
+    const setLink = (link: HTMLElement | null) => {
+      if (link === current) return;
+      if (current) onDark(current, false);
+      current = link;
+      const active = link
+        ? (cards.find(
+            (card) => card.dataset.splashName === link.dataset.splash,
+          ) ?? null)
+        : null;
+      for (const card of cards) {
+        card.toggleAttribute("data-active", card === active);
+      }
+      if (link && active?.dataset.splashDark === "true") {
+        // white is only readable on top of the splash; if the image hasn't
+        // decoded yet stay ink (readable on bare cream) and flip on arrival
+        if (active.complete) {
+          onDark(link, true);
+        } else {
+          active
+            .decode()
+            .then(() => {
+              if (current === link) onDark(link, true);
+            })
+            .catch(() => {});
+        }
+      }
+    };
+
+    initCursorOverlay({
+      overlay,
+      root: document.body,
+      target: "[data-splash]",
+      setTarget: setLink,
+    });
+  }
+</script>

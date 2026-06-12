@@ -1,0 +1,33 @@
+---
+interface Props {
+  number: string;
+  name: string;
+  description: string;
+  className?: string;
+}
+
+const { number, name, description, className } = Astro.props;
+---
+
+<article
+  class:list={[
+    "border-b border-rule py-8 last:border-b-0",
+    "lg:min-h-55 lg:border-b-0 lg:border-r lg:py-[clamp(34px,4vw,58px)] lg:last:border-r-0",
+    "lg:px-[clamp(26px,4vw,78px)] lg:first:pl-0 lg:last:pr-0",
+    className,
+  ]}
+>
+  <p class="mb-6 text-[0.92rem] font-bold leading-none text-ink">
+    {number}
+  </p>
+  <h2
+    class="mb-4 text-[clamp(2rem,3vw,3.1rem)] font-bold leading-[0.95] tracking-[-0.04em] text-ink"
+  >
+    {name}
+  </h2>
+  <p
+    class="m-0 max-w-65 text-[clamp(1rem,1.1vw,1.18rem)] leading-[1.45] text-muted"
+  >
+    {description}
+  </p>
+</article>
