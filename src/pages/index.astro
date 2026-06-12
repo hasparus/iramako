@@ -221,47 +221,42 @@ const products = [
             }
           };
 
-          const rowOf = (target: EventTarget | null) =>
-            target instanceof Element
-              ? target.closest<HTMLElement>("[data-product]")
-              : null;
-
-          const moveTo = initCursorOverlay({
+          const sync = initCursorOverlay({
             overlay: preview,
+            root: list,
             target: "[data-product]",
             setTarget: setRow,
             // button held: user is selecting text, leave the cursor alone
-            syncEnabled: () => list.hasAttribute("data-cursor-none"),
+            enabled: () => list.hasAttribute("data-cursor-none"),
           });
 
-          if (moveTo) {
+          if (sync) {
             list.setAttribute("data-cursor-none", "");
 
-            list.addEventListener("pointermove", (event) => {
-              moveTo(event.clientX, event.clientY);
-            });
-
-            for (const row of list.querySelectorAll<HTMLElement>(
-              "[data-product]",
-            )) {
-              row.addEventListener("pointerenter", () => {
-                if (list.hasAttribute("data-cursor-none")) setRow(row);
-              });
-            }
-
             // button pressed: hide the picture and show the cursor so text
-            // can be selected; both come back on release
+            // can be selected; both come back on release (or cancel, so a
+            // drag released outside the window can't strand selection mode)
             list.addEventListener("pointerdown", () => {
               list.removeAttribute("data-cursor-none");
               setRow(null);
+              const done = new AbortController();
+              const release = (event: PointerEvent) => {
+                done.abort();
+                list.setAttribute("data-cursor-none", "");
+                // pointercancel carries no useful target/coords — just clear
+                const hit =
+                  event.type === "pointerup" && event.target instanceof Element
+                    ? event.target
+                    : null;
+                sync(hit, event.clientX, event.clientY);
+              };
+              window.addEventListener("pointerup", release, {
+                signal: done.signal,
+              });
+              window.addEventListener("pointercancel", release, {
+                signal: done.signal,
+              });
             });
-
-            window.addEventListener("pointerup", (event) => {
-              list.setAttribute("data-cursor-none", "");
-              setRow(rowOf(event.target));
-            });
-
-            list.addEventListener("pointerleave", () => setRow(null));
           }
         }
       </script>
