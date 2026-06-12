@@ -57,9 +57,30 @@ const products = [
     previewClass: "max-h-100 translate-y-[-63%]",
   },
 ];
+
+const productListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  itemListElement: products.map((product, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    item: {
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      image: new URL(product.image.src, Astro.site).toString(),
+      brand: { "@type": "Brand", name: "iramako" },
+    },
+  })),
+};
 ---
 
 <BaseLayout>
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify(productListSchema)}
+    slot="head"
+  />
   <main class="min-h-screen w-full">
     <Navbar instagramUrl={instagramUrl} />
 
