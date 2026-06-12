@@ -63,25 +63,11 @@ import { splashes } from "../assets/splashes";
       }
     };
 
-    const moveTo = initCursorOverlay({
+    initCursorOverlay({
       overlay,
+      root: document.body,
       target: "[data-splash]",
       setTarget: setLink,
     });
-
-    if (moveTo) {
-      for (const link of document.querySelectorAll<HTMLElement>(
-        "[data-splash]",
-      )) {
-        link.addEventListener("pointerenter", (event) => {
-          moveTo(event.clientX, event.clientY);
-          setLink(link);
-        });
-        link.addEventListener("pointermove", (event) =>
-          moveTo(event.clientX, event.clientY),
-        );
-        link.addEventListener("pointerleave", () => setLink(null));
-      }
-    }
   }
 </script>
