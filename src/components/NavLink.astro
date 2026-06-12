@@ -12,6 +12,12 @@ interface Props {
 const { href, target, rel, splash } = Astro.props;
 ---
 
-<a href={href} target={target} rel={rel} data-splash={splash}>
+<a
+  class="lg:data-on-dark-splash:text-white"
+  href={href}
+  target={target}
+  rel={rel}
+  data-splash={splash}
+>
   <slot />
 </a>

@@ -35,9 +35,14 @@ import { splashes } from "../assets/splashes";
 
     let current: HTMLElement | null = null;
 
+    // the lg-gated rule in NavLink paints links white while this attribute
+    // is present, so shrinking the window below lg can't strand white text
+    const onDark = (link: HTMLElement, on: boolean) =>
+      link.toggleAttribute("data-on-dark-splash", on);
+
     const setLink = (link: HTMLElement | null) => {
       if (link === current) return;
-      if (current) current.style.color = "";
+      if (current) onDark(current, false);
       current = link;
       const active = link
         ? (cards.find(
@@ -51,12 +56,12 @@ import { splashes } from "../assets/splashes";
         // white is only readable on top of the splash; if the image hasn't
         // decoded yet stay ink (readable on bare cream) and flip on arrival
         if (active.complete) {
-          link.style.color = "#fff";
+          onDark(link, true);
         } else {
           active
             .decode()
             .then(() => {
-              if (current === link) link.style.color = "#fff";
+              if (current === link) onDark(link, true);
             })
             .catch(() => {});
         }
