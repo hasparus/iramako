@@ -16,14 +16,12 @@ const { instagramUrl } = Astro.props;
   >
     <Logo class="w-[42px] sm:w-[clamp(41px,3.33vw,54px)]" />
     <button
-      id="nav-toggle"
-      class="group flex size-10 items-center justify-center text-ink sm:hidden"
-      aria-expanded="false"
-      aria-controls="site-nav"
+      popovertarget="site-nav"
+      class="flex size-10 items-center justify-center text-ink sm:hidden"
       aria-label="menu"
     >
       <svg
-        class="size-6 group-aria-expanded:hidden"
+        class="size-6"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -32,22 +30,33 @@ const { instagramUrl } = Astro.props;
       >
         <path d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5"></path>
       </svg>
-      <svg
-        class="hidden size-6 group-aria-expanded:block"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.5"
-        aria-hidden="true"
-      >
-        <path d="M6 18 18 6M6 6l12 12"></path>
-      </svg>
     </button>
+    {/* mobile: top-layer drawer (popover gives us the toggle, aria-expanded,
+        light dismiss, Escape, ::backdrop and tab-order for free); the slide
+        is pure CSS via @starting-style + allow-discrete. sm+: plain row. */}
     <nav
       id="site-nav"
-      class="hidden w-full flex-col gap-4 pb-2 text-base leading-tight text-ink data-open:flex sm:flex sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:justify-end sm:gap-x-[clamp(18px,4vw,72px)] sm:gap-y-2 sm:pb-0 sm:text-[clamp(.9rem,1.1vw,1.08rem)]"
+      popover
+      class="inset-y-0 left-auto right-0 m-0 h-auto w-64 max-w-[80vw] translate-x-full flex-col gap-5 border-0 border-l border-rule bg-cream px-6 pt-28 text-base leading-tight text-ink transition-[translate,display,overlay] transition-discrete duration-200 ease-out backdrop:bg-ink/15 open:flex open:translate-x-0 starting:open:translate-x-full motion-reduce:transition-none sm:static sm:flex sm:w-auto sm:max-w-none sm:translate-x-0 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end sm:gap-x-[clamp(18px,4vw,72px)] sm:gap-y-2 sm:overflow-visible sm:border-l-0 sm:bg-transparent sm:p-0 sm:text-[clamp(.9rem,1.1vw,1.08rem)]"
       aria-label="główna"
     >
+      <button
+        popovertarget="site-nav"
+        popovertargetaction="hide"
+        class="absolute right-4 top-5 flex size-10 items-center justify-center text-ink sm:hidden"
+        aria-label="zamknij menu"
+      >
+        <svg
+          class="size-6"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          aria-hidden="true"
+        >
+          <path d="M6 18 18 6M6 6l12 12"></path>
+        </svg>
+      </button>
       <NavLink href="#skladniki" splash="arbuz">składniki</NavLink>
       <NavLink href="#kosmetyki" splash="kobalt">kosmetyki</NavLink>
       <NavLink
@@ -62,22 +71,30 @@ const { instagramUrl } = Astro.props;
 </header>
 
 <script>
-  const toggle = document.getElementById("nav-toggle");
   const nav = document.getElementById("site-nav");
 
-  if (toggle && nav) {
-    toggle.addEventListener("click", () => {
-      const open = toggle.getAttribute("aria-expanded") === "true";
-      toggle.setAttribute("aria-expanded", String(!open));
-      nav.toggleAttribute("data-open", !open);
-    });
+  if (nav && "hidePopover" in nav) {
+    const close = () => {
+      if (nav.matches(":popover-open")) nav.hidePopover();
+    };
 
-    // tapping a link (e.g. a #section anchor) should put the menu away
+    // anchors don't light-dismiss the popover; put the menu away on navigation
     for (const link of nav.querySelectorAll("a")) {
-      link.addEventListener("click", () => {
-        toggle.setAttribute("aria-expanded", "false");
-        nav.removeAttribute("data-open");
-      });
+      link.addEventListener("click", close);
     }
+
+    // the breakpoint flip swaps the inline row and the (closed) drawer;
+    // allow-discrete would animate that swap as a drawer slide-out, so
+    // suppress the transition for it. growing past sm also closes a stray
+    // open drawer that would otherwise sit in the top layer over the row
+    window.matchMedia("(width >= 40rem)").addEventListener("change", (e) => {
+      nav.style.transitionProperty = "none";
+      if (e.matches) close();
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          nav.style.transitionProperty = "";
+        }),
+      );
+    });
   }
 </script>
