@@ -139,9 +139,18 @@ const productListSchema = {
               href={`/produkty/${product.slug}`}
               class="block outline-none"
             >
-              <figure class="m-0 flex h-40 items-center justify-center sm:h-48">
+              <figure class="relative isolate m-0 flex h-40 items-center justify-center sm:h-48">
+                {/* cast shadow: a second copy of the photo, flattened onto the
+                    "floor" and skewed as if lit from the top-left corner */}
                 <Image
-                  class="max-h-full w-auto object-contain [filter:drop-shadow(2px_11px_6px_rgba(40,36,29,0.22))] transition-[filter] duration-500 ease-out group-hover:[filter:drop-shadow(3px_14px_8px_rgba(40,36,29,0.28))]"
+                  aria-hidden="true"
+                  class="pointer-events-none absolute bottom-0 left-1/2 -z-10 max-h-full w-auto origin-bottom object-contain opacity-35 blur-[7px] [filter:brightness(0)] [mask-image:linear-gradient(to_top,black_8%,transparent_45%)] [transform:translateX(-50%)_scaleY(-0.13)_skewX(26deg)] transition-[opacity,transform] duration-500 ease-out group-hover:opacity-45"
+                  src={product.image}
+                  alt=""
+                  loading="lazy"
+                />
+                <Image
+                  class="max-h-full w-auto object-contain"
                   src={product.image}
                   alt={product.alt}
                   loading="lazy"
@@ -186,13 +195,13 @@ const productListSchema = {
                 </span>
               </p>
             )}
-            <span
-              aria-hidden="true"
-              class="mt-4 flex items-center gap-1 text-sm font-medium text-(--accent) opacity-0 transition-all duration-300 group-hover:opacity-100 group-has-[a:focus-visible]:opacity-100"
+            <a
+              href={`/produkty/${product.slug}`}
+              class="mt-4 inline-flex w-fit items-center gap-1 text-sm font-medium leading-none text-(--accent) opacity-0 outline-none transition-all duration-300 hover:underline hover:underline-offset-4 group-hover:opacity-100 group-has-[a:focus-visible]:opacity-100"
             >
               dowiedz się więcej
               <svg
-                class="size-3.5 transition-transform duration-300 group-hover:translate-x-1"
+                class="size-3.5 shrink-0 transition-transform duration-300 group-hover:translate-x-1"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -201,7 +210,7 @@ const productListSchema = {
               >
                 <path d="M5 12h14M13 6l6 6-6 6" />
               </svg>
-            </span>
+            </a>
           </li>
         ))}
       </ul>
