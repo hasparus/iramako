@@ -1,0 +1,64 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import Section from "../components/Section.astro";
+
+const instagramUrl = "https://www.instagram.com/ira.mako/";
+
+const sections = [
+  {
+    title: "Moc roślinnych olejków",
+    body: "W naszych formułach wykorzystujemy starannie dobrane olejki eteryczne pochodzenia roślinnego. Nadają kosmetykom naturalny, subtelny zapach i wzbogacają pielęgnację o wymiar sensoryczny — dbanie o skórę staje się chwilą odprężenia i przyjemnym rytuałem.",
+  },
+  {
+    title: "Czystość formuły",
+    body: "Receptury iramako są przejrzyste i świadomie zaprojektowane. Każdy składnik pełni określoną funkcję pielęgnacyjną — wspiera nawilżenie, wygładzenie i optymalną kondycję skóry. Minimalizm składu łączymy z wysoką jakością komponentów.",
+  },
+  {
+    title: "Badania dermatologiczne",
+    body: "Produkty iramako poddawane są badaniom dermatologicznym na skórze wrażliwej, prowadzonym pod nadzorem specjalistów. Badania potwierdzają dobrą tolerancję i łagodne działanie przy codziennym stosowaniu.",
+  },
+];
+---
+
+<BaseLayout title="O marce | iramako" description="iramako — kosmetyki naturalne łączące skuteczną pielęgnację z przyjemnością używania.">
+  <main class="min-h-screen w-full">
+    <Navbar instagramUrl={instagramUrl} />
+
+    <Section containerClass="py-14 sm:py-[clamp(56px,8vw,110px)]">
+      <h1
+        class="m-0 max-w-[1100px] text-[clamp(2.1rem,4.4vw,4.6rem)] font-bold leading-[1.02] tracking-[-0.04em] text-ink"
+      >
+        Marka stworzona z potrzeby połączenia skutecznej pielęgnacji z
+        przyjemnością używania kosmetyków.
+      </h1>
+      <p
+        class="mt-8 max-w-[760px] text-[clamp(1.1rem,1.4vw,1.4rem)] leading-relaxed text-muted"
+      >
+        Łączymy naturalne składniki z nowoczesnym podejściem do formulacji,
+        tworząc kosmetyki proste, skuteczne i łagodne dla skóry.
+      </p>
+    </Section>
+
+    <Section
+      border="none"
+      containerClass="grid grid-cols-1 gap-x-[clamp(32px,5vw,96px)] gap-y-14 py-16 sm:py-[clamp(64px,8vw,120px)] lg:grid-cols-3"
+    >
+      {
+        sections.map((section) => (
+          <div class="max-w-[420px]">
+            <h2 class="m-0 mb-4 text-[clamp(1.5rem,2.2vw,2.1rem)] font-bold tracking-[-0.03em] text-ink">
+              {section.title}
+            </h2>
+            <p class="m-0 text-[clamp(1.02rem,1.1vw,1.18rem)] leading-relaxed text-muted">
+              {section.body}
+            </p>
+          </div>
+        ))
+      }
+    </Section>
+
+    <SiteFooter instagramUrl={instagramUrl} />
+  </main>
+</BaseLayout>
