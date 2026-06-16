@@ -14,7 +14,7 @@ const { instagramUrl } = Astro.props;
   <Container
     class="flex flex-wrap items-center justify-between gap-y-5 py-5 sm:flex-nowrap sm:gap-8 sm:py-7"
   >
-    <Logo class="w-[42px] sm:w-[clamp(41px,3.33vw,54px)]" />
+    <Logo class="w-[47px] sm:w-[clamp(46px,3.7vw,60px)]" />
     <button
       popovertarget="site-nav"
       class="flex size-10 items-center justify-center text-ink sm:hidden"
@@ -37,7 +37,7 @@ const { instagramUrl } = Astro.props;
     <nav
       id="site-nav"
       popover
-      class="inset-y-0 left-auto right-0 m-0 h-auto w-64 max-w-[80vw] translate-x-full flex-col gap-5 border-0 border-l border-rule bg-cream px-6 pt-28 text-base leading-tight text-ink transition-[translate,display,overlay] transition-discrete duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] open:duration-500 backdrop:bg-ink/15 backdrop:opacity-0 backdrop:transition-[opacity,display,overlay] backdrop:transition-discrete backdrop:duration-300 backdrop:ease-[cubic-bezier(0.32,0.72,0,1)] open:flex open:translate-x-0 open:backdrop:opacity-100 open:backdrop:duration-500 starting:open:translate-x-full starting:open:backdrop:opacity-0 motion-reduce:transition-none motion-reduce:backdrop:transition-none sm:static sm:flex sm:w-auto sm:max-w-none sm:translate-x-0 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end sm:gap-x-[clamp(18px,4vw,72px)] sm:gap-y-2 sm:overflow-visible sm:border-l-0 sm:bg-transparent sm:p-0 sm:text-[clamp(.9rem,1.1vw,1.08rem)]"
+      class="inset-y-0 left-auto right-0 m-0 h-auto w-64 max-w-[80vw] translate-x-full flex-col gap-5 border-0 border-l border-rule bg-cream px-6 pt-28 text-base leading-tight text-ink transition-[translate,display,overlay] transition-discrete duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] open:duration-500 backdrop:bg-ink/15 backdrop:opacity-0 backdrop:transition-[opacity,display,overlay] backdrop:transition-discrete backdrop:duration-300 backdrop:ease-[cubic-bezier(0.32,0.72,0,1)] open:flex open:translate-x-0 open:backdrop:opacity-100 open:backdrop:duration-500 starting:open:translate-x-full starting:open:backdrop:opacity-0 motion-reduce:transition-none motion-reduce:backdrop:transition-none sm:static sm:flex sm:w-auto sm:max-w-none sm:translate-x-0 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end sm:gap-x-[clamp(12px,1.8vw,30px)] sm:gap-y-2 sm:overflow-visible sm:border-l-0 sm:bg-transparent sm:p-0 sm:text-[clamp(.9rem,1.1vw,1.08rem)]"
       aria-label="główna"
     >
       <button
@@ -57,15 +57,23 @@ const { instagramUrl } = Astro.props;
           <path d="M6 18 18 6M6 6l12 12"></path>
         </svg>
       </button>
-      <NavLink href="#skladniki" splash="arbuz">składniki</NavLink>
-      <NavLink href="#kosmetyki" splash="kobalt">kosmetyki</NavLink>
-      <NavLink
-        href={instagramUrl}
-        target="_blank"
-        rel="noreferrer"
-        splash="kolko13">instagram</NavLink
-      >
-      <NavLink href="#kontakt" splash="szary">kontakt</NavLink>
+      {/* produkty: parent link + nested categories — dropdown on sm+,
+          indented sub-list inside the mobile drawer (contents = wrapper
+          dissolves so the links flow into the drawer column) */}
+      <div class="group/prod max-sm:contents sm:relative">
+        <NavLink href="/#produkty" splash="kobalt">produkty</NavLink>
+        <div
+          class="flex flex-col gap-4 max-sm:pl-4 sm:absolute sm:left-0 sm:top-full sm:z-50 sm:hidden sm:min-w-44 sm:gap-3 sm:border sm:border-rule sm:bg-cream sm:p-5 sm:group-hover/prod:flex sm:group-focus-within/prod:flex"
+        >
+          <NavLink href="/#olejki">olejki</NavLink>
+          <NavLink href="/#kremy">kremy</NavLink>
+          <NavLink href="/#hydrolaty">hydrolaty</NavLink>
+          <NavLink href="/#glinki">glinki</NavLink>
+        </div>
+      </div>
+      <NavLink href="/about" splash="arbuz">o marce</NavLink>
+      <NavLink href="/#skladniki" splash="kolko13">składniki</NavLink>
+      <NavLink href="/contact" splash="szary">kontakt</NavLink>
     </nav>
   </Container>
 </header>

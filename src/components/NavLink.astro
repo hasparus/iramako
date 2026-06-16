@@ -5,8 +5,8 @@ interface Props {
   href: string;
   target?: string;
   rel?: string;
-  /** splash shown by the cursor overlay while this link is hovered */
-  splash: SplashName;
+  /** splash shown by the cursor overlay while this link is hovered; omit for no splash */
+  splash?: SplashName;
 }
 
 const { href, target, rel, splash } = Astro.props;
