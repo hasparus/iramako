@@ -11,14 +11,6 @@ import { products, productsByCategory } from "../data/products";
 
 const instagramUrl = "https://www.instagram.com/ira.mako/";
 
-// one grid, filtered by chips — keeps the per-category nav anchors working
-// (chip ids match #olejki/#kremy/… hashes) without the long scroll
-const productFilters = [
-  { id: "all", label: "wszystkie" },
-  ...productsByCategory.map((g) => ({ id: g.category, label: g.label })),
-];
-const allProducts = productsByCategory.flatMap((g) => g.items);
-
 const productListSchema = {
   "@context": "https://schema.org",
   "@type": "ItemList",
@@ -109,111 +101,97 @@ const productListSchema = {
         kosmetyki bez nadmiaru
       </h2>
 
-      <div
-        data-product-filters
-        role="toolbar"
-        aria-label="filtruj produkty"
-        class="mt-8 flex flex-wrap gap-x-2 gap-y-1 sm:mt-10"
-      >
-        {productFilters.map((f, i) => (
-          <button
-            type="button"
-            data-filter={f.id}
-            aria-pressed={i === 0 ? "true" : "false"}
-            tabindex={i === 0 ? "0" : "-1"}
-            class="cursor-pointer px-3 py-1 text-sm lowercase tracking-[0.02em] text-muted decoration-1 underline-offset-[6px] transition-colors hover:text-ink aria-pressed:text-ink aria-pressed:underline"
-          >
-            {f.label}
-          </button>
-        ))}
-      </div>
-
-      <ul class="mt-10 grid list-none grid-cols-2 gap-x-[clamp(4px,3vw,36px)] gap-y-8 p-0 sm:mt-12 lg:grid-cols-4">
-        {allProducts.map((product) => (
-          <li
-            data-category={product.category}
-            style={`--accent: ${product.accent}`}
-            class="group flex flex-col p-2 has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2 has-[a:focus-visible]:outline-black"
-          >
-            <a
-              href={`/produkty/${product.slug}`}
-              class="block outline-none"
-            >
-              <figure class="relative isolate m-0 flex h-40 items-center justify-center sm:h-48">
-                {/* cast shadow: a second copy of the photo, flattened onto the
-                    "floor" and skewed up-right as if lit from the lower-left */}
-                <Image
-                  aria-hidden="true"
-                  class="pointer-events-none absolute bottom-1 left-1/2 -z-10 max-h-full w-auto origin-bottom object-contain opacity-35 blur-[7px] [filter:brightness(0)] [mask-image:linear-gradient(to_top,black_6%,transparent_60%)] [transform:translateX(-50%)_scaleY(0.3)_skewX(-34deg)] transition-[opacity,transform] duration-500 ease-out group-hover:opacity-45"
-                  src={product.image}
-                  alt=""
-                  loading="lazy"
-                />
-                <Image
-                  class="max-h-full w-auto object-contain"
-                  src={product.image}
-                  alt={product.alt}
-                  loading="lazy"
-                />
-              </figure>
-              <h4 class="mt-4 text-[clamp(1.02rem,1.3vw,1.22rem)] font-medium text-ink transition-colors group-hover:text-(--accent)">
-                {product.name}
-              </h4>
-              <p class="mt-1 text-sm text-muted">{product.fullName}</p>
-            </a>
-            {product.variants.length > 1 ? (
-              <div data-size-picker class="mt-3 flex items-center gap-3">
-                <div
-                  role="radiogroup"
-                  aria-label={`pojemność — ${product.name}`}
-                  class="inline-flex border border-rule has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-black"
+      {
+        productsByCategory.map((group) => (
+          <div id={group.category} class="mt-16 scroll-mt-24 sm:mt-20">
+            <h3 class="m-0 mb-8 border-b border-rule pb-4 text-sm font-bold uppercase tracking-[0.14em] text-muted">
+              {group.label}
+            </h3>
+            <ul class="m-0 grid list-none grid-cols-2 gap-x-[clamp(4px,3vw,36px)] gap-y-8 p-0 lg:grid-cols-4">
+              {group.items.map((product) => (
+                <li
+                  style={`--accent: ${product.accent}`}
+                  class="group flex flex-col p-2 has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2 has-[a:focus-visible]:outline-black"
                 >
-                  {product.variants.map((variant, i) => (
-                    <button
-                      type="button"
-                      role="radio"
-                      data-size-option
-                      data-price={variant.price}
-                      aria-checked={i === 0 ? "true" : "false"}
-                      tabindex={i === 0 ? "0" : "-1"}
-                      class="cursor-pointer px-3 py-1.5 text-sm text-muted outline-none hover:text-ink aria-checked:bg-ink aria-checked:text-paper"
+                  <a href={`/produkty/${product.slug}`} class="block outline-none">
+                    <figure class="relative isolate m-0 flex h-40 items-center justify-center sm:h-48">
+                      {/* cast shadow: a second copy of the photo, flattened onto
+                          the "floor" and skewed up-right as if lit from lower-left */}
+                      <Image
+                        aria-hidden="true"
+                        class="pointer-events-none absolute bottom-1 left-[calc(50%-4px)] -z-10 max-h-full w-auto origin-bottom object-contain opacity-35 blur-[11px] [filter:brightness(0)] [mask-image:linear-gradient(to_top,black_6%,transparent_60%)] [transform:translateX(-50%)_scaleY(0.3)_skewX(-34deg)] transition-[opacity,transform] duration-500 ease-out group-hover:opacity-45"
+                        src={product.image}
+                        alt=""
+                        loading="lazy"
+                      />
+                      <Image
+                        class="max-h-full w-auto object-contain"
+                        src={product.image}
+                        alt={product.alt}
+                        loading="lazy"
+                      />
+                    </figure>
+                    <h4 class="mt-4 text-[clamp(1.02rem,1.3vw,1.22rem)] font-medium text-ink transition-colors group-hover:text-(--accent)">
+                      {product.name}
+                    </h4>
+                    <p class="mt-1 text-sm text-muted">{product.fullName}</p>
+                  </a>
+                  {product.variants.length > 1 ? (
+                    <div data-size-picker class="mt-3 flex items-center gap-3">
+                      <div
+                        role="radiogroup"
+                        aria-label={`pojemność — ${product.name}`}
+                        class="inline-flex border border-rule has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-black"
+                      >
+                        {product.variants.map((variant, i) => (
+                          <button
+                            type="button"
+                            role="radio"
+                            data-size-option
+                            data-price={variant.price}
+                            aria-checked={i === 0 ? "true" : "false"}
+                            tabindex={i === 0 ? "0" : "-1"}
+                            class="cursor-pointer px-3 py-1.5 text-sm text-muted outline-none hover:text-ink aria-checked:bg-ink aria-checked:text-paper"
+                          >
+                            {variant.size}
+                          </button>
+                        ))}
+                      </div>
+                      <span data-size-price class="font-bold text-ink">
+                        {product.variants[0].price}
+                      </span>
+                    </div>
+                  ) : (
+                    <p class="mt-3 text-ink">
+                      <span class="font-bold">{product.variants[0].price}</span>
+                      <span class="text-muted">
+                        {" "}
+                        · {product.variants[0].size}
+                      </span>
+                    </p>
+                  )}
+                  <a
+                    href={`/produkty/${product.slug}`}
+                    class="mt-4 inline-flex w-fit items-center gap-1 text-sm font-medium leading-none text-(--accent) opacity-0 outline-none transition-all duration-300 hover:underline hover:underline-offset-4 group-hover:opacity-100 group-has-[a:focus-visible]:opacity-100"
+                  >
+                    dowiedz się więcej
+                    <svg
+                      class="size-4 shrink-0 translate-y-[0.5px] transition-transform duration-300 group-hover:translate-x-1"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      aria-hidden="true"
                     >
-                      {variant.size}
-                    </button>
-                  ))}
-                </div>
-                <span data-size-price class="font-bold text-ink">
-                  {product.variants[0].price}
-                </span>
-              </div>
-            ) : (
-              <p class="mt-3 text-ink">
-                <span class="font-bold">{product.variants[0].price}</span>
-                <span class="text-muted">
-                  {" "}
-                  · {product.variants[0].size}
-                </span>
-              </p>
-            )}
-            <a
-              href={`/produkty/${product.slug}`}
-              class="mt-4 inline-flex w-fit items-center gap-1 text-sm font-medium leading-none text-(--accent) opacity-0 outline-none transition-all duration-300 hover:underline hover:underline-offset-4 group-hover:opacity-100 group-has-[a:focus-visible]:opacity-100"
-            >
-              dowiedz się więcej
-              <svg
-                class="size-4 shrink-0 translate-y-[0.5px] transition-transform duration-300 group-hover:translate-x-1"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-                aria-hidden="true"
-              >
-                <path d="M5 12h14M13 6l6 6-6 6" />
-              </svg>
-            </a>
-          </li>
-        ))}
-      </ul>
+                      <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
     </Section>
 
     <script>
@@ -248,65 +226,6 @@ const productListSchema = {
             select((i + step + options.length) % options.length, true);
           });
         });
-      }
-
-      // product filters: one grid, chips toggle visibility. Category nav
-      // anchors (#kremy, #olejki, …) drive the same filter via the hash.
-      const filterBar = document.querySelector("[data-product-filters]");
-      if (filterBar) {
-        const chips = [
-          ...filterBar.querySelectorAll<HTMLButtonElement>("[data-filter]"),
-        ];
-        const items = [
-          ...document.querySelectorAll<HTMLLIElement>("[data-category]"),
-        ];
-
-        const roving = (active: number) =>
-          chips.forEach((c, j) => (c.tabIndex = j === active ? 0 : -1));
-
-        const apply = (id: string) => {
-          chips.forEach((chip, j) => {
-            const on = chip.dataset.filter === id;
-            chip.setAttribute("aria-pressed", String(on));
-            if (on) roving(j);
-          });
-          for (const item of items)
-            item.hidden = id !== "all" && item.dataset.category !== id;
-        };
-
-        const choose = (chip: HTMLButtonElement) => {
-          const id = chip.dataset.filter!;
-          apply(id);
-          history.replaceState(null, "", id === "all" ? location.pathname : `#${id}`);
-        };
-
-        chips.forEach((chip, i) => {
-          chip.addEventListener("click", () => choose(chip));
-          chip.addEventListener("keydown", (e) => {
-            let next = -1;
-            if (e.key === "ArrowRight" || e.key === "ArrowDown")
-              next = (i + 1) % chips.length;
-            else if (e.key === "ArrowLeft" || e.key === "ArrowUp")
-              next = (i - 1 + chips.length) % chips.length;
-            else if (e.key === "Home") next = 0;
-            else if (e.key === "End") next = chips.length - 1;
-            else return;
-            e.preventDefault();
-            choose(chips[next]); // arrows move focus AND apply the filter
-            chips[next].focus();
-          });
-        });
-
-        const fromHash = (scroll = false) => {
-          const hash = location.hash.slice(1);
-          const match = chips.some((c) => c.dataset.filter === hash);
-          apply(match ? hash : "all");
-          // no element has id="kremy" anymore — bring the grid into view ourselves
-          if (scroll && match)
-            document.getElementById("produkty")?.scrollIntoView();
-        };
-        window.addEventListener("hashchange", () => fromHash(true));
-        fromHash(true);
       }
     </script>
 
