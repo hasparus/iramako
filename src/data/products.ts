@@ -12,6 +12,11 @@ export interface Ingredient {
   description: string;
 }
 
+export interface Variant {
+  size: string;
+  price: string;
+}
+
 export interface Product {
   slug: string;
   category: Category;
@@ -21,8 +26,7 @@ export interface Product {
   name: string;
   /** pełna nazwa / podtytuł */
   fullName: string;
-  size: string;
-  price: string;
+  variants: Variant[];
   accent: string;
   image: ImageMetadata;
   alt: string;
@@ -51,8 +55,10 @@ export const products: Product[] = [
     line: "Odżywianie",
     name: "Krem odżywczy — róża + malina",
     fullName: "Krem do twarzy z retinolem roślinnym 2%",
-    size: "30 i 60 ml",
-    price: "90 zł / 150 zł",
+    variants: [
+      { size: "30 ml", price: "90 zł" },
+      { size: "60 ml", price: "150 zł" },
+    ],
     accent: "#a80070",
     image: kremRetinol,
     alt: "Słoik kremu odżywczego z retinolem roślinnym z fuksjową plamą na etykiecie",
@@ -122,8 +128,10 @@ export const products: Product[] = [
     line: "Nawilżanie",
     name: "Krem nawilżający — róża + malina",
     fullName: "Nawilżający krem do twarzy z witaminą B3",
-    size: "30 i 60 ml",
-    price: "90 zł / 150 zł",
+    variants: [
+      { size: "30 ml", price: "90 zł" },
+      { size: "60 ml", price: "150 zł" },
+    ],
     accent: "#1b2a96",
     image: kremB3,
     alt: "Słoik kremu nawilżającego z kobaltową plamą na etykiecie",
@@ -200,8 +208,7 @@ export const products: Product[] = [
     line: "Tonizacja",
     name: "Hydrolat różany",
     fullName: "Hydrolat z płatków róży damasceńskiej",
-    size: "100 ml",
-    price: "40 zł",
+    variants: [{ size: "100 ml", price: "40 zł" }],
     accent: "#b5235c",
     image: hydrolat,
     alt: "Szklana butelka hydrolatu różanego iramako",
@@ -239,8 +246,7 @@ export const products: Product[] = [
     line: "Oczyszczanie",
     name: "Glinka biała kaolinowa",
     fullName: "Mineralna glinka kaolinowa",
-    size: "40 g",
-    price: "40 zł",
+    variants: [{ size: "40 g", price: "40 zł" }],
     accent: "#5f6f8c",
     image: glinka,
     alt: "Słoik białej glinki kaolinowej z logo iramako",
@@ -275,8 +281,7 @@ export const products: Product[] = [
     line: "Olejek",
     name: "Olejek do twarzy — werbena + rozmaryn",
     fullName: "Lekki olejek pielęgnacyjny na olejach roślinnych",
-    size: "30 ml",
-    price: "wkrótce",
+    variants: [{ size: "30 ml", price: "wkrótce" }],
     accent: "#5a6b3a",
     image: placeholder,
     alt: "Placeholder — zdjęcie olejku do twarzy iramako wkrótce",
