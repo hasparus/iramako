@@ -66,7 +66,7 @@ const productListSchema = {
 
       <figure class="m-0">
         <Image
-          class="max-h-160 max-w-none object-contain object-bottom mix-blend-multiply lg:ml-[-6.005%] w-full"
+          class="max-h-160 max-w-none object-contain object-bottom lg:ml-[-6.005%] w-full"
           src={heroImage}
           alt="Trzy słoiki kremów iramako na jasnym tle"
           loading="eager"
@@ -141,10 +141,10 @@ const productListSchema = {
             >
               <figure class="relative isolate m-0 flex h-40 items-center justify-center sm:h-48">
                 {/* cast shadow: a second copy of the photo, flattened onto the
-                    "floor" and skewed as if lit from the top-left corner */}
+                    "floor" and skewed up-right as if lit from the lower-left */}
                 <Image
                   aria-hidden="true"
-                  class="pointer-events-none absolute bottom-0 left-1/2 -z-10 max-h-full w-auto origin-bottom object-contain opacity-35 blur-[7px] [filter:brightness(0)] [mask-image:linear-gradient(to_top,black_8%,transparent_45%)] [transform:translateX(-50%)_scaleY(-0.13)_skewX(-26deg)] transition-[opacity,transform] duration-500 ease-out group-hover:opacity-45"
+                  class="pointer-events-none absolute bottom-1 left-1/2 -z-10 max-h-full w-auto origin-bottom object-contain opacity-35 blur-[7px] [filter:brightness(0)] [mask-image:linear-gradient(to_bottom,black_6%,transparent_55%)] [transform:translateX(-50%)_scaleY(0.3)_skewX(-34deg)] transition-[opacity,transform] duration-500 ease-out group-hover:opacity-45"
                   src={product.image}
                   alt=""
                   loading="lazy"
