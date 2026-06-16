@@ -54,9 +54,17 @@ const schema = {
       containerClass="grid grid-cols-1 items-center gap-8 py-10 sm:py-[clamp(44px,6vw,80px)] lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-[clamp(32px,5vw,72px)]"
     >
       <figure
-        class="m-0 flex items-center justify-center"
-        style={`--accent: ${product.accent}`}
+        class="relative isolate m-0 flex items-center justify-center"
+        style={`--accent: ${product.accent}; --shadow-x: ${product.category === "hydrolaty" ? "26px" : "9px"}`}
       >
+        {/* cast shadow: a flattened copy of the photo, same as the product list */}
+        <Image
+          aria-hidden="true"
+          class="pointer-events-none absolute bottom-0 left-[calc(50%-var(--shadow-x))] -z-10 max-h-[380px] w-auto origin-bottom object-contain opacity-40 [filter:brightness(0)_blur(18px)] [mask-composite:intersect] [mask-image:linear-gradient(to_top,black_0%,transparent_48%),linear-gradient(to_right,transparent_47%,black_57%)] [transform:translateX(-50%)_scaleX(0.92)_scaleY(0.26)_skewX(-22deg)]"
+          src={product.image}
+          alt=""
+          loading="eager"
+        />
         <Image
           class="max-h-[380px] w-auto object-contain"
           src={product.image}
