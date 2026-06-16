@@ -166,15 +166,15 @@ const schema = {
         </div>
 
         <div
-          class="tab-panel max-w-[760px]"
+          class="tab-panel"
           role="tabpanel"
           id="panel-sklad"
           aria-labelledby="tab-sklad"
         >
-          <dl class="m-0 border-t border-rule">
+          <dl class="m-0">
             {
               product.ingredients.map((ingredient) => (
-                <div class="grid grid-cols-1 gap-x-8 gap-y-1 border-b border-rule py-4 sm:grid-cols-[minmax(0,200px)_minmax(0,1fr)]">
+                <div class="grid grid-cols-1 gap-x-8 gap-y-1 border-b border-rule py-3 last:border-b-0 sm:grid-cols-[minmax(0,220px)_minmax(0,1fr)]">
                   <dt class="font-medium text-ink">{ingredient.name}</dt>
                   <dd class="m-0 text-[clamp(1rem,1.1vw,1.12rem)] leading-relaxed text-muted">
                     {ingredient.description}
@@ -183,7 +183,7 @@ const schema = {
               ))
             }
           </dl>
-          <p class="mt-8 text-sm leading-relaxed text-muted">
+          <p class="mt-6 text-sm leading-relaxed text-muted">
             <span class="font-bold text-ink">Składniki / Ingredients: </span>
             {product.inci}
           </p>
