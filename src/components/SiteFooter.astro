@@ -1,7 +1,9 @@
 ---
+import { Image } from "astro:assets";
 import Container from "./Container.astro";
 import Logo from "./Logo.astro";
 import NavLink from "./NavLink.astro";
+import roses from "../assets/roses.png";
 
 interface Props {
   instagramUrl: string;
@@ -48,5 +50,11 @@ const { instagramUrl } = Astro.props;
         >
       </div>
     </div>
+    <Image
+      src={roses}
+      alt=""
+      class="mt-10 h-auto w-full object-contain mix-blend-multiply sm:mt-12"
+      loading="lazy"
+    />
   </Container>
 </footer>
