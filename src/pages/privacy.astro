@@ -1,0 +1,136 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import Section from "../components/Section.astro";
+
+const instagramUrl = "https://www.instagram.com/ira.mako/";
+---
+
+<BaseLayout
+  title="Polityka prywatności | iramako"
+  description="Jak iramako przetwarza dane osobowe zbierane za pośrednictwem strony."
+>
+  <main class="min-h-screen w-full">
+    <Navbar instagramUrl={instagramUrl} />
+
+    <Section containerClass="py-14 sm:py-[clamp(56px,7vw,96px)]">
+      <h1
+        class="m-0 text-[clamp(2.4rem,6vw,4.4rem)] font-bold leading-[1] tracking-[-0.04em] text-ink"
+      >
+        Polityka prywatności
+      </h1>
+      <p class="mt-4 text-muted">Ostatnia aktualizacja: 16 czerwca 2026.</p>
+    </Section>
+
+    <Section
+      border="none"
+      containerClass="prose-policy max-w-[760px] py-12 sm:py-[clamp(48px,6vw,88px)]"
+    >
+      <h2>Administrator danych</h2>
+      <p>
+        Tę stronę prowadzi iramako Irena Makowska i to my decydujemy, jak
+        przetwarzane są dane zbierane za jej pośrednictwem.
+      </p>
+      <ul>
+        <li>iramako Irena Makowska</li>
+        <li>pl. Uniwersytecki 7, 50–137 Wrocław</li>
+        <li>NIP 9121835398, REGON 541674780</li>
+        <li>e-mail: centrala@iramako.pl</li>
+      </ul>
+
+      <h2>Jakie dane zbieramy</h2>
+      <p>
+        Strona jest katalogiem produktów — nie prowadzimy sklepu z koszykiem,
+        kont użytkowników ani newslettera. Dane zbieramy tylko w dwóch
+        sytuacjach:
+      </p>
+      <ul>
+        <li>
+          Korespondencja. Kiedy piszesz na centrala@iramako.pl, dostajemy Twój
+          adres e-mail, imię (jeśli je podasz) i treść wiadomości. Używamy ich
+          tylko po to, żeby Ci odpowiedzieć.
+        </li>
+        <li>
+          Statystyki odwiedzin. Korzystamy z Vercel Analytics, które liczy ruch
+          na stronie anonimowo — bez ciasteczek, bez śledzenia między stronami i
+          bez rozpoznawania pojedynczych osób. Widzimy tylko dane zbiorcze:
+          liczbę odwiedzin, źródło wejścia, typ przeglądarki czy kraj.
+        </li>
+      </ul>
+
+      <h2>Podstawa prawna</h2>
+      <p>
+        Dane przetwarzamy na podstawie art. 6 ust. 1 lit. f RODO, czyli naszego
+        uzasadnionego interesu: odpowiadania na zapytania oraz utrzymywania i
+        ulepszania strony.
+      </p>
+
+      <h2>Jak długo przechowujemy dane</h2>
+      <p>
+        Wiadomości e-mail trzymamy tak długo, jak to potrzebne do załatwienia
+        sprawy, zwykle nie dłużej niż 3 lata. Dane statystyczne są anonimowe i
+        nie pozwalają Cię zidentyfikować.
+      </p>
+
+      <h2>Komu powierzamy dane</h2>
+      <p>
+        Stronę hostuje i dostarcza statystyki Vercel Inc. z siedzibą w USA.
+        Pocztę obsługuje nasz dostawca e-mail. Jeśli dane trafiają poza
+        Europejski Obszar Gospodarczy, dzieje się to na podstawie standardowych
+        klauzul umownych. Nie sprzedajemy ani nie udostępniamy Twoich danych do
+        celów marketingowych.
+      </p>
+
+      <h2>Pliki cookies</h2>
+      <p>
+        Strona nie ustawia marketingowych plików cookies. Vercel Analytics
+        działa bez ciasteczek.
+      </p>
+
+      <h2>Twoje prawa</h2>
+      <p>
+        Masz prawo dostępu do swoich danych, ich sprostowania, usunięcia,
+        ograniczenia przetwarzania, wniesienia sprzeciwu oraz przeniesienia
+        danych. Napisz na centrala@iramako.pl — odpowiemy najpóźniej w ciągu
+        miesiąca. Możesz też złożyć skargę do Prezesa Urzędu Ochrony Danych
+        Osobowych (ul. Stawki 2, 00–193 Warszawa, uodo.gov.pl).
+      </p>
+
+      <h2>Zmiany</h2>
+      <p>
+        Jeśli zmienimy tę politykę, opublikujemy nową wersję na tej stronie z
+        aktualną datą.
+      </p>
+    </Section>
+
+    <SiteFooter instagramUrl={instagramUrl} />
+  </main>
+</BaseLayout>
+
+<style>
+  .prose-policy :global(h2) {
+    margin: 2.5rem 0 0.75rem;
+    font-size: clamp(1.4rem, 2vw, 1.9rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-ink);
+  }
+  .prose-policy :global(h2:first-child) {
+    margin-top: 0;
+  }
+  .prose-policy :global(p) {
+    margin: 0 0 1rem;
+    line-height: 1.65;
+    color: var(--color-muted);
+  }
+  .prose-policy :global(ul) {
+    margin: 0 0 1rem;
+    padding-left: 1.25rem;
+    line-height: 1.65;
+    color: var(--color-muted);
+  }
+  .prose-policy :global(li) {
+    margin-bottom: 0.4rem;
+  }
+</style>
