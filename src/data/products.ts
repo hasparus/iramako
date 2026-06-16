@@ -244,7 +244,7 @@ export const products: Product[] = [
     slug: "glinka-kaolinowa",
     category: "glinki",
     line: "Oczyszczanie",
-    name: "Glinka biała kaolinowa",
+    name: "Kaolin — biała glinka",
     fullName: "Mineralna glinka kaolinowa",
     variants: [{ size: "40 g", price: "40 zł" }],
     accent: "#5f6f8c",
@@ -288,7 +288,8 @@ export const products: Product[] = [
     intro:
       "Lekki olejek pielęgnacyjny oparty na olejach roślinnych, który odżywia, wygładza i wspiera naturalną barierę lipidową skóry. Połączenie oleju jojoba, migdałowego i witaminy E pomaga zachować miękkość, a naturalne olejki eteryczne May Chang i rozmarynu nadają świeży, aromaterapeutyczny charakter pielęgnacji.",
     forWhom: "Do skóry normalnej, suchej i mieszanej.",
-    scent: "Świeży, cytrusowo-ziołowy — werbena egzotyczna (May Chang) i rozmaryn.",
+    scent:
+      "Świeży, cytrusowo-ziołowy — werbena egzotyczna (May Chang) i rozmaryn.",
     usage: [
       "Niewielką ilość olejku nanieś na oczyszczoną, lekko wilgotną skórę twarzy, szyi i dekoltu.",
       "Delikatnie wmasuj do wchłonięcia.",
@@ -330,7 +331,9 @@ export const products: Product[] = [
   },
 ];
 
-export const productsByCategory = (["kremy", "hydrolaty", "glinki", "olejki"] as Category[])
+export const productsByCategory = (
+  ["kremy", "hydrolaty", "glinki", "olejki"] as Category[]
+)
   .map((category) => ({
     category,
     label: categoryLabels[category],
