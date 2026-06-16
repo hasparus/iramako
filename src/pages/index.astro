@@ -2,61 +2,14 @@
 import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Button from "../components/Button.astro";
-import Eyebrow from "../components/Eyebrow.astro";
-import ContactIcon from "../components/icons/Contact.astro";
-import InstagramIcon from "../components/icons/Instagram.astro";
 import FormulaCard from "../components/FormulaCard.astro";
 import Section from "../components/Section.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import Navbar from "../components/Navbar.astro";
 import heroImage from "../assets/iramako-hero-3-sloiki-baked.png";
-import kremRetinol from "../assets/products/krem-retinol.webp";
-import kremB3 from "../assets/products/krem-b3.webp";
-import glinka from "../assets/products/glinka.webp";
-import hydrolat from "../assets/products/hydrolat.webp";
+import { products, productsByCategory } from "../data/products";
 
 const instagramUrl = "https://www.instagram.com/ira.mako/";
-
-const products = [
-  {
-    name: "Krem Róża + Malina z retinolem roślinnym 2%",
-    size: "30 i 60 ml",
-    description:
-      "odżywiający krem z roślinnym retinolem, różą damasceńską i olejem z nasion malin",
-    accent: "#a80070",
-    image: kremRetinol,
-    alt: "Słoik kremu z retinolem roślinnym z fuksjową plamą na etykiecie",
-    previewClass: "max-h-60 translate-y-[-58%]",
-  },
-  {
-    name: "Krem Róża + Malina nawilżający z wit. B3",
-    size: "30 i 60 ml",
-    description:
-      "nawilżający krem z witaminą B3 i mocznikiem do codziennego komfortu skóry",
-    accent: "#1b2a96",
-    image: kremB3,
-    alt: "Słoik kremu nawilżającego z kobaltową plamą na etykiecie",
-    previewClass: "max-h-60 translate-y-[-58%]",
-  },
-  {
-    name: "Glinka biała kaolinowa",
-    size: "40 g",
-    description: "mineralna pielęgnacja do mycia twarzy i robienia maseczek",
-    accent: "#5f6f8c",
-    image: glinka,
-    alt: "Słoik glinki białej kaolinowej z logo iramako",
-    previewClass: "max-h-60 translate-y-[-58%]",
-  },
-  {
-    name: "Hydrolat różany",
-    size: "100 ml",
-    description: "naturalna mgiełka tonizująca z płatków róży damasceńskiej",
-    accent: "#b5235c",
-    image: hydrolat,
-    alt: "Słoik iramako w ciepłym świetle",
-    previewClass: "max-h-100 translate-y-[-63%]",
-  },
-];
 
 const productListSchema = {
   "@context": "https://schema.org",
@@ -67,7 +20,7 @@ const productListSchema = {
     item: {
       "@type": "Product",
       name: product.name,
-      description: product.description,
+      description: product.intro.split(". ")[0] + ".",
       image: new URL(product.image.src, Astro.site).toString(),
       brand: { "@type": "Brand", name: "iramako" },
     },
@@ -88,20 +41,19 @@ const productListSchema = {
       containerClass="grid min-h-auto grid-cols-1 items-center gap-11 py-14 sm:py-[clamp(72px,8vw,130px)] lg:min-h-[calc(100vh-156px)] lg:grid-cols-[minmax(360px,.92fr)_minmax(0,1.08fr)] lg:gap-[clamp(42px,7vw,112px)] lg:pb-[clamp(64px,7vw,98px)]"
     >
       <div class="max-w-165 md:max-lg:max-w-full">
-        <Eyebrow>naturalnie i lokalnie</Eyebrow>
-        <h1
-          class="m-0 text-[clamp(3.25rem,14vw,7.75rem)] font-bold leading-[0.98] tracking-[-0.04em] text-ink lg:text-[clamp(4rem,7.2vw,7.75rem)]"
-        >
-          Naturalne kremy dla skóry.
+        <h1 class="m-0 text-ink">
+          <span
+            class="block text-[clamp(2.4rem,8vw,5rem)] font-bold leading-[1.02] tracking-[-0.04em]"
+            >proste formuły. świadoma pielęgnacja</span
+          >
+          <span
+            class="mt-2 block text-[clamp(1.4rem,4vw,2.4rem)] font-medium leading-[1.1] tracking-[-0.03em] text-muted"
+            >tworzone we Wrocławiu</span
+          >
         </h1>
         <div class="mt-10 flex flex-wrap gap-3 sm:mt-16">
-          <Button href="mailto:centrala@iramako.pl" variant="primary">
-            <ContactIcon slot="icon" />
-            kontakt
-          </Button>
-          <Button href={instagramUrl} target="_blank" rel="noreferrer">
-            <InstagramIcon slot="icon" />
-            instagram
+          <Button href="#produkty" variant="primary">
+            poznaj nasze produkty
           </Button>
         </div>
       </div>
@@ -141,152 +93,63 @@ const productListSchema = {
     </Section>
 
     <Section
-      id="kosmetyki"
-      aria-label="kosmetyki"
-      containerClass="grid grid-cols-1 gap-11 py-20 sm:py-[clamp(84px,10vw,150px)] lg:grid-cols-[minmax(260px,.44fr)_minmax(0,1fr)] lg:gap-[clamp(48px,8vw,116px)]"
+      id="produkty"
+      aria-label="produkty"
+      containerClass="py-20 sm:py-[clamp(84px,10vw,150px)]"
     >
-      <div class="max-w-[520px]">
-        <Eyebrow>codzienny rytuał</Eyebrow>
-        <h2
-          class="m-0 text-[clamp(3rem,5vw,5.4rem)] font-bold leading-[0.98] tracking-[-0.04em] text-ink"
-        >
-          Kosmetyki bez nadmiaru.
-        </h2>
-      </div>
-
-      <div class="border-t border-rule" id="product-list">
-        {
-          products.map((product, index) => (
-            <article
-              class="group grid grid-cols-1 gap-2 border-b border-rule py-6 text-[clamp(1rem,1.2vw,1.22rem)] leading-snug text-ink sm:grid-cols-[minmax(220px,.42fr)_minmax(100px,.18fr)_minmax(0,1fr)] sm:gap-[clamp(24px,4vw,64px)]"
-              style={`--accent: ${product.accent}`}
-              data-product={index}
-            >
-              <h3 class="m-0 font-medium group-hover:text-(--accent)">
-                {product.name}
-              </h3>
-              <p class="m-0 text-muted">{product.size}</p>
-              <p class="m-0 text-muted">{product.description}</p>
-            </article>
-          ))
-        }
-      </div>
-
-      <div
-        id="product-preview"
-        aria-hidden="true"
-        class="pointer-events-none fixed left-0 top-0 z-40 hidden h-[300px] w-[260px] will-change-transform lg:block"
+      <h2
+        class="m-0 max-w-[520px] text-[clamp(3rem,5vw,5.4rem)] font-bold leading-[0.98] tracking-[-0.04em] text-ink"
       >
-        {
-          products.map((product, index) => (
-            <figure
-              class="absolute inset-0 m-0 hidden data-active:block"
-              data-preview={index}
-            >
-              <Image
-                class:list={[
-                  "absolute left-1/2 top-1/2 -translate-x-1/2 object-contain",
-                  product.previewClass,
-                ]}
-                src={product.image}
-                alt={product.alt}
-                loading="lazy"
-              />
-            </figure>
-          ))
-        }
-        <div
-          data-cursor-dot
-          class="absolute left-1/2 top-1/2 hidden size-4 -translate-x-1/2 -translate-y-1/2 rounded-full border border-ink/50 bg-white/10"
-        >
-        </div>
-      </div>
+        Kosmetyki bez nadmiaru.
+      </h2>
 
-      <style>
-        /* the preview replaces the cursor; set from the script so the
-           cursor never disappears without the picture (no JS, coarse
-           pointer), and lg-gated like the overlay so shrinking the window
-           below lg can't hide the cursor while the overlay is display:none */
-        @media (min-width: 64rem) {
-          #product-list[data-cursor-none] [data-product] {
-            cursor: none;
-          }
-        }
-
-        /* ink dot standing in for the hidden cursor, centered on the
-           pointer (the overlay itself is centered on the pointer) */
-        #product-preview:has([data-active]) [data-cursor-dot] {
-          display: block;
-        }
-      </style>
-
-      <script>
-        import { initCursorOverlay } from "../scripts/cursor-overlay";
-
-        const list = document.getElementById("product-list");
-        const preview = document.getElementById("product-preview");
-
-        if (list && preview) {
-          const cards = Array.from(
-            preview.querySelectorAll<HTMLElement>("[data-preview]"),
-          );
-
-          const setRow = (row: HTMLElement | null) => {
-            for (const card of cards) {
-              card.toggleAttribute(
-                "data-active",
-                row !== null && card.dataset.preview === row.dataset.product,
-              );
-            }
-          };
-
-          initCursorOverlay({
-            overlay: preview,
-            root: list,
-            target: "[data-product]",
-            setTarget: setRow,
-            // button held: user is selecting text, leave the cursor alone
-            enabled: () => list.hasAttribute("data-cursor-none"),
-            onActivate: (sync) => {
-              list.setAttribute("data-cursor-none", "");
-
-              // button pressed: hide the picture and show the cursor so text
-              // can be selected; both come back on release (or cancel, so a
-              // drag released outside the window can't strand selection mode)
-              list.addEventListener("pointerdown", () => {
-                list.removeAttribute("data-cursor-none");
-                setRow(null);
-                const done = new AbortController();
-                const release = (event: PointerEvent) => {
-                  done.abort();
-                  list.setAttribute("data-cursor-none", "");
-                  // pointercancel carries no useful target/coords — clear
-                  const hit =
-                    event.type === "pointerup" &&
-                    event.target instanceof Element
-                      ? event.target
-                      : null;
-                  sync(hit, event.clientX, event.clientY);
-                };
-                window.addEventListener("pointerup", release, {
-                  signal: done.signal,
-                });
-                window.addEventListener("pointercancel", release, {
-                  signal: done.signal,
-                });
-              });
-            },
-          });
-        }
-      </script>
+      {
+        productsByCategory.map((group) => (
+          <div id={group.category} class="mt-16 scroll-mt-24 sm:mt-20">
+            <h3 class="m-0 mb-8 border-b border-rule pb-4 text-sm font-bold uppercase tracking-[0.14em] text-muted">
+              {group.label}
+            </h3>
+            <ul class="m-0 grid list-none grid-cols-1 gap-x-[clamp(24px,4vw,64px)] gap-y-12 p-0 sm:grid-cols-2 lg:grid-cols-3">
+              {group.items.map((product) => (
+                <li>
+                  <a
+                    href={`/produkty/${product.slug}`}
+                    class="group block"
+                    style={`--accent: ${product.accent}`}
+                  >
+                    <figure class="m-0 flex aspect-[4/5] items-center justify-center">
+                      <Image
+                        class="max-h-[82%] w-auto object-contain drop-shadow-[0_26px_40px_rgba(40,36,29,0.22)]"
+                        src={product.image}
+                        alt={product.alt}
+                        loading="lazy"
+                      />
+                    </figure>
+                    <h4 class="mt-2 text-[clamp(1.1rem,1.4vw,1.35rem)] font-medium text-ink group-hover:text-(--accent)">
+                      {product.name}
+                    </h4>
+                    <p class="mt-1 text-muted">{product.fullName}</p>
+                    <p class="mt-2 text-ink">
+                      <span class="font-bold">{product.price}</span>
+                      <span class="text-muted"> · {product.size}</span>
+                    </p>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
     </Section>
 
     <Section containerClass="py-20 sm:py-[clamp(84px,12vw,180px)]">
       <p
         class="m-0 w-full max-w-[970px] text-[clamp(2.1rem,4vw,4.6rem)] font-medium leading-[1.05] tracking-[-0.04em] text-ink"
       >
-        Naturalne oleje, hydrolat z róży damasceńskiej i proste składy. iramako
-        robi pielęgnację spokojną, codzienną, przyjemną w użyciu.
+        <span class="block">Naturalne składniki.</span>
+        <span class="block">Starannie dobrane olejki roślinne.</span>
+        <span class="block">Proste formuły.</span>
+        <span class="block">Przyjemność codziennej pielęgnacji.</span>
       </p>
     </Section>
 
