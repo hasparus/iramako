@@ -139,9 +139,9 @@ const productListSchema = {
               href={`/produkty/${product.slug}`}
               class="block outline-none"
             >
-              <figure class="m-0 flex h-40 items-center justify-center sm:h-48">
+              <figure class="relative isolate m-0 flex h-40 items-center justify-center sm:h-48 after:absolute after:bottom-1.5 after:left-1/2 after:-z-10 after:h-2.5 after:w-[55%] after:-translate-x-1/2 after:translate-x-7 after:rounded-[100%] after:bg-ink/35 after:blur-[9px] after:transition-all after:duration-500 group-hover:after:bg-ink/45 group-hover:after:translate-x-8">
                 <Image
-                  class="max-h-full w-auto object-contain [filter:drop-shadow(21px_12px_16px_rgba(40,36,29,0.22))] transition-[filter] duration-500 ease-out group-hover:[filter:drop-shadow(28px_16px_20px_rgba(40,36,29,0.28))]"
+                  class="max-h-full w-auto object-contain"
                   src={product.image}
                   alt={product.alt}
                   loading="lazy"
