@@ -124,30 +124,12 @@ const linkify = (text: string) =>
     <Navbar instagramUrl={instagramUrl} />
 
     <Section containerClass="py-14 sm:py-[clamp(56px,7vw,96px)]">
-      <p
-        class="reveal text-[0.78rem] font-bold uppercase tracking-[0.18em] text-cobalt"
-      >
-        iramako · dokument
-      </p>
       <h1
-        class="reveal m-0 mt-5 max-w-[14ch] text-[clamp(2.6rem,7vw,5.6rem)] font-bold leading-[0.95] tracking-[-0.045em] text-ink"
-        style="--d:1"
+        class="m-0 max-w-[14ch] text-[clamp(2.6rem,7vw,5.6rem)] font-bold leading-[0.95] tracking-[-0.045em] text-ink"
       >
         Polityka prywatności
       </h1>
-      <div
-        class="reveal mt-9 flex max-w-[640px] flex-col gap-5 border-t border-rule pt-7"
-        style="--d:2"
-      >
-        <p class="m-0 text-[clamp(1.05rem,1.5vw,1.35rem)] leading-[1.5] text-muted">
-          Ta strona to katalog — nie ma tu koszyka, kont ani newslettera. Dlatego
-          i danych zbieramy tyle co nic, a poniżej dokładnie spisujemy, co i po
-          co.
-        </p>
-        <p class="m-0 text-sm text-muted/80">
-          Ostatnia aktualizacja: {updated}.
-        </p>
-      </div>
+      <p class="mt-6 text-muted">Ostatnia aktualizacja: {updated}.</p>
     </Section>
 
     <Section
@@ -155,10 +137,7 @@ const linkify = (text: string) =>
       containerClass="grid grid-cols-1 gap-x-[clamp(40px,7vw,120px)] gap-y-14 py-12 sm:py-[clamp(48px,6vw,88px)] lg:grid-cols-[200px_minmax(0,760px)]"
     >
       <!-- editorial index: sticky on desktop -->
-      <nav
-        aria-label="Spis treści"
-        class="reveal hidden lg:block"
-      >
+      <nav aria-label="Spis treści" class="hidden lg:block">
         <ol
           class="sticky top-28 m-0 flex list-none flex-col gap-0 border-l border-rule p-0"
         >
@@ -172,7 +151,9 @@ const linkify = (text: string) =>
                   <span class="font-bold tabular-nums text-cobalt/70 transition-colors group-hover:text-cobalt">
                     {num(i)}
                   </span>
-                  <span>{s.title}</span>
+                  <span class="group-hover:underline underline-offset-4 decoration-1">
+                    {s.title}
+                  </span>
                 </a>
               </li>
             ))
@@ -183,7 +164,7 @@ const linkify = (text: string) =>
       <div class="prose-policy">
         {
           sections.map((s, i) => (
-            <section id={s.id} class="reveal policy-section scroll-mt-28" style={`--d:${i % 4}`}>
+            <section id={s.id} class="policy-section scroll-mt-28">
               <div class="policy-head">
                 <span class="policy-num">{num(i)}</span>
                 <h2>{s.title}</h2>
@@ -259,26 +240,12 @@ const linkify = (text: string) =>
   }
   .prose-policy :global(ul) {
     margin: 0 0 1rem;
-    padding: 0;
-    list-style: none;
+    padding-left: 1.25rem;
     line-height: 1.6;
     color: var(--color-muted);
   }
   .prose-policy :global(li) {
-    position: relative;
-    margin-bottom: 0.7rem;
-    padding-left: 1.4rem;
-  }
-  /* hairline tick instead of a bullet — matches the editorial rules */
-  .prose-policy :global(li::before) {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0.7em;
-    width: 0.7rem;
-    height: 1px;
-    background: var(--color-cobalt);
-    opacity: 0.55;
+    margin-bottom: 0.4rem;
   }
   .prose-policy :global(li strong) {
     font-weight: 700;
@@ -294,26 +261,5 @@ const linkify = (text: string) =>
   }
   .prose-policy :global(.policy-mail:hover) {
     text-decoration-color: var(--color-cobalt);
-  }
-
-  /* staggered load-in */
-  .reveal {
-    animation: reveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
-    animation-delay: calc(var(--d, 0) * 80ms);
-  }
-  @keyframes reveal {
-    from {
-      opacity: 0;
-      transform: translateY(14px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .reveal {
-      animation: none;
-    }
   }
 </style>
