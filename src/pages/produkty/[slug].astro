@@ -174,9 +174,9 @@ const schema = {
           <dl class="m-0 border-t border-rule">
             {
               product.ingredients.map((ingredient) => (
-                <div class="border-b border-rule py-5">
+                <div class="grid grid-cols-1 gap-x-8 gap-y-1 border-b border-rule py-4 sm:grid-cols-[minmax(0,200px)_minmax(0,1fr)]">
                   <dt class="font-medium text-ink">{ingredient.name}</dt>
-                  <dd class="m-0 mt-1 text-[clamp(1rem,1.1vw,1.15rem)] leading-relaxed text-muted">
+                  <dd class="m-0 text-[clamp(1rem,1.1vw,1.12rem)] leading-relaxed text-muted">
                     {ingredient.description}
                   </dd>
                 </div>
@@ -278,7 +278,9 @@ const schema = {
         border-bottom: 0;
         padding: 2.25rem 0 0;
       }
-      .product-tabs[data-enhanced] .tab-panel[hidden] {
+      /* fully hide inactive panels, but let hidden="until-found" fall through
+         to the UA's content-visibility so Ctrl+F can still match inside them */
+      .product-tabs[data-enhanced] .tab-panel[hidden]:not([hidden="until-found"]) {
         display: none;
       }
     </style>
@@ -300,7 +302,9 @@ const schema = {
             const on = i === index;
             button.setAttribute("aria-selected", String(on));
             button.tabIndex = on ? 0 : -1;
-            panels[i].hidden = !on;
+            // hidden="until-found" keeps inactive panels findable by Ctrl+F
+            if (on) panels[i].removeAttribute("hidden");
+            else panels[i].setAttribute("hidden", "until-found");
           });
           if (focus) buttons[index].focus();
         };
@@ -308,6 +312,8 @@ const schema = {
         select(0, false);
 
         buttons.forEach((button, i) => {
+          // Ctrl+F into a hidden panel: activate its tab, then the browser scrolls to it
+          panels[i].addEventListener("beforematch", () => select(i, false));
           button.addEventListener("click", () => select(i, false));
           button.addEventListener("keydown", (event) => {
             const last = buttons.length - 1;
