@@ -141,7 +141,7 @@ const productListSchema = {
             >
               <figure class="m-0 flex h-40 items-center justify-center sm:h-48">
                 <Image
-                  class="max-h-full w-auto object-contain"
+                  class="max-h-full w-auto object-contain [filter:drop-shadow(21px_12px_16px_rgba(40,36,29,0.22))] transition-[filter] duration-500 ease-out group-hover:[filter:drop-shadow(28px_16px_20px_rgba(40,36,29,0.28))]"
                   src={product.image}
                   alt={product.alt}
                   loading="lazy"
@@ -188,7 +188,7 @@ const productListSchema = {
             )}
             <span
               aria-hidden="true"
-              class="mt-auto flex items-center gap-1 pt-4 text-sm font-medium text-(--accent) opacity-0 transition-all duration-300 group-hover:opacity-100 group-has-[a:focus-visible]:opacity-100"
+              class="mt-4 flex items-center gap-1 text-sm font-medium text-(--accent) opacity-0 transition-all duration-300 group-hover:opacity-100 group-has-[a:focus-visible]:opacity-100"
             >
               dowiedz się więcej
               <svg
