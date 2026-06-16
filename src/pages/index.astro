@@ -110,7 +110,7 @@ const productListSchema = {
             <ul class="m-0 grid list-none grid-cols-2 gap-x-[clamp(4px,3vw,36px)] gap-y-8 p-0 lg:grid-cols-4">
               {group.items.map((product) => (
                 <li
-                  style={`--accent: ${product.accent}; --shadow-x: ${product.category === "hydrolaty" ? "11px" : "6px"}`}
+                  style={`--accent: ${product.accent}; --shadow-x: ${product.category === "hydrolaty" ? "14px" : "9px"}`}
                   class="group flex flex-col p-2 has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2 has-[a:focus-visible]:outline-black"
                 >
                   <a href={`/produkty/${product.slug}`} class="block outline-none">
