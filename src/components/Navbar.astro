@@ -60,7 +60,7 @@ const { instagramUrl } = Astro.props;
       {/* produkty: parent link + nested categories — dropdown on sm+,
           indented sub-list inside the mobile drawer (contents = wrapper
           dissolves so the links flow into the drawer column) */}
-      <div class="group/prod max-sm:contents sm:relative">
+      <div data-prod-menu class="group/prod max-sm:contents sm:relative">
         <NavLink href="/#produkty" splash="kobalt">produkty</NavLink>
         <div
           class="flex flex-col gap-4 max-sm:pl-4 sm:absolute sm:left-0 sm:top-full sm:z-50 sm:hidden sm:min-w-44 sm:gap-3 sm:border sm:border-rule sm:bg-cream sm:p-5 sm:group-hover/prod:flex sm:group-focus-within/prod:flex"
@@ -80,6 +80,7 @@ const { instagramUrl } = Astro.props;
 
 <script>
   const nav = document.getElementById("site-nav");
+  const desktop = window.matchMedia("(width >= 40rem)");
 
   if (nav && "hidePopover" in nav) {
     const close = () => {
@@ -95,7 +96,7 @@ const { instagramUrl } = Astro.props;
     // allow-discrete would animate that swap as a drawer slide-out, so
     // suppress the transition for it. growing past sm also closes a stray
     // open drawer that would otherwise sit in the top layer over the row
-    window.matchMedia("(width >= 40rem)").addEventListener("change", (e) => {
+    desktop.addEventListener("change", (e) => {
       nav.style.transitionProperty = "none";
       if (e.matches) close();
       requestAnimationFrame(() =>
@@ -103,6 +104,26 @@ const { instagramUrl } = Astro.props;
           nav.style.transitionProperty = "";
         }),
       );
+    });
+  }
+
+  // produkty submenu: arrow keys move between the parent link and categories
+  const prodMenu = document.querySelector("[data-prod-menu]");
+  if (prodMenu) {
+    const links = [...prodMenu.querySelectorAll("a")];
+    prodMenu.addEventListener("keydown", (e) => {
+      const i = links.indexOf(document.activeElement as HTMLAnchorElement);
+      if (i === -1) return;
+      let next = -1;
+      if (e.key === "ArrowDown") next = (i + 1) % links.length;
+      else if (e.key === "ArrowUp") next = (i - 1 + links.length) % links.length;
+      else if (e.key === "Home") next = 0;
+      else if (e.key === "End") next = links.length - 1;
+      else if (e.key === "Escape" && i > 0 && desktop.matches)
+        next = 0; // collapse dropdown back to parent link
+      else return;
+      e.preventDefault();
+      links[next].focus();
     });
   }
 </script>
