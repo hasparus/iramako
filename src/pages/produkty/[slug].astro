@@ -100,147 +100,186 @@ const schema = {
       </div>
     </Section>
 
-    {/* details-based tabs: exclusive accordion without JS, enhanced into a
-        keyboard-navigable tab bar with JS. content stays in the DOM so
-        find-in-page still locates (and auto-expands) collapsed panels. */}
+    {/* ARIA tabs. base (no-JS): tablist hidden, panels stack vertically so
+        content stays readable and find-in-page works. JS turns it into a
+        keyboard-navigable tab bar; all panels share one grid cell, so switching
+        tabs never shifts the panel's position. */}
     <Section
       border="none"
       containerClass="py-12 sm:py-[clamp(48px,7vw,96px)]"
     >
       <div class="product-tabs" data-product-tabs>
-        <details class="tab" name="product-tabs" open>
-          <summary class="tab__summary">Opis</summary>
-          <div
-            class="tab__panel max-w-[760px] text-[clamp(1.05rem,1.2vw,1.22rem)] leading-relaxed text-muted"
+        <div class="tablist" role="tablist" aria-label="Szczegóły produktu">
+          <button
+            class="tab-btn"
+            role="tab"
+            id="tab-opis"
+            aria-controls="panel-opis"
+            aria-selected="true"
           >
-            <p class="m-0">{product.intro}</p>
-            <p class="mt-6 m-0">
-              <span class="font-bold text-ink">Dla kogo? </span>{product.forWhom}
-            </p>
-            {
-              product.scent && (
-                <p class="mt-6 m-0">
-                  <span class="font-bold text-ink">Zapach. </span>
-                  {product.scent}
-                </p>
-              )
-            }
-            <h3 class="mt-10 mb-4 text-lg font-bold text-ink">Sposób użycia</h3>
-            <ol class="m-0 flex list-decimal flex-col gap-2 pl-5">
-              {product.usage.map((step) => <li>{step}</li>)}
-            </ol>
-          </div>
-        </details>
-
-        <details class="tab" name="product-tabs">
-          <summary class="tab__summary">Składniki</summary>
-          <div class="tab__panel max-w-[760px]">
-            <dl class="m-0 border-t border-rule">
-              {
-                product.ingredients.map((ingredient) => (
-                  <div class="border-b border-rule py-5">
-                    <dt class="font-medium text-ink">{ingredient.name}</dt>
-                    <dd class="m-0 mt-1 text-[clamp(1rem,1.1vw,1.15rem)] leading-relaxed text-muted">
-                      {ingredient.description}
-                    </dd>
-                  </div>
-                ))
-              }
-            </dl>
-            <p class="mt-8 text-sm leading-relaxed text-muted">
-              <span class="font-bold text-ink">Składniki / Ingredients: </span>
-              {product.inci}
-            </p>
-          </div>
-        </details>
-
-        <details class="tab" name="product-tabs">
-          <summary class="tab__summary">O produkcie</summary>
-          <div
-            class="tab__panel max-w-[760px] text-[clamp(1.05rem,1.2vw,1.22rem)] leading-relaxed text-muted"
+            opis
+          </button>
+          <button
+            class="tab-btn"
+            role="tab"
+            id="tab-sklad"
+            aria-controls="panel-sklad"
+            aria-selected="false"
+            tabindex="-1"
           >
+            składniki
+          </button>
+          <button
+            class="tab-btn"
+            role="tab"
+            id="tab-opr"
+            aria-controls="panel-opr"
+            aria-selected="false"
+            tabindex="-1"
+          >
+            o produkcie
+          </button>
+        </div>
+
+        <div
+          class="tab-panel max-w-[760px] text-[clamp(1.05rem,1.2vw,1.22rem)] leading-relaxed text-muted"
+          role="tabpanel"
+          id="panel-opis"
+          aria-labelledby="tab-opis"
+        >
+          <p class="m-0">{product.intro}</p>
+          <p class="mt-6 m-0">
+            <span class="font-bold text-ink">Dla kogo? </span>{product.forWhom}
+          </p>
+          {
+            product.scent && (
+              <p class="mt-6 m-0">
+                <span class="font-bold text-ink">Zapach. </span>
+                {product.scent}
+              </p>
+            )
+          }
+          <h3 class="mt-10 mb-4 text-lg font-bold text-ink">Sposób użycia</h3>
+          <ol class="m-0 flex list-decimal flex-col gap-2 pl-5">
+            {product.usage.map((step) => <li>{step}</li>)}
+          </ol>
+        </div>
+
+        <div
+          class="tab-panel max-w-[760px]"
+          role="tabpanel"
+          id="panel-sklad"
+          aria-labelledby="tab-sklad"
+        >
+          <dl class="m-0 border-t border-rule">
             {
-              product.research.length > 0 && (
-                <p class="m-0">
-                  <span class="font-bold text-ink">Badania. </span>
-                  {product.research.join(" ")}
-                </p>
-              )
+              product.ingredients.map((ingredient) => (
+                <div class="border-b border-rule py-5">
+                  <dt class="font-medium text-ink">{ingredient.name}</dt>
+                  <dd class="m-0 mt-1 text-[clamp(1rem,1.1vw,1.15rem)] leading-relaxed text-muted">
+                    {ingredient.description}
+                  </dd>
+                </div>
+              ))
             }
-            <p class="mt-6 m-0">
-              <span class="font-bold text-ink">Opakowanie. </span>
-              {product.packaging}
-            </p>
-            <p class="mt-6 m-0">
-              <span class="font-bold text-ink">Ostrzeżenia. </span>
-              {product.warnings}
-            </p>
-            <p class="mt-6 m-0">
-              <span class="font-bold text-ink">Cena. </span>
-              {product.variants.map((v) => `${v.size} — ${v.price}`).join(" · ")}
-            </p>
-          </div>
-        </details>
+          </dl>
+          <p class="mt-8 text-sm leading-relaxed text-muted">
+            <span class="font-bold text-ink">Składniki / Ingredients: </span>
+            {product.inci}
+          </p>
+        </div>
+
+        <div
+          class="tab-panel max-w-[760px] text-[clamp(1.05rem,1.2vw,1.22rem)] leading-relaxed text-muted"
+          role="tabpanel"
+          id="panel-opr"
+          aria-labelledby="tab-opr"
+        >
+          {
+            product.research.length > 0 && (
+              <p class="m-0">
+                <span class="font-bold text-ink">Badania. </span>
+                {product.research.join(" ")}
+              </p>
+            )
+          }
+          <p class="mt-6 m-0">
+            <span class="font-bold text-ink">Opakowanie. </span>
+            {product.packaging}
+          </p>
+          <p class="mt-6 m-0">
+            <span class="font-bold text-ink">Ostrzeżenia. </span>
+            {product.warnings}
+          </p>
+          <p class="mt-6 m-0">
+            <span class="font-bold text-ink">Cena. </span>
+            {product.variants.map((v) => `${v.size} — ${v.price}`).join(" · ")}
+          </p>
+        </div>
       </div>
     </Section>
 
     <style>
-      /* no-JS / print / find-in-page: plain exclusive accordion */
+      /* base (no-JS): hide the inert tablist, stack panels vertically */
       .product-tabs {
         border-top: 1px solid var(--color-rule);
       }
-      .tab__summary {
-        list-style: none;
-        cursor: pointer;
-        padding: 1rem 0;
-        font-weight: 700;
-        font-size: clamp(1.3rem, 2.4vw, 2rem);
-        letter-spacing: -0.03em;
-        color: var(--color-muted);
-        border-bottom: 1px solid var(--color-rule);
-      }
-      .tab__summary::-webkit-details-marker {
+      .tablist {
         display: none;
       }
-      .tab[open] > .tab__summary {
-        color: var(--color-ink);
-      }
-      .tab__panel {
+      .tab-panel {
         padding: 1.75rem 0 0.5rem;
+        border-bottom: 1px solid var(--color-rule);
       }
 
-      /* JS-enhanced: a horizontal tab bar. details get display:contents so
-         their summaries flow into row 1 and the open panel spans row 2. */
+      /* JS-enhanced: real tab bar + panels stacked in one grid cell */
       .product-tabs[data-enhanced] {
         display: grid;
-        grid-template-columns: repeat(var(--tab-count, 3), max-content);
-        column-gap: clamp(28px, 6vw, 96px);
-        row-gap: 0;
-        align-items: end;
+        grid-template-columns: minmax(0, 1fr);
         border-top: 0;
       }
-      .product-tabs[data-enhanced] > .tab {
-        display: contents;
+      .product-tabs[data-enhanced] .tablist {
+        display: flex;
+        flex-wrap: wrap;
+        column-gap: clamp(28px, 6vw, 96px);
+        border-bottom: 1px solid var(--color-rule);
       }
-      .product-tabs[data-enhanced] .tab__summary {
-        grid-row: 1;
+      .tab-btn {
+        appearance: none;
+        background: none;
+        border: 0;
+        border-bottom: 2px solid transparent;
         margin-bottom: -1px;
         padding: 0 0 0.85rem;
-        border-bottom: 2px solid transparent;
+        cursor: pointer;
         white-space: nowrap;
+        font: inherit;
+        font-weight: 700;
+        font-size: clamp(1.05rem, 1.4vw, 1.3rem);
+        letter-spacing: -0.02em;
+        color: var(--color-muted);
       }
-      .product-tabs[data-enhanced] .tab[open] > .tab__summary {
+      .tab-btn:hover {
+        color: var(--color-ink);
+      }
+      .tab-btn[aria-selected="true"] {
+        color: var(--color-ink);
         border-bottom-color: var(--color-ink);
       }
-      .product-tabs[data-enhanced] .tab__summary:focus-visible {
+      .tab-btn:focus-visible {
         outline: 2px solid var(--color-ink);
         outline-offset: 4px;
       }
-      .product-tabs[data-enhanced] .tab__panel {
+      /* every panel occupies the same cell → no shift when switching */
+      .product-tabs[data-enhanced] .tab-panel {
         grid-row: 2;
-        grid-column: 1 / -1;
-        border-top: 1px solid var(--color-rule);
-        padding-top: 2.25rem;
+        grid-column: 1;
+        min-width: 0;
+        border-bottom: 0;
+        padding: 2.25rem 0 0;
+      }
+      .product-tabs[data-enhanced] .tab-panel[hidden] {
+        display: none;
       }
     </style>
 
@@ -248,34 +287,30 @@ const schema = {
       for (const tabs of document.querySelectorAll<HTMLElement>(
         "[data-product-tabs]",
       )) {
-        const items = Array.from(
-          tabs.querySelectorAll<HTMLDetailsElement>("details.tab"),
+        const buttons = Array.from(
+          tabs.querySelectorAll<HTMLButtonElement>('[role="tab"]'),
         );
-        const summaries = items.map(
-          (d) => d.querySelector<HTMLElement>(".tab__summary")!,
+        const panels = buttons.map(
+          (b) => document.getElementById(b.getAttribute("aria-controls")!)!,
         );
-        tabs.style.setProperty("--tab-count", String(items.length));
         tabs.setAttribute("data-enhanced", "");
 
         const select = (index: number, focus = true) => {
-          items.forEach((detail, i) => {
-            detail.open = i === index;
-            summaries[i].tabIndex = i === index ? 0 : -1;
+          buttons.forEach((button, i) => {
+            const on = i === index;
+            button.setAttribute("aria-selected", String(on));
+            button.tabIndex = on ? 0 : -1;
+            panels[i].hidden = !on;
           });
-          if (focus) summaries[index].focus();
+          if (focus) buttons[index].focus();
         };
 
-        // start roving tabindex on whichever tab is open (first by default)
-        select(Math.max(0, items.findIndex((d) => d.open)), false);
+        select(0, false);
 
-        summaries.forEach((summary, i) => {
-          // clicking the active tab must not collapse it — keep one open
-          summary.addEventListener("click", (event) => {
-            event.preventDefault();
-            select(i, false);
-          });
-          summary.addEventListener("keydown", (event) => {
-            const last = items.length - 1;
+        buttons.forEach((button, i) => {
+          button.addEventListener("click", () => select(i, false));
+          button.addEventListener("keydown", (event) => {
+            const last = buttons.length - 1;
             let next: number | null = null;
             if (event.key === "ArrowRight" || event.key === "ArrowDown")
               next = i === last ? 0 : i + 1;
