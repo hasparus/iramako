@@ -247,7 +247,7 @@ export const products: Product[] = [
     name: "Hydrolat neroli",
     fullName: "Hydrolat z kwiatu pomarańczy gorzkiej (neroli)",
     variants: [{ size: "100 ml", price: "40 zł" }],
-    accent: "#c98a3a",
+    accent: "#f8aa97",
     image: hydrolat,
     alt: "Szklana butelka hydrolatu neroli iramako",
     intro:
@@ -285,7 +285,7 @@ export const products: Product[] = [
     name: "Hydrolat z arbuza",
     fullName: "Hydrolat z arbuza",
     variants: [{ size: "100 ml", price: "40 zł" }],
-    accent: "#e34a6f",
+    accent: "#e45050",
     image: hydrolat,
     alt: "Szklana butelka hydrolatu z arbuza iramako",
     intro:
@@ -358,7 +358,7 @@ export const products: Product[] = [
     name: "Olejek do twarzy — werbena + rozmaryn",
     fullName: "Lekki olejek pielęgnacyjny na olejach roślinnych",
     variants: [{ size: "30 ml", price: "wkrótce" }],
-    accent: "#5a6b3a",
+    accent: "#f8aa97",
     image: placeholder,
     alt: "Placeholder — zdjęcie olejku do twarzy iramako wkrótce",
     intro:
