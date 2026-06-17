@@ -57,16 +57,21 @@ const schema = {
         class="relative isolate m-0 flex items-center justify-center"
         style={`--accent: ${product.accent}; --shadow-x: ${product.category === "hydrolaty" ? "28px" : "10px"}`}
       >
-        {/* cast shadow: a flattened copy of the photo, same as the product list.
-            list values with px offsets scaled ~2x for the taller hero photo
-            (380px vs the list's 192px); the unitless ratios are unchanged. */}
-        <Image
+        {/* cast shadow: a flattened copy of the photo, same as the product list
+            (px offsets scaled ~2x for the taller hero photo; ratios unchanged).
+            mask lives on the <img>, blur on the wrapper — so the blur runs after
+            the mask and softens its otherwise-hard skewed edge. */}
+        <div
           aria-hidden="true"
-          class="pointer-events-none absolute bottom-2 left-[calc(50%-var(--shadow-x))] -z-10 max-h-[380px] w-auto origin-bottom object-contain opacity-40 [filter:brightness(0)_blur(22px)] [mask-composite:intersect] [mask-image:linear-gradient(to_top,black_0%,transparent_48%),linear-gradient(to_right,transparent_47%,black_57%)] [transform:translateX(-50%)_scaleX(0.92)_scaleY(0.26)_skewX(-22deg)]"
-          src={product.image}
-          alt=""
-          loading="eager"
-        />
+          class="pointer-events-none absolute bottom-2 left-[calc(50%-var(--shadow-x))] -z-10 [filter:blur(22px)]"
+        >
+          <Image
+            class="max-h-[380px] w-auto origin-bottom object-contain opacity-40 [filter:brightness(0)] [mask-composite:intersect] [mask-image:linear-gradient(to_top,black_0%,transparent_48%),linear-gradient(to_right,transparent_47%,black_57%)] [transform:translateX(-50%)_scaleX(0.92)_scaleY(0.26)_skewX(-22deg)]"
+            src={product.image}
+            alt=""
+            loading="eager"
+          />
+        </div>
         <Image
           class="max-h-[380px] w-auto object-contain"
           src={product.image}
