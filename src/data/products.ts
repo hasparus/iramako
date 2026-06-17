@@ -251,7 +251,7 @@ export const products: Product[] = [
     image: hydrolat,
     alt: "Szklana butelka hydrolatu neroli iramako",
     intro:
-      "Naturalny hydrolat bez konserwantów — idealny element codziennej pielęgnacji jako tonik po oczyszczaniu lub mgiełka odświeżająca w ciągu dnia. Pomaga przywrócić skórze naturalne pH po oczyszczaniu i przygotowuje ją do kolejnych etapów pielęgnacji. Pozostawia skórę odświeżoną, miękką i pełną komfortu.",
+      "Naturalny hydrolat — idealny element codziennej pielęgnacji jako tonik po oczyszczaniu lub mgiełka odświeżająca w ciągu dnia. Pomaga przywrócić skórze naturalne pH po oczyszczaniu i przygotowuje ją do kolejnych etapów pielęgnacji. Pozostawia skórę odświeżoną, miękką i pełną komfortu.",
     forWhom:
       "Odpowiedni do pielęgnacji każdego typu skóry, w szczególności suchej, wrażliwej, dojrzałej i pozbawionej blasku.",
     scent: "Kwiatowy, z cytrusowymi nutami.",
@@ -345,8 +345,7 @@ export const products: Product[] = [
     ],
     inci: "Kaolin.",
     research: [],
-    packaging:
-      "Szklana butelka 100 ml / 40 g. Przechowywać w temperaturze pokojowej.",
+    packaging: "Szklany słoik 40 g. Przechowywać w temperaturze pokojowej.",
     warnings:
       "Unikać kontaktu z oczami. W przypadku podrażnień zaprzestać używania.",
   },
