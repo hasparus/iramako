@@ -770,8 +770,8 @@ Kwiatowy, intensywnie różany.
 1. Tonizacja: oczyszczoną twarz spryskaj hydrolatem, pozostaw do wchłonięcia. Nałóż serum lub krem.  
 2. Kompres: nasącz hydrolatem bawełnianą chusteczkę, nałóż ją na twarz, pozostaw do wyschnięcia.  
 3. Mgiełka: rozpyl na twarz dla natychmiastowego odświeżenia.  
-4. Maseczka: wymieszaj hydrolat z glinką (zamiast wody), nałóż na wilgotną skórę.  
-5. Stosuj codziennie rano i wieczorem dla optymalnych efektów.
+4. Maseczka: wymieszaj hydrolat z glinką (zamiast wody). Nałóż na wilgotną skórę twarzy, omijając okolice oczu. Pozostaw na 10 minut, nie dopuszczając do całkowitego wyschnięcia maseczki. Następnie dokładnie spłucz wodą.  
+   
 
  
 
@@ -936,34 +936,31 @@ Przy produkcie jednoskładnikowym masz ogromną przewagę:
 
 # hydrolat neroli
 
-**TONIZACJA | hydrolat z płatków róży damasceńskiej**
+**TONIZACJA | hydrolat neroli**
 
 Naturalny hydrolat bez konserwantów to idealny element codziennej pielęgnacji \- jako tonik po oczyszczaniu lub jako mgiełka odświeżająca w ciągu dnia. 
 
-**Dla kogo?** Idealny dla wszystkich typów cery. Doskonale sprawdza się przy skórze wrażliwej, suchej i dojrzałej.
+**Dla kogo?** Odpowiedni do pielęgnacji każdego typu skóry, w szczególności suchej, wrażliwej, dojrzałej i pozbawionej blasku.
 
 **Co jest w środku?**
 
-5. **100 % hydrolat z płatków róży damasceńskiej**  
-   czyli woda kwiatowa z płatków róży, uzyskiwana w procesie destylacji parą wodną. Nie zawiera konserwantów. Minimalistyczny skład inspirowany naturą.  
-     
-   Jest doskonałym, naturalnym zamiennikiem toniku. Pomaga przywrócić skórze naturalne pH po demakijażu, przygotowując ją do dalszych etapów pielęgnacyjnych – np. aplikacji serum, olejku lub kremu.   
-   Hydrolat różany odświeża i nawilża skórę. Łagodzi uczucie suchości skóry.  
+5. **100 % hydrolat neroli**   
+   Naturalna woda roślinna otrzymywana w procesie destylacji kwiatów gorzkiej pomarańczy.   
+   Jest doskonałym, naturalnym zamiennikiem toniku. Pomaga przywrócić skórze naturalne pH po oczyszczaniu, przygotowując ją do kolejnych etapów pielęgnacji. Pozostawia skórę odświeżoną, miękką i pełną komfortu.  
    
 
 **Zapach**
 
-świeży, głęboki, drzewno-cytrusowy z subtelną goryczką i kwiatową nutą serca
+kwiatowy, z cytrusowymi nutami
 
  
 
 **Sposób użycia**
 
-6. Tonizacja: oczyszczoną twarz spryskaj hydrolatem, pozostaw do wchłonięcia. Nałóż serum lub krem.  
-7. Kompres: nasącz hydrolatem bawełnianą chusteczkę, nałóż ją na twarz, pozostaw do wyschnięcia.  
-8. Mgiełka: rozpyl na twarz dla natychmiastowego odświeżenia.  
-9. Maseczka: wymieszaj hydrolat z glinką (zamiast wody), nałóż na wilgotną skórę.  
-10. Stosuj codziennie rano i wieczorem dla optymalnych efektów.
+5. Tonizacja: oczyszczoną twarz spryskaj hydrolatem, pozostaw do wchłonięcia. Nałóż serum lub krem.  
+6. Kompres: nasącz hydrolatem bawełnianą chusteczkę, nałóż ją na twarz, pozostaw do wyschnięcia.  
+7. Mgiełka: rozpyl na twarz dla natychmiastowego odświeżenia.  
+8. Maseczka: wymieszaj hydrolat z glinką (zamiast wody). Nałóż na wilgotną skórę twarzy, omijając okolice oczu. Pozostaw na 10 minut, nie dopuszczając do całkowitego wyschnięcia maseczki. Następnie dokładnie spłucz wodą.
 
  
 
@@ -977,8 +974,7 @@ Dermatologiczne dla skóry wrażliwej \- nie stwierdzono podrażnień ani reakcj
 
 **Ostrzeżenia:** Unikać kontaktu z oczami. W przypadku podrażnień zaprzestać używania.
 
-**Składniki/Ingredients:** Rosa Damascena Flower Water\*  
-\*Rose Flower Oil/Extract
+**Składniki/Ingredients:** Citrus Aurantium Amara Flower Water, Benzyl Alcohol, Dehydroacetic Acid
 
 **Cena:** 40 zł
 
@@ -986,34 +982,34 @@ Dermatologiczne dla skóry wrażliwej \- nie stwierdzono podrażnień ani reakcj
 
 # hydrolat arbuz
 
-**TONIZACJA | hydrolat z płatków róży damasceńskiej**
+**TONIZACJA | hydrolat z arbuza**
 
-Naturalny hydrolat bez konserwantów to idealny element codziennej pielęgnacji \- jako tonik po oczyszczaniu lub jako mgiełka odświeżająca w ciągu dnia. 
+Naturalny hydrolat bez konserwantów to idealny element codziennej pielęgnacji \- jako tonik po oczyszczaniu lub jako mgiełka odświeżająca w ciągu dnia. Sprawdza się w formie odświeżającej mgiełki, która nawilża i chłodzi skórę w ciągu dnia, zwłaszcza w gorące letnie dni. 
 
-**Dla kogo?** Idealny dla wszystkich typów cery. Doskonale sprawdza się przy skórze wrażliwej, suchej i dojrzałej.
+**Dla kogo?** Odpowiedni do pielęgnacji każdego typu skóry, w szczególności odwodnionej, suchej, wrażliwej i zmęczonej.
 
 **Co jest w środku?**
 
-6. **100 % hydrolat z płatków róży damasceńskiej**  
-   czyli woda kwiatowa z płatków róży, uzyskiwana w procesie destylacji parą wodną. Nie zawiera konserwantów. Minimalistyczny skład inspirowany naturą.  
+6. **100 % hydrolat z arbuza**  
+   Naturalna woda roślinna otrzymywana w procesie destylacji miąższu owocu arbuza. Nie zawiera alkoholu.   
      
-   Jest doskonałym, naturalnym zamiennikiem toniku. Pomaga przywrócić skórze naturalne pH po demakijażu, przygotowując ją do dalszych etapów pielęgnacyjnych – np. aplikacji serum, olejku lub kremu.   
-   Hydrolat różany odświeża i nawilża skórę. Łagodzi uczucie suchości skóry.  
+   Jest doskonałym, naturalnym zamiennikiem toniku. Pomaga przywrócić skórze naturalne pH po demakijażu, przygotowując ją do dalszych etapów pielęgnacyjnych – np. aplikacji serum, olejku lub kremu. 
+
    
 
 **Zapach**
 
-świeży, głęboki, drzewno-cytrusowy z subtelną goryczką i kwiatową nutą serca
+#### Delikatny, świeży, lekko owocowy zapach
 
  
 
 **Sposób użycia**
 
-11. Tonizacja: oczyszczoną twarz spryskaj hydrolatem, pozostaw do wchłonięcia. Nałóż serum lub krem.  
-12. Kompres: nasącz hydrolatem bawełnianą chusteczkę, nałóż ją na twarz, pozostaw do wyschnięcia.  
-13. Mgiełka: rozpyl na twarz dla natychmiastowego odświeżenia.  
-14. Maseczka: wymieszaj hydrolat z glinką (zamiast wody), nałóż na wilgotną skórę.  
-15. Stosuj codziennie rano i wieczorem dla optymalnych efektów.
+9. Tonizacja: oczyszczoną twarz spryskaj hydrolatem, pozostaw do wchłonięcia. Nałóż serum lub krem.  
+10. Kompres: nasącz hydrolatem bawełnianą chusteczkę, nałóż ją na twarz, pozostaw do wyschnięcia.  
+11. Mgiełka: rozpyl na twarz dla natychmiastowego odświeżenia.  
+12. Maseczka: wymieszaj hydrolat z glinką (zamiast wody). Nałóż na wilgotną skórę twarzy, omijając okolice oczu. Pozostaw na 10 minut, nie dopuszczając do całkowitego wyschnięcia maseczki. Następnie dokładnie spłucz wodą.  
+    
 
  
 
@@ -1027,8 +1023,7 @@ Dermatologiczne dla skóry wrażliwej \- nie stwierdzono podrażnień ani reakcj
 
 **Ostrzeżenia:** Unikać kontaktu z oczami. W przypadku podrażnień zaprzestać używania.
 
-**Składniki/Ingredients:** Rosa Damascena Flower Water\*  
-\*Rose Flower Oil/Extract
+**Składniki/Ingredients:** Citrullus Lanatus Fruit Water
 
 **Cena:** 40 zł
 
@@ -1196,9 +1191,9 @@ Produkt bezzapachowy
 
 **Sposób użycia**
 
-16. Mycie twarzy: Niewielką ilość glinki wysyp na dłonie i dodaj odrobinę wody. Nałóż delikatnie na twarz, masuj przez około minutę, a następnie dokładnie spłucz ciepłą wodą.  
-17. Maseczka: do glinki dodaj wody lub hydrolatu i dokładnie wymieszaj. Można dodać parę kropel oleju roślinnego. Nakładaj na lekko zwilżoną twarz. Spłucz po 10 minutach, nie dopuszczając do wyschnięcia glinki (pomoże w tym dodatek oleju lub spryskiwanie hydrolatem).  
-18. Kąpiel: do ciepłej wody dodaj garść glinki. Po kąpieli spłucz ciało.
+13. Mycie twarzy: Niewielką ilość glinki wysyp na dłonie i dodaj odrobinę wody. Nałóż delikatnie na twarz, masuj przez około minutę, a następnie dokładnie spłucz ciepłą wodą.  
+14. Maseczka: do glinki dodaj wody lub hydrolatu i dokładnie wymieszaj. Można dodać parę kropel oleju roślinnego. Nakładaj na lekko zwilżoną twarz. Spłucz po 10 minutach, nie dopuszczając do wyschnięcia glinki (pomoże w tym dodatek oleju lub spryskiwanie hydrolatem).  
+15. Kąpiel: do ciepłej wody dodaj garść glinki. Po kąpieli spłucz ciało.
 
 **Opakowanie:** Szklana butelka 100 ml /40 g. Przechowywać w temperaturze pokojowej.
 
@@ -1353,7 +1348,57 @@ Bez instrukcji GIS często zgłasza uwagi.
 
 ---
 
-# olejek do masażu \- werbena \+ rozmaryn
+# olejek do twarzy \- werbena \+ rozmaryn
+
+ **rozmaryn \+ werbena | lekki olejek do twarzy** 
+
+Lekki roślinny olejek do codziennej pielęgnacji twarzy. Połączenie oleju migdałowego, jojoba i witaminy E wspiera naturalną równowagę skóry, pozostawiając ją miękką, gładką i pełną blasku. Świeży aromat werbeny i rozmarynu sprawia, że pielęgnacja staje się przyjemnym rytuałem.
+
+**Dla kogo?** Dla skóry normalnej, wrażliwej i suchej.
+
+**Co jest w środku?**
+
+1. **Olej migdałowy**  
+   Łagodny olej o delikatnym zapachu. Zawiera kwasy tłuszczowe, witaminy A i E. Ma właściwości łagodzące i kojące, szczególnie polecany dla skóry wrażliwej i atopowej.  
+2. **Olej kokosowy frakcjonowany**  
+   Lekki olej o jedwabistej konsystencji. Szybko się wchłania, pozostawiając skórę miękką, gładką i przyjemną w dotyku.  
+5. **Olej jojoba GOLD nierafinowany**  
+   Złocisty olej roślinny ceniony za wyjątkowe podobieństwo do naturalnej warstwy ochronnej skóry. Pomaga zachować jej miękkość, elastyczność i naturalny komfort.  
+6. **Witamina E (tokoferol)**  
+   Nazywana witaminą młodości. Naturalnie wspiera pielęgnację skóry i chroni cenne oleje roślinne zawarte w formule.  
+     
+     
+10. **Olejki eteryczne:**  
+    * **Werbena egzotyczna (May Chang):** Naturalny olejek o świeżym, poprawiającym nastrój zapachu. Pozyskiwany w destylacji parowej z owoców.  
+    * **Rozmaryn:** Naturalny olejek o wyrazistym, ziołowym aromacie. Nadaje olejkowi świeży, pobudzający charakter.
+
+**Zapach**
+
+Świeży, cytrusowo-ziołowy aromat z energetyzującymi nutami werbeny i rozmarynu. Naturalny, wyrazisty i harmonijny – dla osób ceniących roślinne kompozycje zapachowe.
+
+ 
+
+**Sposób użycia**
+
+1. Oczyść skórę twarzy, szyi i dekoltu.  
+2. Nanieś 2–3 krople olejku na lekko wilgotną skórę twarzy, szyi i dekoltu. Delikatnie wmasuj do wchłonięcia.  
+3. Dla dodatkowego nawilżenia wymieszaj z kremem lub serum.
+
+ 
+
+**O produkcie**
+
+**Badania:** Czystość mikrobiologiczna – potwierdzona laboratoryjnie
+
+Dermatologiczne dla skóry wrażliwej \- nie stwierdzono podrażnień ani reakcji alergicznych.
+
+**Opakowanie:** Szklany butelka 30 ml z pipetą. Przechowywać w temperaturze pokojowej.
+
+**Ostrzeżenia:** Unikać kontaktu z oczami. W przypadku podrażnień zaprzestać używania.
+
+**Składniki/Ingredients:** 
+
+**Cena:** 50 zł
 
 # werb+rozm \- analiza
 
