@@ -241,6 +241,82 @@ export const products: Product[] = [
       "Unikać kontaktu z oczami. W przypadku podrażnień zaprzestać używania.",
   },
   {
+    slug: "hydrolat-neroli",
+    category: "hydrolaty",
+    line: "Tonizacja",
+    name: "Hydrolat neroli",
+    fullName: "Hydrolat z kwiatu pomarańczy gorzkiej (neroli)",
+    variants: [{ size: "100 ml", price: "40 zł" }],
+    accent: "#c98a3a",
+    image: hydrolat,
+    alt: "Szklana butelka hydrolatu neroli iramako",
+    intro:
+      "Naturalny hydrolat bez konserwantów — idealny element codziennej pielęgnacji jako tonik po oczyszczaniu lub mgiełka odświeżająca w ciągu dnia. Pomaga przywrócić skórze naturalne pH po oczyszczaniu i przygotowuje ją do kolejnych etapów pielęgnacji. Pozostawia skórę odświeżoną, miękką i pełną komfortu.",
+    forWhom:
+      "Odpowiedni do pielęgnacji każdego typu skóry, w szczególności suchej, wrażliwej, dojrzałej i pozbawionej blasku.",
+    scent: "Kwiatowy, z cytrusowymi nutami.",
+    usage: [
+      "Tonizacja: spryskaj oczyszczoną twarz, pozostaw do wchłonięcia, nałóż serum lub krem.",
+      "Kompres: nasącz hydrolatem bawełnianą chusteczkę, nałóż na twarz, pozostaw do wyschnięcia.",
+      "Mgiełka: rozpyl na twarz dla natychmiastowego odświeżenia.",
+      "Maseczka: wymieszaj hydrolat z glinką (zamiast wody), nałóż na wilgotną skórę.",
+    ],
+    ingredients: [
+      {
+        name: "100% hydrolat neroli",
+        description:
+          "Naturalna woda roślinna otrzymywana w destylacji kwiatów gorzkiej pomarańczy. Doskonały, naturalny zamiennik toniku — pomaga przywrócić skórze naturalne pH po oczyszczaniu. Pozostawia skórę odświeżoną, miękką i pełną komfortu.",
+      },
+    ],
+    inci: "Citrus Aurantium Amara Flower Water, Benzyl Alcohol, Dehydroacetic Acid.",
+    research: [
+      "Czystość mikrobiologiczna — potwierdzona laboratoryjnie.",
+      "Badania dermatologiczne dla skóry wrażliwej — nie stwierdzono podrażnień ani reakcji alergicznych.",
+    ],
+    packaging:
+      "Szklana butelka 100 ml z atomizerem. Przechowywać w temperaturze pokojowej.",
+    warnings:
+      "Unikać kontaktu z oczami. W przypadku podrażnień zaprzestać używania.",
+  },
+  {
+    slug: "hydrolat-arbuzowy",
+    category: "hydrolaty",
+    line: "Tonizacja",
+    name: "Hydrolat z arbuza",
+    fullName: "Hydrolat z arbuza",
+    variants: [{ size: "100 ml", price: "40 zł" }],
+    accent: "#e34a6f",
+    image: hydrolat,
+    alt: "Szklana butelka hydrolatu z arbuza iramako",
+    intro:
+      "Naturalny hydrolat bez konserwantów — idealny element codziennej pielęgnacji jako tonik po oczyszczaniu lub mgiełka odświeżająca w ciągu dnia. Sprawdza się jako mgiełka, która nawilża i chłodzi skórę, zwłaszcza w gorące letnie dni. Pomaga przywrócić skórze naturalne pH po demakijażu i przygotowuje ją do kolejnych etapów pielęgnacji.",
+    forWhom:
+      "Odpowiedni do pielęgnacji każdego typu skóry, w szczególności odwodnionej, suchej, wrażliwej i zmęczonej.",
+    scent: "Delikatny, świeży, lekko owocowy.",
+    usage: [
+      "Tonizacja: spryskaj oczyszczoną twarz, pozostaw do wchłonięcia, nałóż serum lub krem.",
+      "Kompres: nasącz hydrolatem bawełnianą chusteczkę, nałóż na twarz, pozostaw do wyschnięcia.",
+      "Mgiełka: rozpyl na twarz dla natychmiastowego odświeżenia.",
+      "Maseczka: wymieszaj hydrolat z glinką (zamiast wody), nałóż na wilgotną skórę, pozostaw na 10 minut, spłucz.",
+    ],
+    ingredients: [
+      {
+        name: "100% hydrolat z arbuza",
+        description:
+          "Naturalna woda roślinna otrzymywana w destylacji miąższu owocu arbuza, bez alkoholu i konserwantów. Zawiera naturalnie cukry roślinne, aminokwasy, mikroelementy i antyoksydanty. Doskonały, naturalny zamiennik toniku — pomaga przywrócić skórze naturalne pH po demakijażu.",
+      },
+    ],
+    inci: "Citrullus Lanatus Fruit Water.",
+    research: [
+      "Czystość mikrobiologiczna — potwierdzona laboratoryjnie.",
+      "Badania dermatologiczne dla skóry wrażliwej — nie stwierdzono podrażnień ani reakcji alergicznych.",
+    ],
+    packaging:
+      "Szklana butelka 100 ml z atomizerem. Przechowywać w temperaturze pokojowej.",
+    warnings:
+      "Unikać kontaktu z oczami. W przypadku podrażnień zaprzestać używania.",
+  },
+  {
     slug: "glinka-kaolinowa",
     category: "glinki",
     line: "Oczyszczanie",
