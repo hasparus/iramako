@@ -34,7 +34,7 @@ const { instagramUrl } = Astro.props;
             href={instagramUrl}
             target="_blank"
             rel="noreferrer"
-            splash="kolko13">@ira.mako</NavLink
+            splash="arbuz">@ira.mako</NavLink
           >
           <NavLink href="mailto:centrala@iramako.pl" splash="szary"
             >centrala@iramako.pl</NavLink
@@ -43,8 +43,8 @@ const { instagramUrl } = Astro.props;
       </div>
       <div class="flex flex-col gap-10 sm:items-end sm:justify-between">
         <Logo class="w-[68px] sm:w-[84px]" />
-        <a href="/privacy" class="text-muted hover:text-ink"
-          >polityka prywatności</a
+        <NavLink href="/privacy" splash="szary" class="text-muted hover:text-ink"
+          >polityka prywatności</NavLink
         >
       </div>
     </div>
