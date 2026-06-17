@@ -96,7 +96,7 @@ const productListSchema = {
       containerClass="py-16 sm:py-[clamp(84px,10vw,118px)]"
     >
       <h2
-        class="m-0 max-w-[520px] text-3xl font-bold leading-[0.98] tracking-[-0.04em] text-ink"
+        class="m-0 max-w-130 text-3xl font-bold leading-[0.98] tracking-[-0.04em] text-ink"
       >
         kosmetyki bez nadmiaru
       </h2>
@@ -113,17 +113,20 @@ const productListSchema = {
                   style={`--accent: ${product.accent}; --shadow-x: ${product.category === "hydrolaty" ? "14px" : "5px"}`}
                   class="group flex flex-col p-2 has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2 has-[a:focus-visible]:outline-black"
                 >
-                  <a href={`/produkty/${product.slug}`} class="block outline-none">
+                  <a
+                    href={`/produkty/${product.slug}`}
+                    class="block outline-none"
+                  >
                     <figure class="relative isolate m-0 flex h-40 items-center justify-center sm:h-48">
                       {/* cast shadow: a second copy of the photo, flattened onto
                           the "floor" and skewed up-right as if lit from lower-left.
                           blur on the wrapper (after the mask) softens its edge. */}
                       <div
                         aria-hidden="true"
-                        class="pointer-events-none absolute bottom-1 left-[calc(50%-var(--shadow-x))] -z-10 [filter:blur(4px)]"
+                        class="pointer-events-none absolute bottom-1 left-[calc(50%-var(--shadow-x))] -z-10 blur-xs"
                       >
                         <Image
-                          class="max-h-40 w-auto origin-bottom object-contain opacity-40 [filter:brightness(0)_blur(11px)] [mask-composite:intersect] [mask-image:linear-gradient(to_top,black_0%,transparent_48%),linear-gradient(to_right,transparent_47%,black_57%)] [transform:translateX(-50%)_scaleX(0.92)_scaleY(0.26)_skewX(-22deg)] transition-[opacity,transform] duration-500 ease-out group-hover:opacity-45 sm:max-h-48"
+                          class="max-h-40 w-auto origin-bottom object-contain opacity-40 filter-[brightness(0)_blur(11px)] mask-intersect mask-[linear-gradient(to_top,black_0%,transparent_48%),linear-gradient(to_right,transparent_47%,black_57%)] transform-[translateX(-50%)_scaleX(0.92)_scaleY(0.26)_skewX(-22deg)] transition-[opacity,transform] duration-500 ease-out group-hover:opacity-45 sm:max-h-48"
                           src={product.image}
                           alt=""
                           loading="lazy"
@@ -146,7 +149,7 @@ const productListSchema = {
                       <div
                         role="radiogroup"
                         aria-label={`pojemność — ${product.name}`}
-                        class="inline-flex border border-rule has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-black"
+                        class="inline-flex border border-rule has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-black"
                       >
                         {product.variants.map((variant, i) => (
                           <button

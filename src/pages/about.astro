@@ -24,7 +24,10 @@ const sections = [
 ];
 ---
 
-<BaseLayout title="O marce | iramako" description="iramako — kosmetyki naturalne łączące skuteczną pielęgnację z przyjemnością używania.">
+<BaseLayout
+  title="O marce | iramako"
+  description="iramako — kosmetyki naturalne łączące skuteczną pielęgnację z przyjemnością używania."
+>
   <main class="min-h-screen w-full">
     <Navbar instagramUrl={instagramUrl} />
 
@@ -33,13 +36,13 @@ const sections = [
     >
       <div>
         <h1
-          class="m-0 max-w-[1100px] text-3xl font-bold leading-[1.02] tracking-[-0.04em] text-ink"
+          class="m-0 max-w-275 text-3xl font-bold leading-[1.02] tracking-[-0.04em] text-ink"
         >
           Marka stworzona z potrzeby połączenia skutecznej pielęgnacji z
           przyjemnością używania kosmetyków.
         </h1>
         <p
-          class="mt-8 max-w-[760px] text-[clamp(1.1rem,1.4vw,1.4rem)] leading-relaxed text-muted"
+          class="mt-8 max-w-190 text-[clamp(1.1rem,1.4vw,1.4rem)] leading-relaxed text-muted"
         >
           Łączymy naturalne składniki z nowoczesnym podejściem do formulacji,
           tworząc kosmetyki proste, skuteczne i łagodne dla skóry.
@@ -63,7 +66,7 @@ const sections = [
     >
       {
         sections.map((section) => (
-          <div class="max-w-[420px]">
+          <div class="max-w-105">
             <h2 class="m-0 mb-4 text-[clamp(1.5rem,2.2vw,2.1rem)] font-bold tracking-[-0.03em] text-ink">
               {section.title}
             </h2>

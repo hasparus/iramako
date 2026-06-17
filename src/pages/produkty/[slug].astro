@@ -26,12 +26,15 @@ const schema = {
   image: new URL(product.image.src, Astro.site).toString(),
   brand: { "@type": "Brand", name: "iramako" },
   category: categoryLabels[product.category],
-  offers: product.variants.map((variant) => ({
-    "@type": "Offer",
-    priceCurrency: "PLN",
-    price: variant.price.match(/\d+/)?.[0],
-    availability: "https://schema.org/InStock",
-  })),
+  offers: product.variants
+    .map((variant) => variant.price.match(/\d+/)?.[0])
+    .filter((price): price is string => Boolean(price))
+    .map((price) => ({
+      "@type": "Offer",
+      priceCurrency: "PLN",
+      price,
+      availability: "https://schema.org/InStock",
+    })),
 };
 ---
 
@@ -57,23 +60,25 @@ const schema = {
         class="relative isolate m-0 flex items-center justify-center"
         style={`--accent: ${product.accent}; --shadow-x: ${product.category === "hydrolaty" ? "36px" : "18px"}`}
       >
-        {/* cast shadow: a flattened copy of the photo, same as the product list
+        {
+          /* cast shadow: a flattened copy of the photo, same as the product list
             (px offsets scaled ~2x for the taller hero photo; ratios unchanged).
             mask lives on the <img>, blur on the wrapper — so the blur runs after
-            the mask and softens its otherwise-hard skewed edge. */}
+            the mask and softens its otherwise-hard skewed edge. */
+        }
         <div
           aria-hidden="true"
-          class="pointer-events-none absolute bottom-3 left-[calc(50%-var(--shadow-x))] -z-10 [filter:blur(16px)]"
+          class="pointer-events-none absolute bottom-3 left-[calc(50%-var(--shadow-x))] -z-10 blur-lg"
         >
           <Image
-            class="max-h-[380px] w-auto origin-bottom object-contain opacity-[0.92] [filter:brightness(0)] [mask-composite:intersect] [mask-image:linear-gradient(to_top,black_0%,transparent_62%),linear-gradient(to_right,transparent_42%,black_54%)] [transform:translateX(-50%)_scaleX(0.92)_scaleY(0.26)_skewX(-30deg)]"
+            class="max-h-95 w-auto origin-bottom object-contain opacity-[0.92] brightness-0 mask-intersect mask-[linear-gradient(to_top,black_0%,transparent_62%),linear-gradient(to_right,transparent_42%,black_54%)] transform-[translateX(-50%)_scaleX(0.92)_scaleY(0.26)_skewX(-30deg)]"
             src={product.image}
             alt=""
             loading="eager"
           />
         </div>
         <Image
-          class="max-h-[380px] w-auto object-contain"
+          class="max-h-95 w-auto object-contain"
           src={product.image}
           alt={product.alt}
           loading="eager"
@@ -82,7 +87,7 @@ const schema = {
         />
       </figure>
 
-      <div class="max-w-[560px]">
+      <div class="max-w-140">
         <a
           href={`/#${product.category}`}
           class="text-sm uppercase tracking-[0.12em] text-muted hover:text-ink"
@@ -96,7 +101,9 @@ const schema = {
         <p class="mt-2 text-[clamp(1.05rem,1.2vw,1.2rem)] text-muted">
           {product.fullName}
         </p>
-        <div class="mt-6 flex flex-wrap items-baseline gap-x-8 gap-y-2 text-ink">
+        <div
+          class="mt-6 flex flex-wrap items-baseline gap-x-8 gap-y-2 text-ink"
+        >
           {
             product.variants.map((variant) => (
               <span class="text-[clamp(1.05rem,1.2vw,1.25rem)]">
@@ -115,14 +122,13 @@ const schema = {
       </div>
     </Section>
 
-    {/* ARIA tabs. base (no-JS): tablist hidden, panels stack vertically so
+    {
+      /* ARIA tabs. base (no-JS): tablist hidden, panels stack vertically so
         content stays readable and find-in-page works. JS turns it into a
         keyboard-navigable tab bar; all panels share one grid cell, so switching
-        tabs never shifts the panel's position. */}
-    <Section
-      border="none"
-      containerClass="py-12 sm:py-[clamp(48px,7vw,96px)]"
-    >
+        tabs never shifts the panel's position. */
+    }
+    <Section border="none" containerClass="py-12 sm:py-[clamp(48px,7vw,96px)]">
       <div class="product-tabs" data-product-tabs>
         <div class="tablist" role="tablist" aria-label="Szczegóły produktu">
           <button
@@ -157,7 +163,7 @@ const schema = {
         </div>
 
         <div
-          class="tab-panel max-w-[760px] text-[clamp(1.05rem,1.2vw,1.22rem)] leading-relaxed text-muted"
+          class="tab-panel max-w-190 text-[clamp(1.05rem,1.2vw,1.22rem)] leading-relaxed text-muted"
           role="tabpanel"
           id="panel-opis"
           aria-labelledby="tab-opis"
@@ -205,7 +211,7 @@ const schema = {
         </div>
 
         <div
-          class="tab-panel max-w-[760px] text-[clamp(1.05rem,1.2vw,1.22rem)] leading-relaxed text-muted"
+          class="tab-panel max-w-190 text-[clamp(1.05rem,1.2vw,1.22rem)] leading-relaxed text-muted"
           role="tabpanel"
           id="panel-opr"
           aria-labelledby="tab-opr"
@@ -295,7 +301,8 @@ const schema = {
       }
       /* fully hide inactive panels, but let hidden="until-found" fall through
          to the UA's content-visibility so Ctrl+F can still match inside them */
-      .product-tabs[data-enhanced] .tab-panel[hidden]:not([hidden="until-found"]) {
+      .product-tabs[data-enhanced]
+        .tab-panel[hidden]:not([hidden="until-found"]) {
         display: none;
       }
     </style>

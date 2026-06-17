@@ -2,6 +2,7 @@
 import Container from "./Container.astro";
 import Logo from "./Logo.astro";
 import NavLink from "./NavLink.astro";
+import { productsByCategory, type Category } from "../data/products";
 
 interface Props {
   instagramUrl: string;
@@ -9,19 +10,26 @@ interface Props {
 
 const { instagramUrl } = Astro.props;
 
-const productCategories = [
-  { href: "/#olejki", label: "olejki", splash: "arbuz" },
-  { href: "/#kremy", label: "kremy", splash: "szary" },
-  { href: "/#hydrolaty", label: "hydrolaty", splash: "arbuz" },
-  { href: "/#glinki", label: "glinki", splash: "szary" },
-] as const;
+// nav-only decoration; categories + order come from productsByCategory
+const splashByCategory: Record<Category, "arbuz" | "szary"> = {
+  kremy: "szary",
+  hydrolaty: "arbuz",
+  glinki: "szary",
+  olejki: "arbuz",
+};
+
+const productCategories = productsByCategory.map(({ category, label }) => ({
+  href: `/#${category}`,
+  label,
+  splash: splashByCategory[category],
+}));
 ---
 
 <header class="relative z-40 border-b border-rule">
   <Container
     class="flex flex-wrap items-center justify-between gap-y-5 py-5 sm:flex-nowrap sm:gap-8 sm:py-7"
   >
-    <Logo class="w-[47px] sm:w-[clamp(46px,3.7vw,60px)]" />
+    <Logo class="w-11.75 sm:w-[clamp(46px,3.7vw,60px)]" />
     <button
       popovertarget="site-nav"
       class="flex size-10 items-center justify-center text-ink sm:hidden"
@@ -38,7 +46,8 @@ const productCategories = [
         <path d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5"></path>
       </svg>
     </button>
-    {/* mobile: top-layer drawer (popover gives us the toggle, aria-expanded,
+    {
+      /* mobile: top-layer drawer (popover gives us the toggle, aria-expanded,
         light dismiss, Escape, ::backdrop and tab-order for free); the slide
         is pure CSS via @starting-style + allow-discrete. We animate `transform`
         rather than the `translate-x-*` utilities: those compile to the CSS
@@ -48,11 +57,12 @@ const productCategories = [
         animates correctly in Safari, Chrome and Firefox. The ::backdrop fades
         on its own `linear` curve (not the drawer's spatial ease-out, which
         front-loads opacity and makes the scrim pop in); it runs a touch longer
-        than the slide so the dim lands softly. sm+: plain row. */}
+        than the slide so the dim lands softly. sm+: plain row. */
+    }
     <nav
       id="site-nav"
       popover
-      class="inset-y-0 left-auto right-0 m-0 h-auto w-64 max-w-[80vw] [transform:translateX(100%)] flex-col gap-5 border-0 border-l border-rule bg-cream px-6 pt-28 text-base leading-tight text-ink transition-[transform,display,overlay] transition-discrete duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] open:duration-500 backdrop:bg-ink/15 backdrop:opacity-0 backdrop:transition-[opacity,display,overlay] backdrop:transition-discrete backdrop:duration-300 backdrop:ease-linear open:flex open:[transform:translateX(0)] open:backdrop:opacity-100 open:backdrop:duration-[600ms] starting:open:[transform:translateX(100%)] starting:open:backdrop:opacity-0 motion-reduce:transition-none motion-reduce:backdrop:transition-none sm:static sm:flex sm:w-auto sm:max-w-none sm:[transform:translateX(0)] sm:flex-row sm:flex-wrap sm:items-center sm:justify-end sm:gap-x-[clamp(18px,4vw,72px)] sm:gap-y-2 sm:overflow-visible sm:border-l-0 sm:bg-transparent sm:p-0 sm:text-[clamp(.9rem,1.1vw,1.08rem)]"
+      class="inset-y-0 left-auto right-0 m-0 h-auto w-64 max-w-[80vw] transform-[translateX(100%)] flex-col gap-5 border-0 border-l border-rule bg-cream px-6 pt-28 text-base leading-tight text-ink transition-[transform,display,overlay] transition-discrete duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] open:duration-500 backdrop:bg-ink/15 backdrop:opacity-0 backdrop:transition-[opacity,display,overlay] backdrop:transition-discrete backdrop:duration-300 backdrop:ease-linear open:flex open:transform-[translateX(0)] open:backdrop:opacity-100 open:backdrop:duration-600 starting:open:transform-[translateX(100%)] starting:open:backdrop:opacity-0 motion-reduce:transition-none motion-reduce:backdrop:transition-none sm:static sm:flex sm:w-auto sm:max-w-none sm:transform-[translateX(0)] sm:flex-row sm:flex-wrap sm:items-center sm:justify-end sm:gap-x-[clamp(18px,4vw,72px)] sm:gap-y-2 sm:overflow-visible sm:border-l-0 sm:bg-transparent sm:p-0 sm:text-[clamp(.9rem,1.1vw,1.08rem)]"
       aria-label="główna"
     >
       <button
@@ -72,13 +82,15 @@ const productCategories = [
           <path d="M6 18 18 6M6 6l12 12"></path>
         </svg>
       </button>
-      {/* produkty: parent link + nested categories — dropdown on sm+,
+      {
+        /* produkty: parent link + nested categories — dropdown on sm+,
           indented sub-list inside the mobile drawer (contents = wrapper
-          dissolves so the links flow into the drawer column) */}
+          dissolves so the links flow into the drawer column) */
+      }
       <div data-prod-menu class="group/prod max-sm:contents sm:relative">
         <NavLink href="/#produkty">produkty</NavLink>
         <div
-          class="flex flex-col max-sm:gap-2.5 max-sm:pl-3 max-sm:pt-1 sm:absolute sm:left-0 sm:top-full sm:z-50 sm:mt-2 sm:hidden sm:min-w-[186px] sm:gap-0.5 sm:bg-paper/70 sm:px-4 sm:py-2.5 sm:backdrop-blur-md sm:opacity-0 sm:shadow-[0_10px_22px_-16px_rgba(40,36,29,0.4)] sm:ring-1 sm:ring-rule/30 sm:-translate-y-1 sm:transition sm:duration-150 sm:ease-out sm:transition-discrete sm:before:absolute sm:before:inset-x-0 sm:before:-top-2 sm:before:h-2 sm:before:content-[''] sm:group-hover/prod:flex sm:group-hover/prod:translate-y-0 sm:group-hover/prod:opacity-100 sm:group-focus-within/prod:flex sm:group-focus-within/prod:translate-y-0 sm:group-focus-within/prod:opacity-100 sm:motion-reduce:transition-none sm:starting:group-hover/prod:-translate-y-1 sm:starting:group-hover/prod:opacity-0 sm:starting:group-focus-within/prod:-translate-y-1 sm:starting:group-focus-within/prod:opacity-0"
+          class="flex flex-col max-sm:gap-2.5 max-sm:pl-3 max-sm:pt-1 sm:absolute sm:left-0 sm:top-full sm:z-50 sm:mt-2 sm:hidden sm:min-w-46.5 sm:gap-0.5 sm:bg-paper/70 sm:px-4 sm:py-2.5 sm:backdrop-blur-md sm:opacity-0 sm:shadow-[0_10px_22px_-16px_rgba(40,36,29,0.4)] sm:ring-1 sm:ring-rule/30 sm:-translate-y-1 sm:transition sm:duration-150 sm:ease-out sm:transition-discrete sm:before:absolute sm:before:inset-x-0 sm:before:-top-2 sm:before:h-2 sm:before:content-[''] sm:group-hover/prod:flex sm:group-hover/prod:translate-y-0 sm:group-hover/prod:opacity-100 sm:group-focus-within/prod:flex sm:group-focus-within/prod:translate-y-0 sm:group-focus-within/prod:opacity-100 sm:motion-reduce:transition-none sm:starting:group-hover/prod:-translate-y-1 sm:starting:group-hover/prod:opacity-0 sm:starting:group-focus-within/prod:-translate-y-1 sm:starting:group-focus-within/prod:opacity-0"
         >
           {
             productCategories.map((cat) => (
@@ -126,7 +138,7 @@ const productCategories = [
   }
 
   // produkty submenu: arrow keys move between the parent link and categories
-  const prodMenu = document.querySelector("[data-prod-menu]");
+  const prodMenu = document.querySelector<HTMLDivElement>("[data-prod-menu]");
   if (prodMenu) {
     const links = [...prodMenu.querySelectorAll("a")];
     prodMenu.addEventListener("keydown", (e) => {
@@ -134,7 +146,8 @@ const productCategories = [
       if (i === -1) return;
       let next = -1;
       if (e.key === "ArrowDown") next = (i + 1) % links.length;
-      else if (e.key === "ArrowUp") next = (i - 1 + links.length) % links.length;
+      else if (e.key === "ArrowUp")
+        next = (i - 1 + links.length) % links.length;
       else if (e.key === "Home") next = 0;
       else if (e.key === "End") next = links.length - 1;
       else if (e.key === "Escape" && i > 0 && desktop.matches)
