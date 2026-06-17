@@ -1,0 +1,265 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import Section from "../components/Section.astro";
+
+const instagramUrl = "https://www.instagram.com/ira.mako/";
+const updated = "16 czerwca 2026";
+
+type Block =
+  | { p: string }
+  | { ul: { lead?: string; text: string }[] };
+
+const sections: { id: string; title: string; body: Block[] }[] = [
+  {
+    id: "administrator",
+    title: "Administrator danych",
+    body: [
+      {
+        p: "Tę stronę prowadzi iramako Irena Makowska i to my decydujemy, jak przetwarzane są dane zbierane za jej pośrednictwem.",
+      },
+      {
+        ul: [
+          { text: "iramako Irena Makowska" },
+          { text: "pl. Uniwersytecki 7, 50–137 Wrocław" },
+          { text: "NIP 9121835398, REGON 541674780" },
+          { text: "e-mail: centrala@iramako.pl" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "dane",
+    title: "Jakie dane zbieramy",
+    body: [
+      {
+        p: "Strona jest katalogiem produktów — nie prowadzimy sklepu z koszykiem, kont użytkowników ani newslettera. Dane zbieramy tylko w dwóch sytuacjach:",
+      },
+      {
+        ul: [
+          {
+            lead: "Korespondencja.",
+            text: "Kiedy piszesz na centrala@iramako.pl, dostajemy Twój adres e-mail, imię (jeśli je podasz) i treść wiadomości. Używamy ich tylko po to, żeby Ci odpowiedzieć.",
+          },
+          {
+            lead: "Statystyki odwiedzin.",
+            text: "Korzystamy z Vercel Analytics, które liczy ruch na stronie anonimowo — bez ciasteczek, bez śledzenia między stronami i bez rozpoznawania pojedynczych osób. Widzimy tylko dane zbiorcze: liczbę odwiedzin, źródło wejścia, typ przeglądarki czy kraj.",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "podstawa",
+    title: "Podstawa prawna",
+    body: [
+      {
+        p: "Dane przetwarzamy na podstawie art. 6 ust. 1 lit. f RODO, czyli naszego uzasadnionego interesu: odpowiadania na zapytania oraz utrzymywania i ulepszania strony.",
+      },
+    ],
+  },
+  {
+    id: "przechowywanie",
+    title: "Jak długo przechowujemy dane",
+    body: [
+      {
+        p: "Wiadomości e-mail trzymamy tak długo, jak to potrzebne do załatwienia sprawy, zwykle nie dłużej niż 3 lata. Dane statystyczne są anonimowe i nie pozwalają Cię zidentyfikować.",
+      },
+    ],
+  },
+  {
+    id: "powierzenie",
+    title: "Komu powierzamy dane",
+    body: [
+      {
+        p: "Stronę hostuje i dostarcza statystyki Vercel Inc. z siedzibą w USA. Pocztę obsługuje nasz dostawca e-mail. Jeśli dane trafiają poza Europejski Obszar Gospodarczy, dzieje się to na podstawie standardowych klauzul umownych. Nie sprzedajemy ani nie udostępniamy Twoich danych do celów marketingowych.",
+      },
+    ],
+  },
+  {
+    id: "cookies",
+    title: "Pliki cookies",
+    body: [
+      {
+        p: "Strona nie ustawia marketingowych plików cookies. Vercel Analytics działa bez ciasteczek.",
+      },
+    ],
+  },
+  {
+    id: "prawa",
+    title: "Twoje prawa",
+    body: [
+      {
+        p: "Masz prawo dostępu do swoich danych, ich sprostowania, usunięcia, ograniczenia przetwarzania, wniesienia sprzeciwu oraz przeniesienia danych. Napisz na centrala@iramako.pl — odpowiemy najpóźniej w ciągu miesiąca. Możesz też złożyć skargę do Prezesa Urzędu Ochrony Danych Osobowych (ul. Stawki 2, 00–193 Warszawa, uodo.gov.pl).",
+      },
+    ],
+  },
+  {
+    id: "zmiany",
+    title: "Zmiany",
+    body: [
+      {
+        p: "Jeśli zmienimy tę politykę, opublikujemy nową wersję na tej stronie z aktualną datą.",
+      },
+    ],
+  },
+];
+
+const num = (i: number) => String(i + 1).padStart(2, "0");
+
+// turn the e-mail addresses inside body text into accent links
+const linkify = (text: string) =>
+  text.replace(
+    /centrala@iramako\.pl/g,
+    '<a class="policy-mail" href="mailto:centrala@iramako.pl">centrala@iramako.pl</a>',
+  );
+---
+
+<BaseLayout
+  title="Polityka prywatności | iramako"
+  description="Jak iramako przetwarza dane osobowe zbierane za pośrednictwem strony."
+>
+  <main class="min-h-screen w-full">
+    <Navbar instagramUrl={instagramUrl} />
+
+    <Section containerClass="py-14 sm:py-[clamp(56px,7vw,96px)]">
+      <h1
+        class="m-0 max-w-[14ch] text-[clamp(2.6rem,7vw,5.6rem)] font-bold leading-[0.95] tracking-[-0.045em] text-ink"
+      >
+        Polityka prywatności
+      </h1>
+      <p class="mt-6 text-muted">Ostatnia aktualizacja: {updated}.</p>
+    </Section>
+
+    <Section
+      border="none"
+      containerClass="grid grid-cols-1 gap-x-[clamp(40px,7vw,120px)] gap-y-14 py-12 sm:py-[clamp(48px,6vw,88px)] lg:grid-cols-[200px_minmax(0,760px)]"
+    >
+      <!-- editorial index: sticky on desktop -->
+      <nav aria-label="Spis treści" class="hidden lg:block">
+        <ol
+          class="sticky top-28 m-0 flex list-none flex-col gap-0 border-l border-rule p-0"
+        >
+          {
+            sections.map((s, i) => (
+              <li>
+                <a
+                  href={`#${s.id}`}
+                  class="group flex gap-3 py-2.5 pl-4 text-[0.92rem] leading-tight text-muted transition-colors hover:text-ink"
+                >
+                  <span class="font-bold tabular-nums text-cobalt/70 transition-colors group-hover:text-cobalt">
+                    {num(i)}
+                  </span>
+                  <span class="group-hover:underline underline-offset-4 decoration-1">
+                    {s.title}
+                  </span>
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+      </nav>
+
+      <div class="prose-policy">
+        {
+          sections.map((s, i) => (
+            <section id={s.id} class="policy-section scroll-mt-28">
+              <div class="policy-head">
+                <span class="policy-num">{num(i)}</span>
+                <h2>{s.title}</h2>
+              </div>
+              {s.body.map((block) =>
+                "p" in block ? (
+                  <p set:html={linkify(block.p)} />
+                ) : (
+                  <ul>
+                    {block.ul.map((item) => (
+                      <li>
+                        {item.lead && <strong>{item.lead}</strong>}{" "}
+                        <Fragment set:html={linkify(item.text)} />
+                      </li>
+                    ))}
+                  </ul>
+                ),
+              )}
+            </section>
+          ))
+        }
+      </div>
+    </Section>
+
+    <SiteFooter instagramUrl={instagramUrl} />
+  </main>
+</BaseLayout>
+
+<style>
+  .policy-section {
+    padding: clamp(2rem, 4vw, 3rem) 0;
+    border-bottom: 1px solid var(--color-rule);
+  }
+  .policy-section:first-child {
+    padding-top: 0;
+  }
+  .policy-section:last-child {
+    border-bottom: 0;
+  }
+
+  .policy-head {
+    display: flex;
+    align-items: baseline;
+    gap: clamp(0.75rem, 2vw, 1.25rem);
+    margin-bottom: 1.25rem;
+  }
+  .policy-num {
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-cobalt);
+    /* nudge onto the heading's cap line */
+    transform: translateY(-0.05em);
+  }
+
+  .prose-policy :global(h2) {
+    margin: 0;
+    font-size: clamp(1.45rem, 2.2vw, 2.05rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--color-ink);
+  }
+  .prose-policy :global(p) {
+    margin: 0 0 1rem;
+    line-height: 1.65;
+    color: var(--color-muted);
+  }
+  .prose-policy :global(p:last-child),
+  .prose-policy :global(ul:last-child) {
+    margin-bottom: 0;
+  }
+  .prose-policy :global(ul) {
+    margin: 0 0 1rem;
+    padding-left: 1.25rem;
+    line-height: 1.6;
+    color: var(--color-muted);
+  }
+  .prose-policy :global(li) {
+    margin-bottom: 0.4rem;
+  }
+  .prose-policy :global(li strong) {
+    font-weight: 700;
+    color: var(--color-ink);
+  }
+  .prose-policy :global(.policy-mail) {
+    color: var(--color-cobalt);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    text-decoration-color: color-mix(in srgb, var(--color-cobalt) 40%, transparent);
+    transition: text-decoration-color 0.2s ease;
+  }
+  .prose-policy :global(.policy-mail:hover) {
+    text-decoration-color: var(--color-cobalt);
+  }
+</style>

@@ -17,34 +17,34 @@ const { instagramUrl } = Astro.props;
 >
   <Container class="py-10 pb-5 sm:py-12 sm:pb-[clamp(24px,4vw,58px)]">
     <div
-      class="flex flex-col gap-10 sm:flex-row sm:items-center sm:justify-between"
+      class="flex flex-col gap-10 sm:flex-row sm:items-stretch sm:justify-between"
     >
-      <p
-        class="max-w-[880px] font-medium leading-relaxed text-muted sm:text-lg"
-      >
-        <span class="block [text-box:trim-start_cap_alphabetic]"
-          >iramako Irena Makowska</span
+      <div class="flex flex-col gap-8">
+        <p class="font-medium leading-relaxed text-muted sm:text-lg">
+          <span class="block [text-box:trim-start_cap_alphabetic]"
+            >sklep firmowy</span
+          >
+          <span class="block">pl. Uniwersytecki 7</span>
+          <span class="block">50–137 Wrocław</span>
+        </p>
+        <div
+          class="flex flex-col gap-3 text-[15px] font-medium leading-tight text-ink sm:flex-row sm:items-center sm:gap-[clamp(28px,5vw,72px)] sm:text-base"
         >
-        <span class="block">pl. Uniwersytecki 7, 50-137 Wrocław</span>
-        <span class="block">NIP 9121835398 · REGON 541674780</span>
-      </p>
-      <Logo class="w-[68px] sm:w-[84px]" />
-    </div>
-
-    <div
-      class="flex flex-col gap-10 sm:flex-row sm:items-center sm:justify-between py-10 sm:py-16 lg:pt-24"
-    >
-      <div
-        class="flex flex-col gap-3 text-[15px] font-medium leading-tight text-ink sm:flex-row sm:items-center sm:gap-[clamp(28px,5vw,72px)] sm:text-base"
-      >
-        <NavLink
-          href={instagramUrl}
-          target="_blank"
-          rel="noreferrer"
-          splash="kolko13">instagram</NavLink
-        >
-        <NavLink href="mailto:centrala@iramako.pl" splash="szary"
-          >centrala@iramako.pl</NavLink
+          <NavLink
+            href={instagramUrl}
+            target="_blank"
+            rel="noreferrer"
+            splash="arbuz">@ira.mako</NavLink
+          >
+          <NavLink href="mailto:centrala@iramako.pl" splash="szary"
+            >centrala@iramako.pl</NavLink
+          >
+        </div>
+      </div>
+      <div class="flex flex-col gap-10 sm:items-end sm:justify-between">
+        <Logo class="w-17 sm:w-21" />
+        <NavLink href="/privacy" splash="szary" class="text-muted hover:text-ink"
+          >polityka prywatności</NavLink
         >
       </div>
     </div>

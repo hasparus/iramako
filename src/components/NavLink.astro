@@ -5,15 +5,19 @@ interface Props {
   href: string;
   target?: string;
   rel?: string;
-  /** splash shown by the cursor overlay while this link is hovered */
-  splash: SplashName;
+  class?: string;
+  /** splash shown by the cursor overlay while this link is hovered; omit for no splash */
+  splash?: SplashName;
 }
 
-const { href, target, rel, splash } = Astro.props;
+const { href, target, rel, splash, class: className } = Astro.props;
 ---
 
 <a
-  class="lg:data-on-dark-splash:text-white max-lg:hover:underline"
+  class:list={[
+    "lg:data-on-dark-splash:text-white hover:underline hover:decoration-ink/25 hover:underline-offset-[3px]",
+    className,
+  ]}
   href={href}
   target={target}
   rel={rel}

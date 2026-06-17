@@ -2,61 +2,14 @@
 import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Button from "../components/Button.astro";
-import Eyebrow from "../components/Eyebrow.astro";
-import ContactIcon from "../components/icons/Contact.astro";
-import InstagramIcon from "../components/icons/Instagram.astro";
 import FormulaCard from "../components/FormulaCard.astro";
 import Section from "../components/Section.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import Navbar from "../components/Navbar.astro";
-import heroImage from "../assets/iramako-hero-3-sloiki-baked.png";
-import kremRetinol from "../assets/products/krem-retinol.webp";
-import kremB3 from "../assets/products/krem-b3.webp";
-import glinka from "../assets/products/glinka.webp";
-import hydrolat from "../assets/products/hydrolat.webp";
+import heroImage from "../assets/4 słoiki_miękki cień.png";
+import { products, productsByCategory } from "../data/products";
 
 const instagramUrl = "https://www.instagram.com/ira.mako/";
-
-const products = [
-  {
-    name: "Krem Róża + Malina z retinolem roślinnym 2%",
-    size: "30 i 60 ml",
-    description:
-      "odżywiający krem z roślinnym retinolem, różą damasceńską i olejem z nasion malin",
-    accent: "#a80070",
-    image: kremRetinol,
-    alt: "Słoik kremu z retinolem roślinnym z fuksjową plamą na etykiecie",
-    previewClass: "max-h-60 translate-y-[-58%]",
-  },
-  {
-    name: "Krem Róża + Malina nawilżający z wit. B3",
-    size: "30 i 60 ml",
-    description:
-      "nawilżający krem z witaminą B3 i mocznikiem do codziennego komfortu skóry",
-    accent: "#1b2a96",
-    image: kremB3,
-    alt: "Słoik kremu nawilżającego z kobaltową plamą na etykiecie",
-    previewClass: "max-h-60 translate-y-[-58%]",
-  },
-  {
-    name: "Glinka biała kaolinowa",
-    size: "40 g",
-    description: "mineralna pielęgnacja do mycia twarzy i robienia maseczek",
-    accent: "#5f6f8c",
-    image: glinka,
-    alt: "Słoik glinki białej kaolinowej z logo iramako",
-    previewClass: "max-h-60 translate-y-[-58%]",
-  },
-  {
-    name: "Hydrolat różany",
-    size: "100 ml",
-    description: "naturalna mgiełka tonizująca z płatków róży damasceńskiej",
-    accent: "#b5235c",
-    image: hydrolat,
-    alt: "Słoik iramako w ciepłym świetle",
-    previewClass: "max-h-100 translate-y-[-63%]",
-  },
-];
 
 const productListSchema = {
   "@context": "https://schema.org",
@@ -67,7 +20,7 @@ const productListSchema = {
     item: {
       "@type": "Product",
       name: product.name,
-      description: product.description,
+      description: product.intro.split(". ")[0] + ".",
       image: new URL(product.image.src, Astro.site).toString(),
       brand: { "@type": "Brand", name: "iramako" },
     },
@@ -85,30 +38,27 @@ const productListSchema = {
     <Navbar instagramUrl={instagramUrl} />
 
     <Section
-      containerClass="grid min-h-auto grid-cols-1 items-center gap-11 py-14 sm:py-[clamp(72px,8vw,130px)] lg:min-h-[calc(100vh-156px)] lg:grid-cols-[minmax(360px,.92fr)_minmax(0,1.08fr)] lg:gap-[clamp(42px,7vw,112px)] lg:pb-[clamp(64px,7vw,98px)]"
+      containerClass="grid min-h-auto grid-cols-1 items-center gap-1 py-8 lg:grid-cols-[minmax(360px,.92fr)_minmax(0,1.08fr)] lg:gap-[clamp(42px,7vw,112px)]"
     >
       <div class="max-w-165 md:max-lg:max-w-full">
-        <Eyebrow>naturalnie i lokalnie</Eyebrow>
-        <h1
-          class="m-0 text-[clamp(3.25rem,14vw,7.75rem)] font-bold leading-[0.98] tracking-[-0.04em] text-ink lg:text-[clamp(4rem,7.2vw,7.75rem)]"
-        >
-          Naturalne kremy dla skóry.
+        <h1 class="m-0 text-ink">
+          <span
+            class="block text-3xl font-bold leading-[1.02] tracking-[-0.04em]"
+            >proste formuły. świadoma pielęgnacja</span
+          >
+          <span
+            class="mt-2 block text-2xl font-medium leading-[1.1] tracking-[-0.03em] text-muted"
+            >tworzone we Wrocławiu</span
+          >
         </h1>
         <div class="mt-10 flex flex-wrap gap-3 sm:mt-16">
-          <Button href="mailto:centrala@iramako.pl" variant="primary">
-            <ContactIcon slot="icon" />
-            kontakt
-          </Button>
-          <Button href={instagramUrl} target="_blank" rel="noreferrer">
-            <InstagramIcon slot="icon" />
-            instagram
-          </Button>
+          <Button href="#produkty" variant="primary"> zobacz produkty </Button>
         </div>
       </div>
 
       <figure class="m-0">
         <Image
-          class="max-h-160 max-w-none object-contain object-bottom mix-blend-multiply lg:ml-[-6.005%] lg:p-[18.337%_0_2.731%_0] lg:w-[105.856%] w-full"
+          class="max-h-160 max-w-none object-contain object-bottom lg:ml-[-6.005%] w-full"
           src={heroImage}
           alt="Trzy słoiki kremów iramako na jasnym tle"
           loading="eager"
@@ -141,152 +91,160 @@ const productListSchema = {
     </Section>
 
     <Section
-      id="kosmetyki"
-      aria-label="kosmetyki"
-      containerClass="grid grid-cols-1 gap-11 py-20 sm:py-[clamp(84px,10vw,150px)] lg:grid-cols-[minmax(260px,.44fr)_minmax(0,1fr)] lg:gap-[clamp(48px,8vw,116px)]"
+      id="produkty"
+      aria-label="produkty"
+      containerClass="py-16 sm:py-[clamp(84px,10vw,118px)]"
     >
-      <div class="max-w-[520px]">
-        <Eyebrow>codzienny rytuał</Eyebrow>
-        <h2
-          class="m-0 text-[clamp(3rem,5vw,5.4rem)] font-bold leading-[0.98] tracking-[-0.04em] text-ink"
-        >
-          Kosmetyki bez nadmiaru.
-        </h2>
-      </div>
-
-      <div class="border-t border-rule" id="product-list">
-        {
-          products.map((product, index) => (
-            <article
-              class="group grid grid-cols-1 gap-2 border-b border-rule py-6 text-[clamp(1rem,1.2vw,1.22rem)] leading-snug text-ink sm:grid-cols-[minmax(220px,.42fr)_minmax(100px,.18fr)_minmax(0,1fr)] sm:gap-[clamp(24px,4vw,64px)]"
-              style={`--accent: ${product.accent}`}
-              data-product={index}
-            >
-              <h3 class="m-0 font-medium group-hover:text-(--accent)">
-                {product.name}
-              </h3>
-              <p class="m-0 text-muted">{product.size}</p>
-              <p class="m-0 text-muted">{product.description}</p>
-            </article>
-          ))
-        }
-      </div>
-
-      <div
-        id="product-preview"
-        aria-hidden="true"
-        class="pointer-events-none fixed left-0 top-0 z-40 hidden h-[300px] w-[260px] will-change-transform lg:block"
+      <h2
+        class="m-0 max-w-130 text-3xl font-bold leading-[0.98] tracking-[-0.04em] text-ink"
       >
-        {
-          products.map((product, index) => (
-            <figure
-              class="absolute inset-0 m-0 hidden data-active:block"
-              data-preview={index}
-            >
-              <Image
-                class:list={[
-                  "absolute left-1/2 top-1/2 -translate-x-1/2 object-contain",
-                  product.previewClass,
-                ]}
-                src={product.image}
-                alt={product.alt}
-                loading="lazy"
-              />
-            </figure>
-          ))
-        }
-        <div
-          data-cursor-dot
-          class="absolute left-1/2 top-1/2 hidden size-4 -translate-x-1/2 -translate-y-1/2 rounded-full border border-ink/50 bg-white/10"
-        >
-        </div>
-      </div>
+        kosmetyki bez nadmiaru
+      </h2>
 
-      <style>
-        /* the preview replaces the cursor; set from the script so the
-           cursor never disappears without the picture (no JS, coarse
-           pointer), and lg-gated like the overlay so shrinking the window
-           below lg can't hide the cursor while the overlay is display:none */
-        @media (min-width: 64rem) {
-          #product-list[data-cursor-none] [data-product] {
-            cursor: none;
-          }
-        }
-
-        /* ink dot standing in for the hidden cursor, centered on the
-           pointer (the overlay itself is centered on the pointer) */
-        #product-preview:has([data-active]) [data-cursor-dot] {
-          display: block;
-        }
-      </style>
-
-      <script>
-        import { initCursorOverlay } from "../scripts/cursor-overlay";
-
-        const list = document.getElementById("product-list");
-        const preview = document.getElementById("product-preview");
-
-        if (list && preview) {
-          const cards = Array.from(
-            preview.querySelectorAll<HTMLElement>("[data-preview]"),
-          );
-
-          const setRow = (row: HTMLElement | null) => {
-            for (const card of cards) {
-              card.toggleAttribute(
-                "data-active",
-                row !== null && card.dataset.preview === row.dataset.product,
-              );
-            }
-          };
-
-          initCursorOverlay({
-            overlay: preview,
-            root: list,
-            target: "[data-product]",
-            setTarget: setRow,
-            // button held: user is selecting text, leave the cursor alone
-            enabled: () => list.hasAttribute("data-cursor-none"),
-            onActivate: (sync) => {
-              list.setAttribute("data-cursor-none", "");
-
-              // button pressed: hide the picture and show the cursor so text
-              // can be selected; both come back on release (or cancel, so a
-              // drag released outside the window can't strand selection mode)
-              list.addEventListener("pointerdown", () => {
-                list.removeAttribute("data-cursor-none");
-                setRow(null);
-                const done = new AbortController();
-                const release = (event: PointerEvent) => {
-                  done.abort();
-                  list.setAttribute("data-cursor-none", "");
-                  // pointercancel carries no useful target/coords — clear
-                  const hit =
-                    event.type === "pointerup" &&
-                    event.target instanceof Element
-                      ? event.target
-                      : null;
-                  sync(hit, event.clientX, event.clientY);
-                };
-                window.addEventListener("pointerup", release, {
-                  signal: done.signal,
-                });
-                window.addEventListener("pointercancel", release, {
-                  signal: done.signal,
-                });
-              });
-            },
-          });
-        }
-      </script>
+      {
+        productsByCategory.map((group) => (
+          <div id={group.category} class="mt-16 scroll-mt-24 sm:mt-20">
+            <h3 class="m-0 mb-8 border-b border-rule pb-4 text-sm font-bold uppercase tracking-[0.14em] text-muted">
+              {group.label}
+            </h3>
+            <ul class="m-0 grid list-none grid-cols-2 gap-x-[clamp(4px,3vw,36px)] gap-y-8 p-0 lg:grid-cols-4">
+              {group.items.map((product) => (
+                <li
+                  style={`--accent: ${product.accent}; --shadow-x: ${product.category === "hydrolaty" ? "14px" : "5px"}`}
+                  class="group flex flex-col p-2 has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2 has-[a:focus-visible]:outline-black"
+                >
+                  <a
+                    href={`/produkty/${product.slug}`}
+                    class="block outline-none"
+                  >
+                    <figure class="relative isolate m-0 flex h-40 items-center justify-center sm:h-48">
+                      {/* cast shadow: a second copy of the photo, flattened onto
+                          the "floor" and skewed up-right as if lit from lower-left.
+                          blur on the wrapper (after the mask) softens its edge. */}
+                      <div
+                        aria-hidden="true"
+                        class="pointer-events-none absolute bottom-1 left-[calc(50%-var(--shadow-x))] -z-10 blur-xs"
+                      >
+                        <Image
+                          class="max-h-40 w-auto origin-bottom object-contain opacity-40 filter-[brightness(0)_blur(11px)] mask-intersect mask-[linear-gradient(to_top,black_0%,transparent_48%),linear-gradient(to_right,transparent_47%,black_57%)] transform-[translateX(-50%)_scaleX(0.92)_scaleY(0.26)_skewX(-22deg)] transition-[opacity,transform] duration-500 ease-out group-hover:opacity-45 sm:max-h-48"
+                          src={product.image}
+                          alt=""
+                          loading="lazy"
+                        />
+                      </div>
+                      <Image
+                        class="max-h-full w-auto object-contain"
+                        src={product.image}
+                        alt={product.alt}
+                        loading="lazy"
+                      />
+                    </figure>
+                    <h4 class="mt-4 text-[clamp(1.02rem,1.3vw,1.22rem)] font-medium text-ink transition-colors group-hover:text-(--accent)">
+                      {product.name}
+                    </h4>
+                    <p class="mt-1 text-sm text-muted">{product.fullName}</p>
+                  </a>
+                  {product.variants.length > 1 ? (
+                    <div data-size-picker class="mt-3 flex items-center gap-3">
+                      <div
+                        role="radiogroup"
+                        aria-label={`pojemność — ${product.name}`}
+                        class="inline-flex border border-rule has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-black"
+                      >
+                        {product.variants.map((variant, i) => (
+                          <button
+                            type="button"
+                            role="radio"
+                            data-size-option
+                            data-price={variant.price}
+                            aria-checked={i === 0 ? "true" : "false"}
+                            tabindex={i === 0 ? "0" : "-1"}
+                            class="cursor-pointer px-3 py-1.5 text-sm text-muted outline-none hover:text-ink aria-checked:bg-ink aria-checked:text-paper"
+                          >
+                            {variant.size}
+                          </button>
+                        ))}
+                      </div>
+                      <span data-size-price class="font-bold text-ink">
+                        {product.variants[0].price}
+                      </span>
+                    </div>
+                  ) : (
+                    <p class="mt-3 text-ink">
+                      <span class="font-bold">{product.variants[0].price}</span>
+                      <span class="text-muted">
+                        {" "}
+                        · {product.variants[0].size}
+                      </span>
+                    </p>
+                  )}
+                  <a
+                    href={`/produkty/${product.slug}`}
+                    class="mt-4 inline-flex w-fit items-center gap-1 text-sm font-medium leading-none text-(--accent) opacity-0 outline-none transition-all duration-300 hover:underline hover:underline-offset-4 group-hover:opacity-100 group-has-[a:focus-visible]:opacity-100"
+                  >
+                    dowiedz się więcej
+                    <svg
+                      class="size-4 shrink-0 translate-y-[0.5px] transition-transform duration-300 group-hover:translate-x-1"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      aria-hidden="true"
+                    >
+                      <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
     </Section>
 
-    <Section containerClass="py-20 sm:py-[clamp(84px,12vw,180px)]">
+    <script>
+      // size radiogroup: arrow-key nav + roving tabindex, reflect price
+      for (const picker of document.querySelectorAll("[data-size-picker]")) {
+        const options = [
+          ...picker.querySelectorAll<HTMLButtonElement>("[data-size-option]"),
+        ];
+        const price = picker.querySelector("[data-size-price]");
+
+        const select = (i: number, focus = false) => {
+          options.forEach((o, j) => {
+            const on = i === j;
+            o.setAttribute("aria-checked", String(on));
+            o.tabIndex = on ? 0 : -1;
+          });
+          if (price) price.textContent = options[i].dataset.price ?? "";
+          if (focus) options[i].focus();
+        };
+
+        options.forEach((option, i) => {
+          option.addEventListener("click", () => select(i));
+          option.addEventListener("keydown", (e) => {
+            const step =
+              e.key === "ArrowRight" || e.key === "ArrowDown"
+                ? 1
+                : e.key === "ArrowLeft" || e.key === "ArrowUp"
+                  ? -1
+                  : 0;
+            if (!step) return;
+            e.preventDefault();
+            select((i + step + options.length) % options.length, true);
+          });
+        });
+      }
+    </script>
+
+    <Section containerClass="py-20">
       <p
-        class="m-0 w-full max-w-[970px] text-[clamp(2.1rem,4vw,4.6rem)] font-medium leading-[1.05] tracking-[-0.04em] text-ink"
+        class="m-0 w-full font-semibold tracking-[0.001em] text-[clamp(1.75rem,3.3vw,3.7rem)] leading-[1.05] text-ink"
       >
-        Naturalne oleje, hydrolat z róży damasceńskiej i proste składy. iramako
-        robi pielęgnację spokojną, codzienną, przyjemną w użyciu.
+        <span class="block">Naturalne składniki.</span>
+        <span class="block">Starannie dobrane olejki roślinne.</span>
+        <span class="block">Proste formuły.</span>
+        <span class="block">Przyjemność codziennej pielęgnacji.</span>
       </p>
     </Section>
 
