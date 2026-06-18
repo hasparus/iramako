@@ -27,7 +27,7 @@ if (blur) {
 }
 ---
 
-<div class="relative">
+<div class:list={["relative", blur && "overflow-hidden"]}>
   {
     base64 && (
       <img

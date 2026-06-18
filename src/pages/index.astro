@@ -120,10 +120,13 @@ const productListSchema = {
                     <figure class="relative isolate m-0 flex h-40 items-center justify-center sm:h-48">
                       {/* cast shadow: a second copy of the photo, flattened onto
                           the "floor" and skewed up-right as if lit from lower-left.
-                          blur on the wrapper (after the mask) softens its edge. */}
+                          blur lives on the <img> itself (in its filter, before the
+                          transform) — NOT on this wrapper. A filter on the wrapper
+                          gets clipped to the wrapper's box by iOS Safari, which cut
+                          off the skewed/translated copy that overflows it. */}
                       <div
                         aria-hidden="true"
-                        class="pointer-events-none absolute bottom-1 left-[calc(50%-var(--shadow-x))] -z-10 blur-xs"
+                        class="pointer-events-none absolute bottom-1 left-[calc(50%-var(--shadow-x))] -z-10"
                       >
                         <Image
                           class="max-h-40 w-auto origin-bottom object-contain opacity-40 filter-[brightness(0)_blur(11px)] mask-intersect mask-[linear-gradient(to_top,black_0%,transparent_48%),linear-gradient(to_right,transparent_47%,black_57%)] transform-[translateX(-50%)_scaleX(0.92)_scaleY(0.26)_skewX(-22deg)] transition-[opacity,transform] duration-500 ease-out group-hover:opacity-45 sm:max-h-48"
