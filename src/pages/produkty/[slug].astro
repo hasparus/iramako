@@ -71,16 +71,17 @@ const schema = {
         {
           /* cast shadow: a flattened copy of the photo, same as the product list
             (px offsets scaled ~2x for the taller hero photo; ratios unchanged).
-            mask lives on the <img>, blur on the wrapper — so the blur runs after
-            the mask and softens its otherwise-hard skewed edge. */
+            blur lives on the <img> (in its filter), NOT on this wrapper: a filter
+            on the wrapper gets clipped to its box by iOS Safari, cutting off the
+            skewed/translated copy + halo that overflow it. */
         }
         <div
           aria-hidden="true"
           data-shadow-fade
-          class="shadow-fade pointer-events-none absolute bottom-3 left-[calc(50%-var(--shadow-x))] -z-10 blur-lg"
+          class="shadow-fade pointer-events-none absolute bottom-3 left-[calc(50%-var(--shadow-x))] -z-10"
         >
           <AstroImage
-            class="max-h-95 w-auto origin-bottom object-contain opacity-[0.92] brightness-0 mask-intersect mask-[linear-gradient(to_top,black_0%,transparent_62%),linear-gradient(to_right,transparent_42%,black_54%)] transform-[translateX(-50%)_scaleX(0.92)_scaleY(0.26)_skewX(-30deg)]"
+            class="max-h-95 w-auto origin-bottom object-contain opacity-[0.92] brightness-0 blur-[16px] mask-intersect mask-[linear-gradient(to_top,black_0%,transparent_62%),linear-gradient(to_right,transparent_42%,black_54%)] transform-[translateX(-50%)_scaleX(0.92)_scaleY(0.26)_skewX(-30deg)]"
             src={product.image}
             alt=""
             loading="eager"
