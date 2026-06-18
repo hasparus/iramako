@@ -1,5 +1,5 @@
 ---
-import { Image } from "astro:assets";
+import Image from "../components/Image.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Navbar from "../components/Navbar.astro";
 import SiteFooter from "../components/SiteFooter.astro";
@@ -50,6 +50,7 @@ const sections = [
       </div>
       <figure class="m-0">
         <Image
+          blur
           class="max-h-[58vh] w-full object-cover opacity-95 saturate-[.8] sm:max-h-[64vh] md:h-[78vh] md:max-h-none"
           src={heroImage}
           alt="Pracownia iramako"

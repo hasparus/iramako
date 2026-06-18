@@ -1,5 +1,6 @@
 ---
-import { Image } from "astro:assets";
+import { Image as AstroImage } from "astro:assets";
+import Image from "../../components/Image.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Navbar from "../../components/Navbar.astro";
 import SiteFooter from "../../components/SiteFooter.astro";
@@ -68,9 +69,10 @@ const schema = {
         }
         <div
           aria-hidden="true"
-          class="pointer-events-none absolute bottom-3 left-[calc(50%-var(--shadow-x))] -z-10 blur-lg"
+          data-shadow-fade
+          class="shadow-fade pointer-events-none absolute bottom-3 left-[calc(50%-var(--shadow-x))] -z-10 blur-lg"
         >
-          <Image
+          <AstroImage
             class="max-h-95 w-auto origin-bottom object-contain opacity-[0.92] brightness-0 mask-intersect mask-[linear-gradient(to_top,black_0%,transparent_62%),linear-gradient(to_right,transparent_42%,black_54%)] transform-[translateX(-50%)_scaleX(0.92)_scaleY(0.26)_skewX(-30deg)]"
             src={product.image}
             alt=""
@@ -86,6 +88,38 @@ const schema = {
           quality={95}
         />
       </figure>
+
+      {/* the cast shadow fades in just after the photo (25ms), tied to the
+        photo's load so it never shows before the object it's cast from */}
+      <style>
+        .shadow-fade {
+          opacity: 0;
+          transition: opacity 0.7s ease 25ms;
+        }
+        .shadow-fade.is-loaded {
+          opacity: 1;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .shadow-fade {
+            transition: none;
+          }
+        }
+      </style>
+      <noscript><style>.shadow-fade { opacity: 1; }</style></noscript>
+      <script>
+        const photo = document.querySelector<HTMLImageElement>(
+          "figure [data-fade]",
+        );
+        const shadow = document.querySelector("[data-shadow-fade]");
+        if (photo && shadow) {
+          const reveal = () => shadow.classList.add("is-loaded");
+          if (photo.complete) reveal();
+          else {
+            photo.addEventListener("load", reveal, { once: true });
+            photo.addEventListener("error", reveal, { once: true });
+          }
+        }
+      </script>
 
       <div class="max-w-140">
         <a
