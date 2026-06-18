@@ -1,9 +1,25 @@
 import type { ImageMetadata } from "astro";
+import { resolve } from "node:path";
+import sharp from "sharp";
 import kremRetinol from "../assets/products/krem-retinol.webp";
 import kremB3 from "../assets/products/krem-b3.webp";
 import glinka from "../assets/products/glinka.webp";
 import hydrolat from "../assets/products/hydrolat.webp";
 import placeholder from "../assets/products/placeholder.webp";
+
+const sourceFiles = new Map<ImageMetadata, string>([
+  [kremRetinol, "krem-retinol.webp"],
+  [kremB3, "krem-b3.webp"],
+  [glinka, "glinka.webp"],
+  [hydrolat, "hydrolat.webp"],
+  [placeholder, "placeholder.webp"],
+]);
+
+export async function lqip(image: ImageMetadata): Promise<string> {
+  const path = resolve("src/assets/products", sourceFiles.get(image)!);
+  const buf = await sharp(path).resize(24).webp({ quality: 40 }).toBuffer();
+  return `data:image/webp;base64,${buf.toString("base64")}`;
+}
 
 export type Category = "kremy" | "hydrolaty" | "glinki" | "olejki";
 

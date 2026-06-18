@@ -6,7 +6,7 @@ import SiteFooter from "../../components/SiteFooter.astro";
 import Section from "../../components/Section.astro";
 import Button from "../../components/Button.astro";
 import ContactIcon from "../../components/icons/Contact.astro";
-import { products, categoryLabels } from "../../data/products";
+import { products, categoryLabels, lqip } from "../../data/products";
 
 export function getStaticPaths() {
   return products.map((product) => ({
@@ -17,6 +17,7 @@ export function getStaticPaths() {
 
 const { product } = Astro.props;
 const instagramUrl = "https://www.instagram.com/ira.mako/";
+const placeholder = await lqip(product.image);
 
 const schema = {
   "@context": "https://schema.org",
@@ -77,15 +78,42 @@ const schema = {
             loading="eager"
           />
         </div>
-        <Image
-          class="max-h-95 w-auto object-contain"
-          src={product.image}
-          alt={product.alt}
-          loading="eager"
-          fetchpriority="high"
-          quality={95}
-        />
+        {/* blur-up: the real image (with width/height) reserves the box up
+          front — no shift — and the LQIP, absolutely filling that same box,
+          covers the gap until the photo paints, then fades out (script below).
+          LQIP shares the photo's aspect ratio, so object-contain fills exactly. */}
+        <div class="relative">
+          <img
+            data-lqip
+            src={placeholder}
+            alt=""
+            aria-hidden="true"
+            class="absolute inset-0 h-full w-full scale-105 object-contain blur-xl transition-opacity duration-500"
+          />
+          <Image
+            data-real
+            class="relative max-h-95 w-auto object-contain"
+            src={product.image}
+            alt={product.alt}
+            loading="eager"
+            fetchpriority="high"
+            quality={95}
+          />
+        </div>
       </figure>
+
+      <script>
+        for (const ph of document.querySelectorAll<HTMLImageElement>(
+          "[data-lqip]",
+        )) {
+          const real = ph.parentElement!.querySelector<HTMLImageElement>(
+            "[data-real]",
+          )!;
+          const hide = () => (ph.style.opacity = "0");
+          if (real.complete) hide();
+          else real.addEventListener("load", hide, { once: true });
+        }
+      </script>
 
       <div class="max-w-140">
         <a
