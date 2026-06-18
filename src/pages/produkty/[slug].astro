@@ -50,6 +50,11 @@ const schema = {
     set:html={JSON.stringify(schema)}
     slot="head"
   />
+  {/* mark JS as available before first paint so the enhanced tab layout renders
+    immediately — no no-JS→JS reflow when the deferred script upgrades the tabs */}
+  <script is:inline slot="head">
+    document.documentElement.classList.add("js");
+  </script>
   <main class="min-h-screen w-full">
     <Navbar instagramUrl={instagramUrl} />
 
@@ -287,13 +292,15 @@ const schema = {
         border-bottom: 1px solid var(--color-rule);
       }
 
-      /* JS-enhanced: real tab bar + panels stacked in one grid cell */
-      .product-tabs[data-enhanced] {
+      /* JS-enhanced: real tab bar + panels stacked in one grid cell. keyed on
+         :root.js (set before first paint) so the layout is already enhanced at
+         paint — the deferred upgrade then causes no shift */
+      :global(:root.js) .product-tabs {
         display: grid;
         grid-template-columns: minmax(0, 1fr);
         border-top: 0;
       }
-      .product-tabs[data-enhanced] .tablist {
+      :global(:root.js) .product-tabs .tablist {
         display: flex;
         flex-wrap: wrap;
         column-gap: clamp(28px, 6vw, 96px);
@@ -326,17 +333,22 @@ const schema = {
         outline-offset: 4px;
       }
       /* every panel occupies the same cell → no shift when switching */
-      .product-tabs[data-enhanced] .tab-panel {
+      :global(:root.js) .product-tabs .tab-panel {
         grid-row: 2;
         grid-column: 1;
         min-width: 0;
         border-bottom: 0;
         padding: 2.25rem 0 0;
       }
+      /* before the deferred script wires up the hidden attrs, show only the
+         first panel so the three don't overlap in the shared cell */
+      :global(:root.js) .product-tabs:not([data-enhanced]) #panel-sklad,
+      :global(:root.js) .product-tabs:not([data-enhanced]) #panel-opr {
+        display: none;
+      }
       /* fully hide inactive panels, but let hidden="until-found" fall through
          to the UA's content-visibility so Ctrl+F can still match inside them */
-      .product-tabs[data-enhanced]
-        .tab-panel[hidden]:not([hidden="until-found"]) {
+      :global(:root.js) .product-tabs .tab-panel[hidden]:not([hidden="until-found"]) {
         display: none;
       }
     </style>
