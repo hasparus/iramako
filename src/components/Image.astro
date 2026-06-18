@@ -1,12 +1,15 @@
 ---
-import { Image } from "astro:assets";
+import { Image as AstroImage } from "astro:assets";
 import type { ComponentProps } from "astro/types";
 import { readFile } from "node:fs/promises";
 import { getPlaiceholder } from "plaiceholder";
 
-// same props as astro:assets <Image>, but src must be a local asset (we need
-// its bytes for the placeholder), and everything else forwards untouched.
-type Props = Omit<ComponentProps<typeof Image>, "src"> & { src: ImageMetadata };
+// the project's image component for raster product/brand photos: astro:assets
+// <Image> plus a blur-up placeholder. Same props, but src must be a local
+// asset (we need its bytes for the placeholder); everything else forwards.
+type Props = Omit<ComponentProps<typeof AstroImage>, "src"> & {
+  src: ImageMetadata;
+};
 
 const { src, alt, class: className, ...img } = Astro.props;
 
@@ -17,7 +20,7 @@ const { src, alt, class: className, ...img } = Astro.props;
 const fsPath = (src as ImageMetadata & { fsPath?: string }).fsPath;
 if (!fsPath) {
   throw new Error(
-    `BlurImage needs a locally imported image (no fsPath on src: ${src.src}).`,
+    `<Image> needs a locally imported image (no fsPath on src: ${src.src}).`,
   );
 }
 const { base64 } = await getPlaiceholder(await readFile(fsPath));
@@ -35,7 +38,7 @@ const { base64 } = await getPlaiceholder(await readFile(fsPath));
     data-blur
     class="pointer-events-none absolute inset-0 h-full w-full object-contain blur-xl transition-opacity duration-500"
   />
-  <Image src={src} alt={alt} class:list={["relative", className]} {...img} />
+  <AstroImage src={src} alt={alt} class:list={["relative", className]} {...img} />
 </div>
 
 <script>
