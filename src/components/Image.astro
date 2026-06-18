@@ -1,16 +1,48 @@
 ---
 import { Image as AstroImage } from "astro:assets";
 import type { ComponentProps } from "astro/types";
+import { readFile } from "node:fs/promises";
+import { getPlaiceholder } from "plaiceholder";
 
-// the project's image component for raster photos: astro:assets <Image> that
-// fades in once it paints, so it doesn't pop in over the reserved box. Same
-// props as <Image>; everything forwards untouched.
-type Props = ComponentProps<typeof AstroImage>;
+// the project's image component for raster photos. astro:assets <Image> (so the
+// width/height reserve the box — no layout shift) that fades the photo in once
+// it paints. Pass `blur` to also show a Plaiceholder blur-up behind it; best for
+// rectangular photos, not transparent cutouts (the blur would show as an edge).
+type Props = ComponentProps<typeof AstroImage> & { blur?: boolean };
 
-const { class: className, ...img } = Astro.props;
+const { class: className, blur, src, ...img } = Astro.props;
+
+let base64: string | undefined;
+if (blur) {
+  // fsPath is the on-disk source (Astro stamps it onto local imports but omits
+  // it from the public type). ponytail: it's @internal — guarded so the build
+  // fails loudly if a future Astro drops it; upgrade path is a Vite `?blur` import.
+  const fsPath = (src as ImageMetadata & { fsPath?: string }).fsPath;
+  if (!fsPath) {
+    throw new Error(`<Image blur> needs a local image (no fsPath on ${src.src}).`);
+  }
+  ({ base64 } = await getPlaiceholder(await readFile(fsPath)));
+}
 ---
 
-<AstroImage data-fade class:list={["fade-img", className]} {...img} />
+<div class="relative">
+  {
+    base64 && (
+      <img
+        src={base64}
+        alt=""
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-0 h-full w-full object-cover blur-xl"
+      />
+    )
+  }
+  <AstroImage
+    data-fade
+    src={src}
+    class:list={["fade-img relative", className]}
+    {...img}
+  />
+</div>
 
 <style>
   .fade-img {
@@ -27,7 +59,7 @@ const { class: className, ...img } = Astro.props;
   }
 </style>
 
-{/* without JS the image must never stay hidden */}
+{/* without JS the photo must never stay hidden */}
 <noscript>
   <style>
     .fade-img {
