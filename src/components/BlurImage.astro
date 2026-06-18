@@ -1,0 +1,48 @@
+---
+import { Image } from "astro:assets";
+import { readFile } from "node:fs/promises";
+import { getPlaiceholder } from "plaiceholder";
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  class?: string;
+  loading?: "eager" | "lazy";
+  fetchpriority?: "high" | "low" | "auto";
+  quality?: number;
+}
+
+const { src, alt, class: className, ...img } = Astro.props;
+
+// fsPath is the on-disk source (Astro sets it but omits it from the public
+// ImageMetadata type); plaiceholder needs the raw bytes to build the blur.
+const { base64 } = await getPlaiceholder(
+  await readFile((src as ImageMetadata & { fsPath: string }).fsPath),
+);
+---
+
+{/* the real <Image> carries width/height, so it reserves the box (no shift);
+  the blur fills that same box and fades out once the photo paints. Both use
+  object-contain on the shared aspect ratio, so the blur lines up exactly —
+  important for transparent cutouts, where a rectangular background would show. */}
+<div class="relative">
+  <img
+    src={base64}
+    alt=""
+    aria-hidden="true"
+    data-blur
+    class="pointer-events-none absolute inset-0 h-full w-full scale-105 object-contain blur-xl transition-opacity duration-500"
+  />
+  <Image src={src} alt={alt} class:list={["relative", className]} {...img} />
+</div>
+
+<script>
+  for (const blur of document.querySelectorAll<HTMLImageElement>("[data-blur]")) {
+    const real = blur.parentElement!.querySelector<HTMLImageElement>(
+      "img:not([data-blur])",
+    )!;
+    const hide = () => (blur.style.opacity = "0");
+    if (real.complete) hide();
+    else real.addEventListener("load", hide, { once: true });
+  }
+</script>
