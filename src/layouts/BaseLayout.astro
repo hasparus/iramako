@@ -80,9 +80,7 @@ const organizationSchema = {
     <Analytics />
     <SplashCursor />
 
-    {/* ponytail: dev-only color tweaker, CDN import — no dep added */}
-    {import.meta.env.DEV && (
-      <script is:inline type="module" set:html={colorPickerJs} />
-    )}
+    {/* ponytail: color tweaker, opt-in via ?gui — CDN import, no dep added */}
+    <script is:inline type="module" set:html={colorPickerJs} />
   </body>
 </html>
