@@ -10,24 +10,6 @@ const {
   imageAlt = "Trzy słoiki kosmetyków iramako w ciepłym świetle",
 } = Astro.props;
 
-const colorPickerJs = `
-  import GUI from "https://cdn.jsdelivr.net/npm/lil-gui@0.20/+esm";
-  const params = { cream: "#fef7f0" };
-  const setCream = (v) =>
-    document.documentElement.style.setProperty("--color-cream", v);
-  const gui = new GUI({ title: "theme" });
-  const ctrl = gui.addColor(params, "cream").onChange(setCream);
-  const preset = (hex) => {
-    const c = gui.add({ f: () => ctrl.setValue(hex) }, "f").name(hex);
-    const sw = document.createElement("span");
-    sw.style.cssText =
-      "display:inline-block;width:14px;height:14px;margin-right:6px;vertical-align:-2px;border-radius:3px;border:1px solid rgba(0,0,0,.2);background:" + hex;
-    c.$name.prepend(sw);
-  };
-  ["#f0f0e2", "#f8f5ee", "#fef7f0"].forEach(preset);
-  setCream(params.cream);
-`;
-
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
 const imageUrl = new URL(image, Astro.site);
 
@@ -79,10 +61,5 @@ const organizationSchema = {
 
     <Analytics />
     <SplashCursor />
-
-    {/* ponytail: dev-only color tweaker, CDN import — no dep added */}
-    {import.meta.env.DEV && (
-      <script is:inline type="module" set:html={colorPickerJs} />
-    )}
   </body>
 </html>
