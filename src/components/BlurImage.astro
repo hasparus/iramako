@@ -1,16 +1,12 @@
 ---
 import { Image } from "astro:assets";
+import type { ComponentProps } from "astro/types";
 import { readFile } from "node:fs/promises";
 import { getPlaiceholder } from "plaiceholder";
 
-interface Props {
-  src: ImageMetadata;
-  alt: string;
-  class?: string;
-  loading?: "eager" | "lazy";
-  fetchpriority?: "high" | "low" | "auto";
-  quality?: number;
-}
+// same props as astro:assets <Image>, but src must be a local asset (we need
+// its bytes for the placeholder), and everything else forwards untouched.
+type Props = Omit<ComponentProps<typeof Image>, "src"> & { src: ImageMetadata };
 
 const { src, alt, class: className, ...img } = Astro.props;
 
@@ -22,16 +18,16 @@ const { base64 } = await getPlaiceholder(
 ---
 
 {/* the real <Image> carries width/height, so it reserves the box (no shift);
-  the blur fills that same box and fades out once the photo paints. Both use
-  object-contain on the shared aspect ratio, so the blur lines up exactly —
-  important for transparent cutouts, where a rectangular background would show. */}
+  the blur is absolutely positioned to fill that same box and fades out once the
+  photo paints. It's an <img> (not a background) so transparent cutouts stay
+  transparent instead of showing a blurred rectangle. */}
 <div class="relative">
   <img
     src={base64}
     alt=""
     aria-hidden="true"
     data-blur
-    class="pointer-events-none absolute inset-0 h-full w-full scale-105 object-contain blur-xl transition-opacity duration-500"
+    class="pointer-events-none absolute inset-0 h-full w-full object-contain blur-xl transition-opacity duration-500"
   />
   <Image src={src} alt={alt} class:list={["relative", className]} {...img} />
 </div>
@@ -42,7 +38,12 @@ const { base64 } = await getPlaiceholder(
       "img:not([data-blur])",
     )!;
     const hide = () => (blur.style.opacity = "0");
+    // hide once the photo is painted — or failed, so a broken image never
+    // leaves the blur stuck on screen.
     if (real.complete) hide();
-    else real.addEventListener("load", hide, { once: true });
+    else {
+      real.addEventListener("load", hide, { once: true });
+      real.addEventListener("error", hide, { once: true });
+    }
   }
 </script>
