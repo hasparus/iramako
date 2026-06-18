@@ -1,58 +1,49 @@
 ---
 import { Image as AstroImage } from "astro:assets";
 import type { ComponentProps } from "astro/types";
-import { readFile } from "node:fs/promises";
-import { getPlaiceholder } from "plaiceholder";
 
-// the project's image component for raster product/brand photos: astro:assets
-// <Image> plus a blur-up placeholder. Same props, but src must be a local
-// asset (we need its bytes for the placeholder); everything else forwards.
-type Props = Omit<ComponentProps<typeof AstroImage>, "src"> & {
-  src: ImageMetadata;
-};
+// the project's image component for raster photos: astro:assets <Image> that
+// fades in once it paints, so it doesn't pop in over the reserved box. Same
+// props as <Image>; everything forwards untouched.
+type Props = ComponentProps<typeof AstroImage>;
 
-const { src, alt, class: className, ...img } = Astro.props;
-
-// plaiceholder needs the source bytes; fsPath is the on-disk path Astro stamps
-// onto local imports. ponytail: fsPath is @internal in Astro and could vanish
-// on a major upgrade — guarded so the build fails loudly, not with a cryptic
-// ENOENT. If it ever breaks, move blur generation to a Vite `?blur` import.
-const fsPath = (src as ImageMetadata & { fsPath?: string }).fsPath;
-if (!fsPath) {
-  throw new Error(
-    `<Image> needs a locally imported image (no fsPath on src: ${src.src}).`,
-  );
-}
-const { base64 } = await getPlaiceholder(await readFile(fsPath));
+const { class: className, ...img } = Astro.props;
 ---
 
-{/* the real <Image> carries width/height, so it reserves the box (no shift);
-  the blur is absolutely positioned to fill that same box and fades out once the
-  photo paints. It's an <img> (not a background) so transparent cutouts stay
-  transparent instead of showing a blurred rectangle. */}
-<div class="relative">
-  <img
-    src={base64}
-    alt=""
-    aria-hidden="true"
-    data-blur
-    class="pointer-events-none absolute inset-0 h-full w-full object-contain blur-xl transition-opacity duration-500"
-  />
-  <AstroImage src={src} alt={alt} class:list={["relative", className]} {...img} />
-</div>
+<AstroImage data-fade class:list={["fade-img", className]} {...img} />
+
+<style>
+  .fade-img {
+    opacity: 0;
+    transition: opacity 0.7s ease;
+  }
+  .fade-img.is-loaded {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fade-img {
+      transition: none;
+    }
+  }
+</style>
+
+{/* without JS the image must never stay hidden */}
+<noscript>
+  <style>
+    .fade-img {
+      opacity: 1;
+    }
+  </style>
+</noscript>
 
 <script>
-  for (const blur of document.querySelectorAll<HTMLImageElement>("[data-blur]")) {
-    const real = blur.parentElement!.querySelector<HTMLImageElement>(
-      "img:not([data-blur])",
-    )!;
-    const hide = () => (blur.style.opacity = "0");
-    // hide once the photo is painted — or failed, so a broken image never
-    // leaves the blur stuck on screen.
-    if (real.complete) hide();
+  for (const el of document.querySelectorAll<HTMLImageElement>("[data-fade]")) {
+    const show = () => el.classList.add("is-loaded");
+    // fade once painted — or on error, so a broken image never stays hidden
+    if (el.complete) show();
     else {
-      real.addEventListener("load", hide, { once: true });
-      real.addEventListener("error", hide, { once: true });
+      el.addEventListener("load", show, { once: true });
+      el.addEventListener("error", show, { once: true });
     }
   }
 </script>
