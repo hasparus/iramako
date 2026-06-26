@@ -138,8 +138,14 @@ const schema = {
       <div class="max-w-140">
         <a
           href={`/#${product.category}`}
-          class="text-sm uppercase tracking-[0.12em] text-muted hover:text-ink"
-          >← {categoryLabels[product.category]}</a
+          class="text-sm uppercase tracking-[0.12em] text-muted hover:text-ink group/link flex gap-2"
+          ><span
+            class="block -translate-y-px group-hover/link:-translate-x-0.5 transition-transform duration-150"
+            >←</span
+          ><span
+            class="group-hover/link:underline group-hover/link:decoration-muted/20"
+            >{categoryLabels[product.category]}</span
+          ></a
         >
         <h1
           class="m-0 mt-4 text-[clamp(1.9rem,3.2vw,2.7rem)] font-bold leading-[1.05] tracking-[-0.04em] text-ink"
