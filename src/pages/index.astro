@@ -8,6 +8,7 @@ import SiteFooter from "../components/SiteFooter.astro";
 import Navbar from "../components/Navbar.astro";
 import heroImage from "../assets/4 słoiki_miękki cień.png";
 import { products, productsByCategory } from "../data/products";
+import placeholder from "../assets/products/placeholder.webp";
 
 const instagramUrl = "https://www.instagram.com/ira.mako/";
 
@@ -110,7 +111,7 @@ const productListSchema = {
             <ul class="m-0 grid list-none grid-cols-2 gap-x-[clamp(4px,3vw,36px)] gap-y-8 p-0 lg:grid-cols-4">
               {group.items.map((product) => (
                 <li
-                  style={`--accent: ${product.accent}; --shadow-x: ${product.category === "hydrolaty" ? "14px" : "5px"}`}
+                  style={`--accent: ${product.accent}; --shadow-x: ${product.category === "hydrolaty" ? "14px" : "0px"}`}
                   class="group flex flex-col p-2 has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2 has-[a:focus-visible]:outline-black"
                 >
                   <a
@@ -120,18 +121,21 @@ const productListSchema = {
                     <figure class="relative isolate m-0 flex h-40 items-center justify-center sm:h-48">
                       {/* cast shadow: a second copy of the photo, flattened onto
                           the "floor" and skewed up-right as if lit from lower-left.
-                          blur on the wrapper (after the mask) softens its edge. */}
-                      <div
-                        aria-hidden="true"
-                        class="pointer-events-none absolute bottom-1 left-[calc(50%-var(--shadow-x))] -z-10 blur-xs"
-                      >
-                        <Image
-                          class="max-h-40 w-auto origin-bottom object-contain opacity-55 filter-[brightness(0)_blur(12px)] mask-intersect mask-[linear-gradient(to_top,black_0%,transparent_48%),linear-gradient(to_right,transparent_47%,black_57%)] transform-[translateX(-50%)_scaleX(0.94)_scaleY(0.29)_skewX(-22deg)] transition-[opacity,transform] duration-500 ease-out group-hover:opacity-60 sm:max-h-48"
-                          src={product.image}
-                          alt=""
-                          loading="lazy"
-                        />
-                      </div>
+                          blur on the wrapper (after the mask) softens its edge.
+                          skipped for the placeholder — no real photo to cast. */}
+                      {product.image !== placeholder && (
+                        <div
+                          aria-hidden="true"
+                          class="pointer-events-none absolute bottom-1 left-[calc(50%-var(--shadow-x))] -z-10 blur-xs"
+                        >
+                          <Image
+                            class="max-h-40 w-auto origin-bottom object-contain filter-[brightness(0)_blur(12px)] mask-intersect mask-[linear-gradient(to_top,black_0%,transparent_48%),linear-gradient(to_right,transparent_47%,black_57%)] transform-[translateX(-50%)_scaleX(0.94)_scaleY(0.29)_skewX(-22deg)] transition-[opacity,transform] duration-500 ease-out group-hover:opacity-60 sm:max-h-48"
+                            src={product.image}
+                            alt=""
+                            loading="lazy"
+                          />
+                        </div>
+                      )}
                       <Image
                         class="max-h-full w-auto object-contain"
                         src={product.image}
@@ -237,7 +241,7 @@ const productListSchema = {
       }
     </script>
 
-    <Section containerClass="py-20">
+    <Section containerClass="py-20" border="none">
       <p
         class="m-0 w-full font-semibold tracking-[0.001em] text-[clamp(1.75rem,3.3vw,3.7rem)] leading-[1.05] text-ink"
       >

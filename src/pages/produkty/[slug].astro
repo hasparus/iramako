@@ -8,6 +8,7 @@ import Section from "../../components/Section.astro";
 import Button from "../../components/Button.astro";
 import ContactIcon from "../../components/icons/Contact.astro";
 import { products, categoryLabels } from "../../data/products";
+import placeholder from "../../assets/products/placeholder.webp";
 
 export function getStaticPaths() {
   return products.map((product) => ({
@@ -74,18 +75,20 @@ const schema = {
             mask lives on the <img>, blur on the wrapper — so the blur runs after
             the mask and softens its otherwise-hard skewed edge. */
         }
-        <div
-          aria-hidden="true"
-          data-shadow-fade
-          class="shadow-fade pointer-events-none absolute bottom-3 left-[calc(50%-var(--shadow-x))] -z-10 blur-lg"
-        >
-          <AstroImage
-            class="max-h-95 w-auto origin-bottom object-contain opacity-[0.92] brightness-0 mask-intersect mask-[linear-gradient(to_top,black_0%,transparent_62%),linear-gradient(to_right,transparent_42%,black_54%)] transform-[translateX(-50%)_scaleX(0.92)_scaleY(0.26)_skewX(-30deg)]"
-            src={product.image}
-            alt=""
-            loading="eager"
-          />
-        </div>
+        {product.image !== placeholder && (
+          <div
+            aria-hidden="true"
+            data-shadow-fade
+            class="shadow-fade pointer-events-none absolute bottom-3 left-[calc(50%-var(--shadow-x))] -z-10 blur-lg"
+          >
+            <AstroImage
+              class="max-h-95 w-auto origin-bottom object-contain opacity-[0.92] brightness-0 mask-intersect mask-[linear-gradient(to_top,black_0%,transparent_62%),linear-gradient(to_right,transparent_42%,black_54%)] transform-[translateX(-50%)_scaleX(0.92)_scaleY(0.26)_skewX(-30deg)]"
+              src={product.image}
+              alt=""
+              loading="eager"
+            />
+          </div>
+        )}
         <Image
           class="max-h-95 object-contain"
           src={product.image}
