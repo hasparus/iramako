@@ -421,6 +421,70 @@ export const products: Product[] = [
     warnings:
       "Unikać kontaktu z oczami. W przypadku podrażnień zaprzestać używania.",
   },
+  {
+    // TODO: prawdziwe zdjęcie — patrz TODO.md
+    slug: "olejek-do-twarzy-rozmaryn-werbena",
+    category: "olejki",
+    line: "Olejek",
+    name: "olejek do twarzy rozmaryn + werbena",
+    fullName: "Lekki olejek do twarzy",
+    variants: [{ size: "30 ml", price: "50 zł" }],
+    accent: "#6b8c5e",
+    image: placeholder,
+    alt: "Placeholder — zdjęcie lekkiego olejku do twarzy iramako wkrótce",
+    intro:
+      "Lekki roślinny olejek do codziennej pielęgnacji twarzy. Połączenie oleju migdałowego, jojoba i witaminy E wspiera naturalną równowagę skóry, pozostawiając ją miękką, gładką i pełną blasku. Świeży aromat werbeny i rozmarynu sprawia, że pielęgnacja staje się przyjemnym rytuałem.",
+    forWhom: "Dla skóry normalnej, wrażliwej i suchej.",
+    scent:
+      "Świeży, cytrusowo-ziołowy aromat z energetyzującymi nutami werbeny i rozmarynu. Naturalny, wyrazisty i harmonijny — dla osób ceniących roślinne kompozycje zapachowe.",
+    usage: [
+      "Oczyść skórę twarzy, szyi i dekoltu.",
+      "Nanieś 2-3 krople olejku na lekko wilgotną skórę twarzy, szyi i dekoltu.",
+      "Delikatnie wmasuj do wchłonięcia.",
+      "Dla dodatkowego nawilżenia wymieszaj z kremem lub serum.",
+    ],
+    ingredients: [
+      {
+        name: "Olej migdałowy",
+        description:
+          "Łagodny olej o delikatnym zapachu. Zawiera kwasy tłuszczowe, witaminy A i E. Ma właściwości łagodzące i kojące, szczególnie polecany dla skóry wrażliwej i atopowej.",
+      },
+      {
+        name: "Olej kokosowy frakcjonowany",
+        description:
+          "Lekki olej o jedwabistej konsystencji. Szybko się wchłania, pozostawiając skórę miękką, gładką i przyjemną w dotyku.",
+      },
+      {
+        name: "Olej jojoba GOLD nierafinowany",
+        description:
+          "Złocisty olej roślinny ceniony za wyjątkowe podobieństwo do naturalnej warstwy ochronnej skóry. Pomaga zachować jej miękkość, elastyczność i naturalny komfort.",
+      },
+      {
+        name: "Witamina E (tokoferol)",
+        description:
+          "Nazywana witaminą młodości. Naturalnie wspiera pielęgnację skóry i chroni cenne oleje roślinne zawarte w formule.",
+      },
+      {
+        name: "Werbena egzotyczna (May Chang)",
+        description:
+          "Naturalny olejek o świeżym, poprawiającym nastrój zapachu. Pozyskiwany w destylacji parowej z owoców.",
+      },
+      {
+        name: "Rozmaryn",
+        description:
+          "Naturalny olejek o wyrazistym, ziołowym aromacie. Nadaje olejkowi świeży, pobudzający charakter.",
+      },
+    ],
+    inci: "Prunus Amygdalus Dulcis Oil, Caprylic/Capric Triglyceride, Simmondsia Chinensis Seed Oil, Tocopherol, Helianthus Annuus Seed Oil, Rosmarinus Officinalis Leaf Oil*, Litsea Cubeba Fruit Oil*. *Citral, Limonene, Pinene, Camphor, Linalool, Beta-Caryophyllene, Alpha-Terpinene, Terpineol, Geraniol.",
+    research: [
+      "Czystość mikrobiologiczna — potwierdzona laboratoryjnie.",
+      "Badania dermatologiczne dla skóry wrażliwej — nie stwierdzono podrażnień ani reakcji alergicznych.",
+    ],
+    packaging:
+      "Szklana butelka 30 ml z pipetą. Przechowywać w temperaturze pokojowej.",
+    warnings:
+      "Unikać kontaktu z oczami. W przypadku podrażnień zaprzestać używania.",
+  },
 ];
 
 export const productsByCategory = (
