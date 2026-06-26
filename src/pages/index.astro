@@ -22,7 +22,10 @@ const productListSchema = {
       "@type": "Product",
       name: product.name,
       description: product.intro.split(". ")[0] + ".",
-      image: new URL(product.image.src, Astro.site).toString(),
+      // ponytail: skip placeholder — no real photo to put in structured data
+      ...(product.image.src !== placeholder.src && {
+        image: new URL(product.image.src, Astro.site).toString(),
+      }),
       brand: { "@type": "Brand", name: "iramako" },
     },
   })),
@@ -128,7 +131,7 @@ const productListSchema = {
                           the "floor" and skewed up-right as if lit from lower-left.
                           blur on the wrapper (after the mask) softens its edge.
                           skipped for the placeholder — no real photo to cast. */}
-                      {product.image !== placeholder && (
+                      {product.image.src !== placeholder.src && (
                         <div
                           aria-hidden="true"
                           class="pointer-events-none absolute bottom-1 left-[calc(50%-var(--shadow-x))] -z-10 blur-xs"

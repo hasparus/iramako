@@ -25,7 +25,10 @@ const schema = {
   "@type": "Product",
   name: `${product.name} — ${product.fullName}`,
   description: product.intro,
-  image: new URL(product.image.src, Astro.site).toString(),
+  // ponytail: skip placeholder — no real photo to put in structured data
+  ...(product.image.src !== placeholder.src && {
+    image: new URL(product.image.src, Astro.site).toString(),
+  }),
   brand: { "@type": "Brand", name: "iramako" },
   category: categoryLabels[product.category],
   offers: product.variants
@@ -75,7 +78,7 @@ const schema = {
             mask lives on the <img>, blur on the wrapper — so the blur runs after
             the mask and softens its otherwise-hard skewed edge. */
         }
-        {product.image !== placeholder && (
+        {product.image.src !== placeholder.src && (
           <div
             aria-hidden="true"
             data-shadow-fade
