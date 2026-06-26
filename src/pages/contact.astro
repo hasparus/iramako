@@ -6,20 +6,12 @@ import Section from "../components/Section.astro";
 import NavLink from "../components/NavLink.astro";
 
 const instagramUrl = "https://www.instagram.com/ira.mako/";
-
-const details = [
-  {
-    label: "Sklep firmowy",
-    lines: ["pl. Uniwersytecki 7", "50–137 Wrocław"],
-  },
-  {
-    label: "Dane firmy",
-    lines: ["iramako Irena Makowska", "NIP 9121835398", "REGON 541674780"],
-  },
-];
 ---
 
-<BaseLayout title="Kontakt | iramako" description="Skontaktuj się z iramako — sklep firmowy we Wrocławiu, e-mail i Instagram.">
+<BaseLayout
+  title="Kontakt | iramako"
+  description="Skontaktuj się z iramako — sklep firmowy we Wrocławiu, e-mail i Instagram."
+>
   <main class="min-h-screen w-full">
     <Navbar instagramUrl={instagramUrl} />
 
@@ -29,7 +21,9 @@ const details = [
       >
         Napisz do nas
       </h1>
-      <div class="mt-10 flex flex-col gap-4 text-[clamp(1.2rem,1.8vw,1.7rem)] font-medium text-ink">
+      <div
+        class="mt-10 flex flex-col gap-4 text-[clamp(1.2rem,1.8vw,1.7rem)] font-medium text-ink"
+      >
         <NavLink href="mailto:centrala@iramako.pl" splash="szary"
           >centrala@iramako.pl</NavLink
         >
@@ -46,20 +40,22 @@ const details = [
       border="none"
       containerClass="grid grid-cols-1 gap-x-[clamp(32px,6vw,120px)] gap-y-12 py-16 sm:py-[clamp(56px,7vw,110px)] sm:grid-cols-2"
     >
-      {
-        details.map((block) => (
-          <div>
-            <h2 class="m-0 mb-4 text-sm font-bold uppercase tracking-[0.12em] text-muted">
-              {block.label}
-            </h2>
-            <p class="m-0 text-[clamp(1.1rem,1.4vw,1.4rem)] leading-relaxed text-ink">
-              {block.lines.map((line) => (
-                <span class="block">{line}</span>
-              ))}
-            </p>
-          </div>
-        ))
-      }
+      <div>
+        <h2
+          class="m-0 mb-4 text-sm font-bold uppercase tracking-[0.12em] text-muted"
+        >
+          Dane firmy
+        </h2>
+        <p
+          class="m-0 text-[clamp(1.1rem,1.4vw,1.4rem)] leading-relaxed text-ink"
+        >
+          {
+            ["iramako Irena Makowska", "NIP 9121835398", "REGON 541674780"].map(
+              (line) => <span class="block">{line}</span>,
+            )
+          }
+        </p>
+      </div>
     </Section>
 
     <SiteFooter instagramUrl={instagramUrl} />
