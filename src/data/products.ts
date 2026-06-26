@@ -285,7 +285,7 @@ export const products: Product[] = [
     category: "hydrolaty",
     line: "Tonizacja",
     name: "hydrolat z arbuza",
-    fullName: "Hydrolat z arbuza",
+    fullName: "Hydrolat z miąższu owocu arbuza",
     variants: [{ size: "100 ml", price: "40 zł" }],
     accent: "#e45050",
     image: hydrolatArbuz,
@@ -364,8 +364,7 @@ export const products: Product[] = [
     alt: "Placeholder — zdjęcie lekkiego olejku do twarzy iramako wkrótce",
     intro:
       "Lekki roślinny olejek do codziennej pielęgnacji twarzy. Połączenie oleju migdałowego, jojoba i witaminy E pozostawia skórę miękką, gładką i pełną naturalnego blasku. Świeży aromat lawendy i werbeny sprawia, że pielęgnacja staje się przyjemnym rytuałem.",
-    forWhom:
-      "Dla skóry normalnej, wrażliwej, suchej, wymagającej odżywienia.",
+    forWhom: "Dla skóry normalnej, wrażliwej, suchej, wymagającej odżywienia.",
     scent:
       "Ziołowo-cytrusowy aromat z nutami lawendy i werbeny. Naturalny i harmonijny.",
     usage: [
