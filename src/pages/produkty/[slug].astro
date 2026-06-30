@@ -46,8 +46,10 @@ const schema = {
 <BaseLayout
   title={`${product.name} | iramako`}
   description={product.intro}
-  image={product.image.src}
-  imageAlt={product.alt}
+  {...(product.image.src !== placeholder.src && {
+    image: product.image.src,
+    imageAlt: product.alt,
+  })}
 >
   <script
     type="application/ld+json"
