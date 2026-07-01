@@ -4,62 +4,79 @@ import Navbar from "../components/Navbar.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import Section from "../components/Section.astro";
 import NavLink from "../components/NavLink.astro";
+import Instagram from "../components/icons/Instagram.astro";
+import ContactIcon from "../components/icons/Contact.astro";
 
 const instagramUrl = "https://www.instagram.com/ira.mako/";
-
-const details = [
-  {
-    label: "Sklep firmowy",
-    lines: ["pl. Uniwersytecki 7", "50–137 Wrocław"],
-  },
-  {
-    label: "Dane firmy",
-    lines: ["iramako Irena Makowska", "NIP 9121835398", "REGON 541674780"],
-  },
-];
 ---
 
-<BaseLayout title="Kontakt | iramako" description="Skontaktuj się z iramako — sklep firmowy we Wrocławiu, e-mail i Instagram.">
+<BaseLayout
+  title="Kontakt | iramako"
+  description="Skontaktuj się z iramako — sklep firmowy we Wrocławiu, e-mail i Instagram."
+>
   <main class="min-h-screen w-full">
     <Navbar instagramUrl={instagramUrl} />
 
-    <Section containerClass="py-14 sm:py-[clamp(56px,8vw,110px)]">
-      <h1
-        class="m-0 text-[clamp(3rem,9vw,6rem)] font-bold leading-[0.98] tracking-[-0.04em] text-ink"
-      >
-        Napisz do nas
-      </h1>
-      <div class="mt-10 flex flex-col gap-4 text-[clamp(1.2rem,1.8vw,1.7rem)] font-medium text-ink">
-        <NavLink href="mailto:centrala@iramako.pl" splash="szary"
-          >centrala@iramako.pl</NavLink
-        >
-        <NavLink
-          href={instagramUrl}
-          target="_blank"
-          rel="noreferrer"
-          splash="arbuz">@ira.mako</NavLink
-        >
-      </div>
-    </Section>
-
     <Section
       border="none"
-      containerClass="grid grid-cols-1 gap-x-[clamp(32px,6vw,120px)] gap-y-12 py-16 sm:py-[clamp(56px,7vw,110px)] sm:grid-cols-2"
+      containerClass="grid grid-cols-1 items-start gap-x-[clamp(40px,7vw,120px)] gap-y-14 py-14 sm:py-[clamp(56px,8vw,110px)] lg:grid-cols-[1.15fr_0.85fr]"
     >
-      {
-        details.map((block) => (
-          <div>
-            <h2 class="m-0 mb-4 text-sm font-bold uppercase tracking-[0.12em] text-muted">
-              {block.label}
-            </h2>
-            <p class="m-0 text-[clamp(1.1rem,1.4vw,1.4rem)] leading-relaxed text-ink">
-              {block.lines.map((line) => (
-                <span class="block">{line}</span>
-              ))}
-            </p>
+      <div>
+        <h1 class="block text-3xl font-bold leading-[1.02] tracking-[-0.04em]">
+          Napisz do nas
+        </h1>
+
+        <!-- relative z-40 lifts these links above the z-30 splash overlay so
+             the splotch tints behind the text instead of multiplying over it -->
+        <div class="relative z-40 mt-12 flex flex-col">
+          <div class="flex items-center gap-4 py-5 text-xl text-ink">
+            <ContactIcon />
+            <NavLink href="mailto:centrala@iramako.pl" splash="szary"
+              >centrala@iramako.pl</NavLink
+            >
           </div>
-        ))
-      }
+
+          <div class="h-px bg-ink/10 w-[70%]"></div>
+
+          <div class="flex items-center gap-4 py-5 text-xl text-ink">
+            <Instagram />
+            <NavLink
+              href={instagramUrl}
+              target="_blank"
+              rel="noreferrer"
+              splash="arbuz">@ira.mako</NavLink
+            >
+          </div>
+        </div>
+      </div>
+
+      <aside class="border border-rule/50 bg-paper/40 p-[clamp(24px,3vw,40px)]">
+        <h2
+          class="m-0 text-xs font-bold uppercase tracking-[0.16em] text-muted"
+        >
+          Dane firmy
+        </h2>
+
+        <p
+          class="m-0 mt-8 text-[clamp(1.25rem,2vw,1.6rem)] font-bold leading-snug text-ink"
+        >
+          iramako Irena Makowska
+        </p>
+        <div class="mt-7 h-px bg-ink/10"></div>
+
+        <dl
+          class="mt-6 flex flex-col gap-4 text-[clamp(1rem,1.3vw,1.2rem)] text-ink"
+        >
+          <div class="flex gap-3">
+            <dt class="text-muted">NIP</dt>
+            <dd class="m-0">9121835398</dd>
+          </div>
+          <div class="flex gap-3">
+            <dt class="text-muted">REGON</dt>
+            <dd class="m-0">541674780</dd>
+          </div>
+        </dl>
+      </aside>
     </Section>
 
     <SiteFooter instagramUrl={instagramUrl} />

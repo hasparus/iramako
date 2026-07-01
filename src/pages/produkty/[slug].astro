@@ -8,6 +8,7 @@ import Section from "../../components/Section.astro";
 import Button from "../../components/Button.astro";
 import ContactIcon from "../../components/icons/Contact.astro";
 import { products, categoryLabels } from "../../data/products";
+import placeholder from "../../assets/products/placeholder.webp";
 
 export function getStaticPaths() {
   return products.map((product) => ({
@@ -24,7 +25,10 @@ const schema = {
   "@type": "Product",
   name: `${product.name} — ${product.fullName}`,
   description: product.intro,
-  image: new URL(product.image.src, Astro.site).toString(),
+  // ponytail: skip placeholder — no real photo to put in structured data
+  ...(product.image.src !== placeholder.src && {
+    image: new URL(product.image.src, Astro.site).toString(),
+  }),
   brand: { "@type": "Brand", name: "iramako" },
   category: categoryLabels[product.category],
   offers: product.variants
@@ -42,8 +46,10 @@ const schema = {
 <BaseLayout
   title={`${product.name} | iramako`}
   description={product.intro}
-  image={product.image.src}
-  imageAlt={product.alt}
+  {...(product.image.src !== placeholder.src && {
+    image: product.image.src,
+    imageAlt: product.alt,
+  })}
 >
   <script
     type="application/ld+json"
@@ -74,18 +80,20 @@ const schema = {
             mask lives on the <img>, blur on the wrapper — so the blur runs after
             the mask and softens its otherwise-hard skewed edge. */
         }
-        <div
-          aria-hidden="true"
-          data-shadow-fade
-          class="shadow-fade pointer-events-none absolute bottom-3 left-[calc(50%-var(--shadow-x))] -z-10 blur-lg"
-        >
-          <AstroImage
-            class="max-h-95 w-auto origin-bottom object-contain opacity-[0.92] brightness-0 mask-intersect mask-[linear-gradient(to_top,black_0%,transparent_62%),linear-gradient(to_right,transparent_42%,black_54%)] transform-[translateX(-50%)_scaleX(0.92)_scaleY(0.26)_skewX(-30deg)]"
-            src={product.image}
-            alt=""
-            loading="eager"
-          />
-        </div>
+        {product.image.src !== placeholder.src && (
+          <div
+            aria-hidden="true"
+            data-shadow-fade
+            class="shadow-fade pointer-events-none absolute bottom-3 left-[calc(50%-var(--shadow-x))] -z-10 blur-lg"
+          >
+            <AstroImage
+              class="max-h-95 w-auto origin-bottom object-contain opacity-[0.92] brightness-0 mask-intersect mask-[linear-gradient(to_top,black_0%,transparent_62%),linear-gradient(to_right,transparent_42%,black_54%)] transform-[translateX(-50%)_scaleX(0.92)_scaleY(0.26)_skewX(-30deg)]"
+              src={product.image}
+              alt=""
+              loading="eager"
+            />
+          </div>
+        )}
         <Image
           class="max-h-95 object-contain"
           src={product.image}
@@ -138,8 +146,14 @@ const schema = {
       <div class="max-w-140">
         <a
           href={`/#${product.category}`}
-          class="text-sm uppercase tracking-[0.12em] text-muted hover:text-ink"
-          >← {categoryLabels[product.category]}</a
+          class="text-sm uppercase tracking-[0.12em] text-muted hover:text-ink group/link flex gap-2"
+          ><span
+            class="block -translate-y-px group-hover/link:-translate-x-0.5 transition-transform duration-150"
+            >←</span
+          ><span
+            class="group-hover/link:underline group-hover/link:decoration-muted/20"
+            >{categoryLabels[product.category]}</span
+          ></a
         >
         <h1
           class="m-0 mt-4 text-[clamp(1.9rem,3.2vw,2.7rem)] font-bold leading-[1.05] tracking-[-0.04em] text-ink"
