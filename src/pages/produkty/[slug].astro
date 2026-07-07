@@ -19,13 +19,14 @@ export function getStaticPaths() {
 
 const { product } = Astro.props;
 const instagramUrl = "https://www.instagram.com/ira.mako/";
+const hasPhoto = product.image.src !== placeholder.src;
 
 const schema = {
   "@context": "https://schema.org",
   "@type": "Product",
   name: `${product.name} — ${product.fullName}`,
   description: product.intro,
-  ...(product.image.src !== placeholder.src && {
+  ...(hasPhoto && {
     image: new URL(product.image.src, Astro.site).toString(),
   }),
   brand: { "@type": "Brand", name: "iramako" },
@@ -45,7 +46,7 @@ const schema = {
 <BaseLayout
   title={`${product.name} | iramako`}
   description={product.intro}
-  {...product.image.src !== placeholder.src && {
+  {...hasPhoto && {
     image: product.image.src,
     imageAlt: product.alt,
   }}
@@ -81,7 +82,7 @@ const schema = {
             skewed/translated copy + halo that overflow it. */
         }
         {
-          product.image.src !== placeholder.src && (
+          hasPhoto && (
             <div
               aria-hidden="true"
               data-shadow-fade
