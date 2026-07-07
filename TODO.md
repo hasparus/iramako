@@ -1,7 +1,7 @@
 # TODO
 
 ## Zdjęcia produktów (placeholdery do podmiany)
-- **Olejek do twarzy — werbena + rozmaryn** (`olejki`) — używa `src/assets/products/placeholder.webp`. Brakuje też **ceny**, **rozmiaru** i **opakowania** (zgadnięte: 30 ml / „wkrótce” / butelka z pipetą). Dane w `src/data/products.ts` przy `slug: olejek-do-twarzy-werbena-rozmaryn`.
+- **Olejek do twarzy — lawenda + werbena** (`olejki`) — używa `src/assets/products/placeholder.webp`. Dane w `src/data/products.ts` przy `slug: olejek-do-twarzy-lawenda-werbena`.
 - **Hydrolaty arbuz + neroli** (`hydrolaty`) — tymczasowo używają generycznego `hydrolat.webp`. Podmienić na właściwe foto, gdy będą. Dane przy `slug: hydrolat-arbuzowy` i `hydrolat-neroli`.
 
 ## Sekcja „Kosmetyki bez nadmiaru" na stronie głównej (mail #7)

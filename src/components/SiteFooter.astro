@@ -22,7 +22,7 @@ const { instagramUrl } = Astro.props;
       <div class="flex flex-col gap-8">
         <p class="font-medium leading-relaxed text-muted sm:text-lg">
           <span class="block [text-box:trim-start_cap_alphabetic]"
-            >sklep firmowy</span
+            >sklep stacjonarny</span
           >
           <span class="block">pl. Uniwersytecki 7</span>
           <span class="block">50–137 Wrocław</span>
@@ -43,8 +43,10 @@ const { instagramUrl } = Astro.props;
       </div>
       <div class="flex flex-col gap-10 sm:items-end sm:justify-between">
         <Logo class="w-17 sm:w-21" />
-        <NavLink href="/privacy" splash="szary" class="text-muted hover:text-ink"
-          >polityka prywatności</NavLink
+        <NavLink
+          href="/privacy"
+          splash="szary"
+          class="text-muted hover:text-ink">polityka prywatności</NavLink
         >
       </div>
     </div>

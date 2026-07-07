@@ -3,6 +3,8 @@ import kremRetinol from "../assets/products/krem-retinol.webp";
 import kremB3 from "../assets/products/krem-b3.webp";
 import glinka from "../assets/products/glinka.webp";
 import hydrolat from "../assets/products/hydrolat.webp";
+import hydrolatArbuz from "../assets/products/hydrolat-arbuz.webp";
+import hydrolatNeroli from "../assets/products/hydrolat-neroli.webp";
 import placeholder from "../assets/products/placeholder.webp";
 
 export type Category = "kremy" | "hydrolaty" | "glinki" | "olejki";
@@ -53,7 +55,7 @@ export const products: Product[] = [
     slug: "krem-odzywczy-roza-malina",
     category: "kremy",
     line: "Odżywianie",
-    name: "Krem odżywczy — róża + malina",
+    name: "krem odżywczy róża + malina",
     fullName: "Krem do twarzy z retinolem roślinnym 2%",
     variants: [
       { size: "30 ml", price: "90 zł" },
@@ -126,7 +128,7 @@ export const products: Product[] = [
     slug: "krem-nawilzajacy-roza-malina",
     category: "kremy",
     line: "Nawilżanie",
-    name: "Krem nawilżający — róża + malina",
+    name: "krem nawilżający róża + malina",
     fullName: "Nawilżający krem do twarzy z witaminą B3",
     variants: [
       { size: "30 ml", price: "90 zł" },
@@ -206,7 +208,7 @@ export const products: Product[] = [
     slug: "hydrolat-rozany",
     category: "hydrolaty",
     line: "Tonizacja",
-    name: "Hydrolat różany",
+    name: "hydrolat różany",
     fullName: "Hydrolat z płatków róży damasceńskiej",
     variants: [{ size: "100 ml", price: "40 zł" }],
     accent: "#b5235c",
@@ -244,11 +246,11 @@ export const products: Product[] = [
     slug: "hydrolat-neroli",
     category: "hydrolaty",
     line: "Tonizacja",
-    name: "Hydrolat neroli",
-    fullName: "Hydrolat z kwiatu pomarańczy gorzkiej (neroli)",
+    name: "hydrolat neroli",
+    fullName: "Hydrolat z kwiatów gorzkiej pomarańczy",
     variants: [{ size: "100 ml", price: "40 zł" }],
-    accent: "#f8aa97",
-    image: hydrolat,
+    accent: "#D97A66",
+    image: hydrolatNeroli,
     alt: "Szklana butelka hydrolatu neroli iramako",
     intro:
       "Naturalny hydrolat — idealny element codziennej pielęgnacji jako tonik po oczyszczaniu lub mgiełka odświeżająca w ciągu dnia. Pomaga przywrócić skórze naturalne pH po oczyszczaniu i przygotowuje ją do kolejnych etapów pielęgnacji. Pozostawia skórę odświeżoną, miękką i pełną komfortu.",
@@ -282,11 +284,11 @@ export const products: Product[] = [
     slug: "hydrolat-arbuzowy",
     category: "hydrolaty",
     line: "Tonizacja",
-    name: "Hydrolat z arbuza",
-    fullName: "Hydrolat z arbuza",
+    name: "hydrolat z arbuza",
+    fullName: "Hydrolat z miąższu owocu arbuza",
     variants: [{ size: "100 ml", price: "40 zł" }],
     accent: "#e45050",
-    image: hydrolat,
+    image: hydrolatArbuz,
     alt: "Szklana butelka hydrolatu z arbuza iramako",
     intro:
       "Naturalny hydrolat bez konserwantów — idealny element codziennej pielęgnacji jako tonik po oczyszczaniu lub mgiełka odświeżająca w ciągu dnia. Sprawdza się jako mgiełka, która nawilża i chłodzi skórę, zwłaszcza w gorące letnie dni. Pomaga przywrócić skórze naturalne pH po demakijażu i przygotowuje ją do kolejnych etapów pielęgnacji.",
@@ -320,7 +322,7 @@ export const products: Product[] = [
     slug: "glinka-kaolinowa",
     category: "glinki",
     line: "Oczyszczanie",
-    name: "Kaolin — biała glinka",
+    name: "kaolin biała glinka",
     fullName: "Mineralna glinka kaolinowa",
     variants: [{ size: "40 g", price: "40 zł" }],
     accent: "#5f6f8c",
@@ -350,57 +352,135 @@ export const products: Product[] = [
       "Unikać kontaktu z oczami. W przypadku podrażnień zaprzestać używania.",
   },
   {
-    // TODO: prawdziwe zdjęcie, cena, rozmiar, opakowanie — patrz TODO.md
-    slug: "olejek-do-twarzy-werbena-rozmaryn",
+    // TODO: prawdziwe zdjęcie — patrz TODO.md
+    slug: "olejek-do-twarzy-lawenda-werbena",
     category: "olejki",
     line: "Olejek",
-    name: "Olejek do twarzy — werbena + rozmaryn",
-    fullName: "Lekki olejek pielęgnacyjny na olejach roślinnych",
-    variants: [{ size: "30 ml", price: "wkrótce" }],
-    accent: "#f8aa97",
+    name: "olejek do twarzy lawenda + werbena",
+    fullName: "Lekki olejek do twarzy",
+    variants: [{ size: "30 ml", price: "50 zł" }],
+    accent: "#7d639b",
     image: placeholder,
-    alt: "Placeholder — zdjęcie olejku do twarzy iramako wkrótce",
+    alt: "Placeholder — zdjęcie lekkiego olejku do twarzy iramako wkrótce",
     intro:
-      "Lekki olejek pielęgnacyjny oparty na olejach roślinnych, który odżywia, wygładza i wspiera naturalną barierę lipidową skóry. Połączenie oleju jojoba, migdałowego i witaminy E pomaga zachować miękkość, a naturalne olejki eteryczne May Chang i rozmarynu nadają świeży, aromaterapeutyczny charakter pielęgnacji.",
-    forWhom: "Do skóry normalnej, suchej i mieszanej.",
+      "Lekki roślinny olejek do codziennej pielęgnacji twarzy. Połączenie oleju migdałowego, jojoba i witaminy E pozostawia skórę miękką, gładką i pełną naturalnego blasku. Świeży aromat lawendy i werbeny sprawia, że pielęgnacja staje się przyjemnym rytuałem.",
+    forWhom: "Dla skóry normalnej, wrażliwej, suchej, wymagającej odżywienia.",
     scent:
-      "Świeży, cytrusowo-ziołowy — werbena egzotyczna (May Chang) i rozmaryn.",
+      "Ziołowo-cytrusowy aromat z nutami lawendy i werbeny. Naturalny i harmonijny.",
     usage: [
-      "Niewielką ilość olejku nanieś na oczyszczoną, lekko wilgotną skórę twarzy, szyi i dekoltu.",
+      "Oczyść skórę twarzy, szyi i dekoltu.",
+      "Nanieś 2-3 krople olejku na lekko wilgotną skórę twarzy, szyi i dekoltu.",
       "Delikatnie wmasuj do wchłonięcia.",
-      "Stosuj rano i/lub wieczorem — samodzielnie lub jako ostatni etap pielęgnacji.",
+      "Dla dodatkowego nawilżenia wymieszaj z kremem lub serum.",
     ],
     ingredients: [
       {
-        name: "Olej kokosowy frakcjonowany",
+        name: "Olej migdałowy",
         description:
-          "Lekki, nieobciążający emolient. Poprawia poślizg i aplikację, ogranicza utratę wody (TEWL).",
+          "Łagodny olej o delikatnym zapachu. Zawiera kwasy tłuszczowe, witaminy A i E. Ma właściwości łagodzące i kojące, szczególnie polecany dla skóry wrażliwej i atopowej.",
       },
       {
-        name: "Olej jojoba",
+        name: "Olej kokosowy frakcjonowany",
         description:
-          "Biozgodny ze skórą (zbliżony do sebum). Wspiera równowagę lipidową, zmiękcza i wygładza.",
+          "Lekki olej o jedwabistej konsystencji. Szybko się wchłania, pozostawiając skórę miękką, gładką i przyjemną w dotyku.",
       },
+      {
+        name: "Olej jojoba GOLD nierafinowany",
+        description:
+          "Złocisty olej roślinny ceniony za wyjątkowe podobieństwo do naturalnej warstwy ochronnej skóry. Pomaga zachować jej miękkość, elastyczność i naturalny komfort.",
+      },
+      {
+        name: "Witamina E (tokoferol)",
+        description:
+          "Nazywana witaminą młodości. Naturalnie wspiera pielęgnację skóry i chroni cenne oleje roślinne zawarte w formule.",
+      },
+      {
+        name: "Lawenda francuska",
+        description:
+          "Naturalny olejek eteryczny pozyskiwany z kwiatów lawendy. Wyróżnia się intensywnym aromatem z delikatnymi nutami kwiatowymi i ziołowymi.",
+      },
+      {
+        name: "Werbena egzotyczna (May Chang)",
+        description:
+          "Naturalny olejek o świeżym, poprawiającym nastrój zapachu. Pozyskiwany w destylacji parowej z owoców.",
+      },
+      {
+        name: "Rozmaryn",
+        description:
+          "Naturalny olejek o wyrazistym, ziołowym aromacie. Nadaje olejkowi świeży charakter.",
+      },
+    ],
+    inci: "Prunus Amygdalus Dulcis Oil, Caprylic/Capric Triglyceride, Simmondsia Chinensis Seed Oil, Tocopherol, Helianthus Annuus Seed Oil, Lavandula Angustifolia Flower Oil*, Rosmarinus Officinalis Leaf Oil*, Litsea Cubeba Fruit Oil*. *Citral, Limonene, Pinene, Camphor, Linalool, Beta-Caryophyllene, Alpha-Terpinene, Terpineol, Geraniol.",
+    research: [
+      "Czystość mikrobiologiczna — potwierdzona laboratoryjnie.",
+      "Badania dermatologiczne dla skóry wrażliwej — nie stwierdzono podrażnień ani reakcji alergicznych.",
+    ],
+    packaging:
+      "Szklana butelka 30 ml z pipetą. Przechowywać w temperaturze pokojowej.",
+    warnings:
+      "Unikać kontaktu z oczami. W przypadku podrażnień zaprzestać używania.",
+  },
+  {
+    // TODO: prawdziwe zdjęcie — patrz TODO.md
+    slug: "olejek-do-twarzy-rozmaryn-werbena",
+    category: "olejki",
+    line: "Olejek",
+    name: "olejek do twarzy rozmaryn + werbena",
+    fullName: "Lekki olejek do twarzy",
+    variants: [{ size: "30 ml", price: "50 zł" }],
+    accent: "#6b8c5e",
+    image: placeholder,
+    alt: "Placeholder — zdjęcie lekkiego olejku do twarzy iramako wkrótce",
+    intro:
+      "Lekki roślinny olejek do codziennej pielęgnacji twarzy. Połączenie oleju migdałowego, jojoba i witaminy E wspiera naturalną równowagę skóry, pozostawiając ją miękką, gładką i pełną blasku. Świeży aromat werbeny i rozmarynu sprawia, że pielęgnacja staje się przyjemnym rytuałem.",
+    forWhom: "Dla skóry normalnej, wrażliwej i suchej.",
+    scent:
+      "Świeży, cytrusowo-ziołowy aromat z energetyzującymi nutami werbeny i rozmarynu. Naturalny, wyrazisty i harmonijny — dla osób ceniących roślinne kompozycje zapachowe.",
+    usage: [
+      "Oczyść skórę twarzy, szyi i dekoltu.",
+      "Nanieś 2-3 krople olejku na lekko wilgotną skórę twarzy, szyi i dekoltu.",
+      "Delikatnie wmasuj do wchłonięcia.",
+      "Dla dodatkowego nawilżenia wymieszaj z kremem lub serum.",
+    ],
+    ingredients: [
       {
         name: "Olej migdałowy",
         description:
-          "Odżywczy, łagodzący emolient. Poprawia elastyczność skóry.",
+          "Łagodny olej o delikatnym zapachu. Zawiera kwasy tłuszczowe, witaminy A i E. Ma właściwości łagodzące i kojące, szczególnie polecany dla skóry wrażliwej i atopowej.",
       },
       {
-        name: "Witamina E (Tocopherol)",
+        name: "Olej kokosowy frakcjonowany",
         description:
-          "Antyoksydant chroniący lipidy przed utlenianiem, stabilizuje formułę.",
+          "Lekki olej o jedwabistej konsystencji. Szybko się wchłania, pozostawiając skórę miękką, gładką i przyjemną w dotyku.",
       },
       {
-        name: "Olejki eteryczne (May Chang, rozmaryn)",
+        name: "Olej jojoba GOLD nierafinowany",
         description:
-          "Świeży, cytrusowy aromat o aromaterapeutycznym charakterze; rozmaryn działa tonizująco.",
+          "Złocisty olej roślinny ceniony za wyjątkowe podobieństwo do naturalnej warstwy ochronnej skóry. Pomaga zachować jej miękkość, elastyczność i naturalny komfort.",
+      },
+      {
+        name: "Witamina E (tokoferol)",
+        description:
+          "Nazywana witaminą młodości. Naturalnie wspiera pielęgnację skóry i chroni cenne oleje roślinne zawarte w formule.",
+      },
+      {
+        name: "Werbena egzotyczna (May Chang)",
+        description:
+          "Naturalny olejek o świeżym, poprawiającym nastrój zapachu. Pozyskiwany w destylacji parowej z owoców.",
+      },
+      {
+        name: "Rozmaryn",
+        description:
+          "Naturalny olejek o wyrazistym, ziołowym aromacie. Nadaje olejkowi świeży, pobudzający charakter.",
       },
     ],
-    inci: "Caprylic/Capric Triglyceride, Simmondsia Chinensis Seed Oil, Prunus Amygdalus Dulcis Oil, Tocopherol, Litsea Cubeba Fruit Oil*, Rosmarinus Officinalis Leaf Oil*. *naturalne składniki zapachowe.",
-    research: [],
+    inci: "Prunus Amygdalus Dulcis Oil, Caprylic/Capric Triglyceride, Simmondsia Chinensis Seed Oil, Tocopherol, Helianthus Annuus Seed Oil, Rosmarinus Officinalis Leaf Oil*, Litsea Cubeba Fruit Oil*. *Citral, Limonene, Pinene, Camphor, Linalool, Beta-Caryophyllene, Alpha-Terpinene, Terpineol, Geraniol.",
+    research: [
+      "Czystość mikrobiologiczna — potwierdzona laboratoryjnie.",
+      "Badania dermatologiczne dla skóry wrażliwej — nie stwierdzono podrażnień ani reakcji alergicznych.",
+    ],
     packaging:
-      "Szklana butelka z pipetą. Przechowywać w temperaturze pokojowej.",
+      "Szklana butelka 30 ml z pipetą. Przechowywać w temperaturze pokojowej.",
     warnings:
       "Unikać kontaktu z oczami. W przypadku podrażnień zaprzestać używania.",
   },
