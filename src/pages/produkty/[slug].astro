@@ -46,10 +46,10 @@ const schema = {
 <BaseLayout
   title={`${product.name} | iramako`}
   description={product.intro}
-  {...(product.image.src !== placeholder.src && {
+  {...product.image.src !== placeholder.src && {
     image: product.image.src,
     imageAlt: product.alt,
-  })}
+  }}
 >
   <script
     type="application/ld+json"
@@ -80,20 +80,22 @@ const schema = {
             mask lives on the <img>, blur on the wrapper — so the blur runs after
             the mask and softens its otherwise-hard skewed edge. */
         }
-        {product.image.src !== placeholder.src && (
-          <div
-            aria-hidden="true"
-            data-shadow-fade
-            class="shadow-fade pointer-events-none absolute bottom-3 left-[calc(50%-var(--shadow-x))] -z-10 blur-lg"
-          >
-            <AstroImage
-              class="max-h-95 w-auto origin-bottom object-contain opacity-[0.92] brightness-0 mask-intersect mask-[linear-gradient(to_top,black_0%,transparent_62%),linear-gradient(to_right,transparent_42%,black_54%)] transform-[translateX(-50%)_scaleX(0.92)_scaleY(0.26)_skewX(-30deg)]"
-              src={product.image}
-              alt=""
-              loading="eager"
-            />
-          </div>
-        )}
+        {
+          product.image.src !== placeholder.src && (
+            <div
+              aria-hidden="true"
+              data-shadow-fade
+              class="shadow-fade pointer-events-none absolute bottom-3 left-[calc(50%-var(--shadow-x))] -z-10 blur-lg"
+            >
+              <AstroImage
+                class="max-h-95 w-auto origin-bottom object-contain opacity-[0.92] brightness-0 mask-intersect mask-[linear-gradient(to_top,black_0%,transparent_62%),linear-gradient(to_right,transparent_42%,black_54%)] transform-[translateX(-50%)_scaleX(0.92)_scaleY(0.26)_skewX(-30deg)]"
+                src={product.image}
+                alt=""
+                loading="eager"
+              />
+            </div>
+          )
+        }
         <Image
           class="max-h-95 object-contain"
           src={product.image}
@@ -178,7 +180,7 @@ const schema = {
         <div class="mt-7">
           <Button href="mailto:centrala@iramako.pl" variant="primary">
             <ContactIcon slot="icon" />
-            zamów / zapytaj
+            zapytaj
           </Button>
         </div>
       </div>
@@ -385,8 +387,8 @@ const schema = {
         const buttons = Array.from(
           tabs.querySelectorAll<HTMLButtonElement>('[role="tab"]'),
         );
-        const panels = buttons.map(
-          (b) => document.getElementById(b.getAttribute("aria-controls")!)!,
+        const panels = buttons.map((b) =>
+          document.getElementById(b.getAttribute("aria-controls")!)!,
         );
         tabs.setAttribute("data-enhanced", "");
 
