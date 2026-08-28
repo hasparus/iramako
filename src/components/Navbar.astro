@@ -2,7 +2,7 @@
 import Container from "./Container.astro";
 import Logo from "./Logo.astro";
 import NavLink from "./NavLink.astro";
-import { productsByCategory, type Category } from "../data/products";
+import { productsByCategory } from "../data/products";
 
 interface Props {
   instagramUrl: string;
@@ -10,18 +10,11 @@ interface Props {
 
 const { instagramUrl } = Astro.props;
 
-// nav-only decoration; categories + order come from productsByCategory
-const splashByCategory: Record<Category, "arbuz" | "szary"> = {
-  kremy: "szary",
-  hydrolaty: "arbuz",
-  glinki: "szary",
-  olejki: "arbuz",
-};
-
+// categories + order come from productsByCategory. no splash here — the
+// dropdown already marks the hovered row with its own underline
 const productCategories = productsByCategory.map(({ category, label }) => ({
   href: `/#${category}`,
   label,
-  splash: splashByCategory[category],
 }));
 ---
 
@@ -94,7 +87,7 @@ const productCategories = productsByCategory.map(({ category, label }) => ({
         >
           {
             productCategories.map((cat) => (
-              <NavLink href={cat.href} splash={cat.splash} class="py-0.5">
+              <NavLink href={cat.href} class="py-0.5">
                 {cat.label}
               </NavLink>
             ))
