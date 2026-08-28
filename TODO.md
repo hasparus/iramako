@@ -5,11 +5,14 @@
 - **Hydrolaty arbuz + neroli** (`hydrolaty`) — tymczasowo używają generycznego `hydrolat.webp`. Podmienić na właściwe foto, gdy będą. Dane przy `slug: hydrolat-arbuzowy` i `hydrolat-neroli`.
 
 ## Sekcja „Kosmetyki bez nadmiaru" na stronie głównej (mail #7)
-- Czeka na zdjęcia w wersji z miękkim cieniem (Drive). Wrzucić pliki do `src/assets/` i przeprojektować sekcję: zostawić róża / malina / komfort + odnośnik do `/produkty`, mniejsze zdjęcia, bez hovera.
+- Czeka na zdjęcia w wersji z miękkim cieniem (Drive). Wrzucić pliki do `src/assets/` i przeprojektować sekcję: zostawić róża / malina / arbuz + odnośnik do `/produkty`, mniejsze zdjęcia, bez hovera.
 
 ## Warianty hydrolatów (mail #3)
 - Arbuz i neroli — dodane (generyczne foto, patrz wyżej).
 
+## Sekcja kontakt
+- Dane firmy (nazwa, NIP, REGON) zdjęte z `/contact` — zostaje sam kontakt (e-mail, telefon, Instagram). Czeka na zdjęcie od Ireny, żeby sekcja nie była tak minimalistyczna.
+
 ## Prawne
-- Pełna nazwa firmy + NIP/REGON są na `/contact`. Gdy sklep zacznie sprzedawać (checkout), dodać Regulamin.
+- Pełna nazwa firmy + NIP/REGON są na `/privacy` (sekcja „Administrator danych"). Gdy sklep zacznie sprzedawać (checkout), dodać Regulamin i wpisać je również tam.
 - `/privacy` — potwierdzić, że host to Vercel i że dostawcą poczty jest [do uzupełnienia]; w razie zmiany zaktualizować sekcję „Komu powierzamy dane".

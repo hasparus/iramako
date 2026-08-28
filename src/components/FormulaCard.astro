@@ -1,4 +1,6 @@
 ---
+import { noOrphans } from "../lib/typography";
+
 interface Props {
   number: string;
   name: string;
@@ -28,6 +30,6 @@ const { number, name, description, className } = Astro.props;
   <p
     class="m-0 max-w-65 text-[clamp(1rem,1.1vw,1.18rem)] leading-[1.45] text-muted"
   >
-    {description}
+    {noOrphans(description)}
   </p>
 </article>

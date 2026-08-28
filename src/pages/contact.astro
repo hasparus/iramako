@@ -6,77 +6,77 @@ import Section from "../components/Section.astro";
 import NavLink from "../components/NavLink.astro";
 import Instagram from "../components/icons/Instagram.astro";
 import ContactIcon from "../components/icons/Contact.astro";
+import Phone from "../components/icons/Phone.astro";
+import type { SplashName } from "../assets/splashes";
 
 const instagramUrl = "https://www.instagram.com/ira.mako/";
+
+const channels: {
+  Icon: typeof ContactIcon;
+  href: string;
+  label: string;
+  splash: SplashName;
+  target?: string;
+  rel?: string;
+}[] = [
+  {
+    Icon: ContactIcon,
+    href: "mailto:centrala@iramako.pl",
+    label: "centrala@iramako.pl",
+    splash: "szary",
+  },
+  {
+    Icon: Phone,
+    href: "tel:+48573437735",
+    label: "+48 573 437 735",
+    splash: "arbuz",
+  },
+  {
+    Icon: Instagram,
+    href: instagramUrl,
+    label: "@ira.mako",
+    splash: "szary",
+    target: "_blank",
+    rel: "noreferrer",
+  },
+];
 ---
 
 <BaseLayout
   title="Kontakt | iramako"
-  description="Skontaktuj się z iramako — sklep stacjonarny we Wrocławiu, e-mail i Instagram."
+  description="Skontaktuj się z iramako — sklep stacjonarny we Wrocławiu, e-mail, telefon i Instagram."
 >
   <main class="min-h-screen w-full">
     <Navbar instagramUrl={instagramUrl} />
 
-    <Section
-      border="none"
-      containerClass="grid grid-cols-1 items-start gap-x-[clamp(40px,7vw,120px)] gap-y-14 py-14 sm:py-[clamp(56px,8vw,110px)] lg:grid-cols-[1.15fr_0.85fr]"
-    >
-      <div>
-        <h1 class="block text-3xl font-bold leading-[1.02] tracking-[-0.04em]">
-          Napisz do nas
-        </h1>
+    <Section border="none" containerClass="py-14 sm:py-[clamp(56px,8vw,110px)]">
+      <h1 class="block text-3xl font-bold leading-[1.02] tracking-[-0.04em]">
+        Napisz do nas
+      </h1>
 
-        <!-- relative z-40 lifts these links above the z-30 splash overlay so
-             the splotch tints behind the text instead of multiplying over it -->
-        <div class="relative z-40 mt-12 flex flex-col">
-          <div class="flex items-center gap-4 py-5 text-xl text-ink">
-            <ContactIcon />
-            <NavLink href="mailto:centrala@iramako.pl" splash="szary"
-              >centrala@iramako.pl</NavLink
-            >
-          </div>
-
-          <div class="h-px bg-rule/50 w-[70%]"></div>
-
-          <div class="flex items-center gap-4 py-5 text-xl text-ink">
-            <Instagram />
-            <NavLink
-              href={instagramUrl}
-              target="_blank"
-              rel="noreferrer"
-              splash="arbuz">@ira.mako</NavLink
-            >
-          </div>
-        </div>
+      {/* relative z-40 lifts these links above the z-30 splash overlay so
+          the splotch tints behind the text instead of multiplying over it */}
+      <div class="relative z-40 mt-12 flex max-w-140 flex-col">
+        {
+          channels.map(({ Icon, href, label, splash, target, rel }, i) => (
+            <>
+              {i > 0 && <div class="h-px w-[70%] bg-rule/50" />}
+              <div class="flex items-center gap-4 py-5 text-xl text-ink">
+                <Icon />
+                <NavLink
+                  href={href}
+                  target={target}
+                  rel={rel}
+                  splash={splash}
+                  class="whitespace-nowrap"
+                >
+                  {label}
+                </NavLink>
+              </div>
+            </>
+          ))
+        }
       </div>
-
-      <aside class="border border-rule/50 p-[clamp(24px,3vw,40px)]">
-        <h2
-          class="m-0 text-xs font-bold uppercase tracking-[0.16em] text-muted"
-        >
-          Dane firmy
-        </h2>
-
-        <p
-          class="m-0 mt-8 text-[clamp(1.25rem,2vw,1.6rem)] font-bold leading-snug text-ink"
-        >
-          iramako Irena Makowska
-        </p>
-        <div class="mt-7 h-px bg-rule/50"></div>
-
-        <dl
-          class="mt-6 flex flex-col gap-4 text-[clamp(1rem,1.3vw,1.2rem)] text-ink"
-        >
-          <div class="flex gap-3">
-            <dt class="text-muted">NIP</dt>
-            <dd class="m-0">9121835398</dd>
-          </div>
-          <div class="flex gap-3">
-            <dt class="text-muted">REGON</dt>
-            <dd class="m-0">541674780</dd>
-          </div>
-        </dl>
-      </aside>
     </Section>
 
     <SiteFooter instagramUrl={instagramUrl} />

@@ -2,27 +2,13 @@
 import Container from "./Container.astro";
 import Logo from "./Logo.astro";
 import NavLink from "./NavLink.astro";
-import { productsByCategory, type Category } from "../data/products";
+import { productsByCategory } from "../data/products";
 
 interface Props {
   instagramUrl: string;
 }
 
 const { instagramUrl } = Astro.props;
-
-// nav-only decoration; categories + order come from productsByCategory
-const splashByCategory: Record<Category, "arbuz" | "szary"> = {
-  kremy: "szary",
-  hydrolaty: "arbuz",
-  glinki: "szary",
-  olejki: "arbuz",
-};
-
-const productCategories = productsByCategory.map(({ category, label }) => ({
-  href: `/#${category}`,
-  label,
-  splash: splashByCategory[category],
-}));
 ---
 
 <header class="relative z-40 border-b border-rule">
@@ -93,9 +79,11 @@ const productCategories = productsByCategory.map(({ category, label }) => ({
           class="flex flex-col max-sm:gap-2.5 max-sm:pl-3 max-sm:pt-1 sm:absolute sm:left-0 sm:top-full sm:z-50 sm:mt-2 sm:hidden sm:min-w-46.5 sm:gap-0.5 sm:bg-paper/70 sm:px-4 sm:py-2.5 sm:backdrop-blur-md sm:opacity-0 sm:shadow-[0_10px_22px_-16px_rgba(40,36,29,0.4)] sm:ring-1 sm:ring-rule/30 sm:-translate-y-1 sm:transition sm:duration-150 sm:ease-out sm:transition-discrete sm:before:absolute sm:before:inset-x-0 sm:before:-top-2 sm:before:h-2 sm:before:content-[''] sm:group-hover/prod:flex sm:group-hover/prod:translate-y-0 sm:group-hover/prod:opacity-100 sm:group-focus-within/prod:flex sm:group-focus-within/prod:translate-y-0 sm:group-focus-within/prod:opacity-100 sm:motion-reduce:transition-none sm:starting:group-hover/prod:-translate-y-1 sm:starting:group-hover/prod:opacity-0 sm:starting:group-focus-within/prod:-translate-y-1 sm:starting:group-focus-within/prod:opacity-0"
         >
           {
-            productCategories.map((cat) => (
-              <NavLink href={cat.href} splash={cat.splash} class="py-0.5">
-                {cat.label}
+            /* no splash on these — the dropdown already marks the hovered
+              row with its own underline */
+            productsByCategory.map(({ category, label }) => (
+              <NavLink href={`/#${category}`} class="py-0.5">
+                {label}
               </NavLink>
             ))
           }
