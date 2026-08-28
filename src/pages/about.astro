@@ -9,6 +9,12 @@ import { noOrphans } from "../lib/typography";
 
 const instagramUrl = "https://www.instagram.com/ira.mako/";
 
+const hero = {
+  title:
+    "Marka stworzona z potrzeby połączenia skutecznej pielęgnacji z przyjemnością używania kosmetyków.",
+  lead: "Łączymy naturalne składniki z nowoczesnym podejściem do formulacji, tworząc kosmetyki proste, skuteczne i łagodne dla skóry.",
+};
+
 const sections = [
   {
     title: "Moc roślinnych olejków",
@@ -39,20 +45,12 @@ const sections = [
         <h1
           class="m-0 max-w-275 text-3xl font-bold leading-[1.02] tracking-[-0.04em] text-ink"
         >
-          {
-            noOrphans(
-              "Marka stworzona z potrzeby połączenia skutecznej pielęgnacji z przyjemnością używania kosmetyków.",
-            )
-          }
+          {noOrphans(hero.title)}
         </h1>
         <p
           class="mt-8 max-w-190 text-[clamp(1.1rem,1.4vw,1.4rem)] leading-relaxed text-muted"
         >
-          {
-            noOrphans(
-              "Łączymy naturalne składniki z nowoczesnym podejściem do formulacji, tworząc kosmetyki proste, skuteczne i łagodne dla skóry.",
-            )
-          }
+          {noOrphans(hero.lead)}
         </p>
       </div>
       <figure class="m-0">

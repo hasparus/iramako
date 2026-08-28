@@ -4,4 +4,6 @@
  * non-breaking space.
  */
 export const noOrphans = (text: string) =>
-  text.replace(/(^|[\s(„"])([aiouwzAIOUWZ]) /g, "$1$2\u00A0");
+  // lookbehind, not a capture: the delimiter must stay unconsumed so runs of
+  // one-letter words ("a i o czymś") all get glued, not every other one
+  text.replace(/(?<=^|[\s(„"])([aiouwzAIOUWZ]) /g, "$1\u00A0");
