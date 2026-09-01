@@ -1,0 +1,147 @@
+---
+import Image from "./Image.astro";
+
+// horizontal photo carousel. the track is a plain scroll-snap container, so it
+// works with a trackpad, a touch swipe and the keyboard before any JS runs; the
+// script only adds the arrows/dots and keeps them in sync with the scroll.
+interface Props {
+  slides: { image: ImageMetadata; alt: string }[];
+  label: string;
+  class?: string;
+  imageClass?: string;
+}
+
+const { slides, label, class: className, imageClass } = Astro.props;
+---
+
+<div class:list={["flex flex-col", className]} data-carousel>
+  <div
+    data-track
+    role="group"
+    aria-roledescription="karuzela"
+    aria-label={label}
+    tabindex="0"
+    class="flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+  >
+    {
+      slides.map((slide, i) => (
+        <figure
+          class="m-0 w-full shrink-0 snap-start"
+          role="group"
+          aria-roledescription="slajd"
+          aria-label={`${i + 1} z ${slides.length}`}
+        >
+          <Image
+            blur
+            class:list={["w-full object-cover", imageClass]}
+            src={slide.image}
+            alt={slide.alt}
+            loading={i === 0 ? "eager" : "lazy"}
+            quality={85}
+          />
+        </figure>
+      ))
+    }
+  </div>
+
+  <div class="mt-4 flex items-center justify-between gap-6">
+    <div class="flex gap-2">
+      {
+        slides.map((_, i) => (
+          <button
+            type="button"
+            data-dot
+            aria-label={`zdjęcie ${i + 1}`}
+            aria-current={i === 0 ? "true" : "false"}
+            class="size-2.5 cursor-pointer border border-ink bg-transparent p-0 aria-[current=true]:bg-ink"
+          />
+        ))
+      }
+    </div>
+
+    <div class="flex gap-2">
+      <button
+        type="button"
+        data-prev
+        aria-label="poprzednie zdjęcie"
+        class="flex size-9 cursor-pointer items-center justify-center border border-rule bg-transparent p-0 text-ink hover:border-ink disabled:cursor-default disabled:opacity-30 disabled:hover:border-rule"
+      >
+        <svg
+          class="size-4 rotate-180"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14M13 6l6 6-6 6"></path>
+        </svg>
+      </button>
+      <button
+        type="button"
+        data-next
+        aria-label="następne zdjęcie"
+        class="flex size-9 cursor-pointer items-center justify-center border border-rule bg-transparent p-0 text-ink hover:border-ink disabled:cursor-default disabled:opacity-30 disabled:hover:border-rule"
+      >
+        <svg
+          class="size-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14M13 6l6 6-6 6"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>("[data-carousel]")) {
+    const track = root.querySelector<HTMLElement>("[data-track]");
+    const prev = root.querySelector<HTMLButtonElement>("[data-prev]");
+    const next = root.querySelector<HTMLButtonElement>("[data-next]");
+    const dots = [...root.querySelectorAll<HTMLButtonElement>("[data-dot]")];
+    if (!track || !prev || !next) continue;
+
+    const last = dots.length - 1;
+    const current = () => Math.round(track.scrollLeft / track.clientWidth);
+
+    const go = (i: number) => {
+      track.scrollTo({
+        left: Math.min(Math.max(i, 0), last) * track.clientWidth,
+        behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "auto"
+          : "smooth",
+      });
+    };
+
+    const sync = () => {
+      const i = current();
+      dots.forEach((dot, j) =>
+        dot.setAttribute("aria-current", String(i === j)),
+      );
+      prev.disabled = i === 0;
+      next.disabled = i === last;
+    };
+
+    prev.addEventListener("click", () => go(current() - 1));
+    next.addEventListener("click", () => go(current() + 1));
+    dots.forEach((dot, i) => dot.addEventListener("click", () => go(i)));
+
+    let queued = false;
+    track.addEventListener("scroll", () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => {
+        queued = false;
+        sync();
+      });
+    });
+    // a resize changes clientWidth, so the snapped slide has to be re-read
+    addEventListener("resize", sync);
+    sync();
+  }
+</script>

@@ -1,10 +1,13 @@
 ---
-import Image from "../components/Image.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Navbar from "../components/Navbar.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import Section from "../components/Section.astro";
-import heroImage from "../assets/iramako-work.webp";
+import Carousel from "../components/Carousel.astro";
+import butelkiWPaprociach from "../assets/o-marce/1-butelki-w-paprociach.webp";
+import laka from "../assets/o-marce/2-laka.webp";
+import sloikiNaKamieniu from "../assets/o-marce/3-sloiki-na-kamieniu.webp";
+import sloikWKapuscie from "../assets/o-marce/4-sloik-w-kapuscie.webp";
 import { noOrphans } from "../lib/typography";
 
 const instagramUrl = "https://www.instagram.com/ira.mako/";
@@ -14,6 +17,19 @@ const hero = {
     "Marka stworzona z potrzeby połączenia skutecznej pielęgnacji z przyjemnością używania kosmetyków.",
   lead: "Łączymy naturalne składniki z nowoczesnym podejściem do formulacji, tworząc kosmetyki proste, skuteczne i łagodne dla skóry.",
 };
+
+const slides = [
+  {
+    image: butelkiWPaprociach,
+    alt: "Trzy butelki iramako na kamieniu wśród paproci",
+  },
+  { image: laka, alt: "Kwitnąca łąka z makiem i chabrami" },
+  {
+    image: sloikiNaKamieniu,
+    alt: "Dwa słoiki kremów iramako na kamieniu w zieleni",
+  },
+  { image: sloikWKapuscie, alt: "Słoik kremu iramako wśród liści kapusty" },
+];
 
 const sections = [
   {
@@ -39,7 +55,7 @@ const sections = [
     <Navbar instagramUrl={instagramUrl} />
 
     <Section
-      containerClass="grid grid-cols-1 items-center gap-x-[clamp(28px,5vw,96px)] gap-y-10 py-14 sm:py-[clamp(56px,8vw,110px)] md:grid-cols-2 md:py-0 md:pr-0"
+      containerClass="grid grid-cols-1 items-center gap-x-[clamp(28px,5vw,96px)] gap-y-10 py-14 sm:py-[clamp(56px,8vw,110px)] md:grid-cols-2"
     >
       <div>
         <h1
@@ -53,17 +69,11 @@ const sections = [
           {noOrphans(hero.lead)}
         </p>
       </div>
-      <figure class="m-0">
-        <Image
-          blur
-          class="max-h-[58vh] w-full object-cover opacity-95 saturate-[.8] sm:max-h-[64vh] md:h-[78vh] md:max-h-none"
-          src={heroImage}
-          alt="Pracownia iramako"
-          loading="eager"
-          fetchpriority="high"
-          quality={90}
-        />
-      </figure>
+      <Carousel
+        slides={slides}
+        label="zdjęcia iramako"
+        imageClass="aspect-3/2 opacity-95 saturate-[.8]"
+      />
     </Section>
 
     <Section
