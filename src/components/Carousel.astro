@@ -42,7 +42,7 @@ const arrow =
             src={slide.image}
             alt={slide.alt}
             widths={[480, 768, 1024, 1280, 1600]}
-            sizes="(min-width: 768px) min(54vw, 800px), 100vw"
+            sizes="(min-width: 768px) min(46vw, 700px), 100vw"
             loading="eager"
             fetchpriority={i === 0 ? "high" : "low"}
             quality={85}
@@ -97,9 +97,9 @@ const arrow =
           data-dot
           aria-label={`zdjęcie ${i + 1}`}
           aria-current={i === 0 ? "true" : "false"}
-          class="group flex size-8 cursor-pointer items-center justify-center"
+          class="group flex h-8 w-5 cursor-pointer items-center justify-center"
         >
-          <span class="size-2.5 border border-cream/85 drop-shadow-[0_1px_2px_rgba(0,0,0,0.45)] group-aria-[current=true]:bg-cream" />
+          <span class="size-2 border border-cream/85 drop-shadow-[0_1px_2px_rgba(0,0,0,0.45)] group-aria-[current=true]:bg-cream" />
         </button>
       ))
     }
