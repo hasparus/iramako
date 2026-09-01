@@ -19,77 +19,81 @@ const arrow =
   "absolute top-1/2 z-10 flex size-10 -translate-y-1/2 cursor-pointer items-center justify-center border border-cream/70 bg-ink/40 text-cream hover:bg-ink/65";
 ---
 
-<div class:list={["relative", className]} data-carousel>
-  <div
-    data-track
-    role="group"
-    aria-roledescription="karuzela"
-    aria-label={label}
-    tabindex="0"
-    class="flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-  >
-    {
-      slides.map((slide, i) => (
-        <figure
-          class="m-0 w-full shrink-0 snap-start"
-          role="group"
-          aria-roledescription="slajd"
-          aria-label={`${i + 1} z ${slides.length}`}
-        >
-          <Image
-            blur
-            class:list={["w-full object-cover", imageClass]}
-            src={slide.image}
-            alt={slide.alt}
-            widths={[480, 768, 1024, 1280, 1600]}
-            sizes="(min-width: 768px) min(50vw, 760px), 100vw"
-            loading="eager"
-            fetchpriority={i === 0 ? "high" : "low"}
-            quality={85}
-          />
-        </figure>
-      ))
-    }
+<div class:list={["flex flex-col", className]} data-carousel>
+  {/* the arrows centre on the photo, so the track and they share this box */}
+  <div class="relative">
+    <div
+      data-track
+      role="group"
+      aria-roledescription="karuzela"
+      aria-label={label}
+      tabindex="0"
+      class="flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+    >
+      {
+        slides.map((slide, i) => (
+          <figure
+            class="m-0 w-full shrink-0 snap-start"
+            role="group"
+            aria-roledescription="slajd"
+            aria-label={`${i + 1} z ${slides.length}`}
+          >
+            <Image
+              blur
+              class:list={["w-full object-cover", imageClass]}
+              src={slide.image}
+              alt={slide.alt}
+              widths={[480, 768, 1024, 1280, 1600]}
+              sizes="(min-width: 768px) min(50vw, 760px), 100vw"
+              loading="eager"
+              fetchpriority={i === 0 ? "high" : "low"}
+              quality={85}
+            />
+          </figure>
+        ))
+      }
+    </div>
+
+    <button
+      type="button"
+      data-prev
+      data-arrow
+      aria-label="poprzednie zdjęcie"
+      class:list={[arrow, "left-3 sm:left-4"]}
+    >
+      <svg
+        class="size-4 rotate-180"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        aria-hidden="true"
+      >
+        <path d="M5 12h14M13 6l6 6-6 6"></path>
+      </svg>
+    </button>
+    <button
+      type="button"
+      data-next
+      data-arrow
+      aria-label="następne zdjęcie"
+      class:list={[arrow, "right-3 sm:right-4"]}
+    >
+      <svg
+        class="size-4"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        aria-hidden="true"
+      >
+        <path d="M5 12h14M13 6l6 6-6 6"></path>
+      </svg>
+    </button>
   </div>
 
-  <button
-    type="button"
-    data-prev
-    data-arrow
-    aria-label="poprzednie zdjęcie"
-    class:list={[arrow, "left-3 sm:left-4"]}
-  >
-    <svg
-      class="size-4 rotate-180"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="1.5"
-      aria-hidden="true"
-    >
-      <path d="M5 12h14M13 6l6 6-6 6"></path>
-    </svg>
-  </button>
-  <button
-    type="button"
-    data-next
-    data-arrow
-    aria-label="następne zdjęcie"
-    class:list={[arrow, "right-3 sm:right-4"]}
-  >
-    <svg
-      class="size-4"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="1.5"
-      aria-hidden="true"
-    >
-      <path d="M5 12h14M13 6l6 6-6 6"></path>
-    </svg>
-  </button>
-
-  <div class="absolute bottom-2 left-2 z-10 flex">
+  {/* hairline indicators, in the same register as the rules across the site */}
+  <div class="-ml-2 flex">
     {
       slides.map((_, i) => (
         <button
@@ -97,9 +101,9 @@ const arrow =
           data-dot
           aria-label={`zdjęcie ${i + 1}`}
           aria-current={i === 0 ? "true" : "false"}
-          class="group flex h-8 w-5 cursor-pointer items-center justify-center"
+          class="group flex h-9 w-9 cursor-pointer items-center justify-center"
         >
-          <span class="size-2 border border-cream/85 drop-shadow-[0_1px_2px_rgba(0,0,0,0.45)] group-aria-[current=true]:bg-cream" />
+          <span class="h-px w-5 bg-rule group-aria-[current=true]:h-0.5 group-aria-[current=true]:bg-ink" />
         </button>
       ))
     }
