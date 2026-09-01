@@ -13,10 +13,10 @@ interface Props {
 
 const { slides, label, class: className, imageClass } = Astro.props;
 
-// the controls sit on the photo, so they carry their own ground: a cream
-// hairline over a dark wash reads on the meadow and on the ferns alike
+// the controls sit on the photo with nothing behind them, so the cream hairline
+// and glyph carry a soft shadow to stay legible over the bright meadow too
 const arrow =
-  "absolute top-1/2 z-10 flex size-10 -translate-y-1/2 cursor-pointer items-center justify-center border border-cream/70 bg-ink/40 text-cream hover:bg-ink/65";
+  "absolute top-1/2 z-10 flex size-10 -translate-y-1/2 cursor-pointer items-center justify-center border border-cream/70 text-cream drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)] hover:border-cream";
 ---
 
 <div class:list={["flex flex-col", className]} data-carousel>
