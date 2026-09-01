@@ -1,9 +1,9 @@
 ---
 import Image from "./Image.astro";
 
-// horizontal photo carousel. the track is a plain scroll-snap container, so it
-// works with a trackpad, a touch swipe and the keyboard before any JS runs; the
-// script only adds the arrows/dots and keeps them in sync with the scroll.
+// the track is a plain scroll-snap container, so a trackpad, a swipe and the
+// keyboard all work before any JS runs; the script adds the arrows, the
+// indicators and the unattended advance.
 interface Props {
   slides: { image: ImageMetadata; alt: string }[];
   label: string;
@@ -12,6 +12,8 @@ interface Props {
 }
 
 const { slides, label, class: className, imageClass } = Astro.props;
+
+const arrow = "flex size-9 cursor-pointer items-center justify-center border border-rule text-ink hover:border-ink disabled:opacity-30 disabled:hover:border-rule";
 ---
 
 <div class:list={["flex flex-col", className]} data-carousel>
@@ -36,7 +38,10 @@ const { slides, label, class: className, imageClass } = Astro.props;
             class:list={["w-full object-cover", imageClass]}
             src={slide.image}
             alt={slide.alt}
-            loading={i === 0 ? "eager" : "lazy"}
+            widths={[480, 768, 1024, 1280, 1600]}
+            sizes="(min-width: 768px) min(46vw, 700px), 100vw"
+            loading="eager"
+            fetchpriority={i === 0 ? "high" : "low"}
             quality={85}
           />
         </figure>
@@ -45,7 +50,8 @@ const { slides, label, class: className, imageClass } = Astro.props;
   </div>
 
   <div class="mt-4 flex items-center justify-between gap-6">
-    <div class="flex gap-2">
+    {/* hairline indicators, in the same register as the rules across the site */}
+    <div class="-ml-2 flex">
       {
         slides.map((_, i) => (
           <button
@@ -53,19 +59,16 @@ const { slides, label, class: className, imageClass } = Astro.props;
             data-dot
             aria-label={`zdjęcie ${i + 1}`}
             aria-current={i === 0 ? "true" : "false"}
-            class="size-2.5 cursor-pointer border border-ink bg-transparent p-0 aria-[current=true]:bg-ink"
-          />
+            class="group flex h-9 w-9 cursor-pointer items-center justify-center"
+          >
+            <span class="h-px w-5 bg-rule group-aria-[current=true]:h-0.5 group-aria-[current=true]:bg-ink" />
+          </button>
         ))
       }
     </div>
 
     <div class="flex gap-2">
-      <button
-        type="button"
-        data-prev
-        aria-label="poprzednie zdjęcie"
-        class="flex size-9 cursor-pointer items-center justify-center border border-rule bg-transparent p-0 text-ink hover:border-ink disabled:cursor-default disabled:opacity-30 disabled:hover:border-rule"
-      >
+      <button type="button" data-prev aria-label="poprzednie zdjęcie" class={arrow}>
         <svg
           class="size-4 rotate-180"
           viewBox="0 0 24 24"
@@ -77,12 +80,7 @@ const { slides, label, class: className, imageClass } = Astro.props;
           <path d="M5 12h14M13 6l6 6-6 6"></path>
         </svg>
       </button>
-      <button
-        type="button"
-        data-next
-        aria-label="następne zdjęcie"
-        class="flex size-9 cursor-pointer items-center justify-center border border-rule bg-transparent p-0 text-ink hover:border-ink disabled:cursor-default disabled:opacity-30 disabled:hover:border-rule"
-      >
+      <button type="button" data-next aria-label="następne zdjęcie" class={arrow}>
         <svg
           class="size-4"
           viewBox="0 0 24 24"
@@ -99,6 +97,11 @@ const { slides, label, class: className, imageClass } = Astro.props;
 </div>
 
 <script>
+  // unattended pace: slow enough to read a photo, and it walks back down the
+  // strip at the end instead of rewinding past every slide.
+  const ADVANCE_MS = 5000;
+  const calm = matchMedia("(prefers-reduced-motion: reduce)");
+
   for (const root of document.querySelectorAll<HTMLElement>("[data-carousel]")) {
     const track = root.querySelector<HTMLElement>("[data-track]");
     const prev = root.querySelector<HTMLButtonElement>("[data-prev]");
@@ -112,9 +115,7 @@ const { slides, label, class: className, imageClass } = Astro.props;
     const go = (i: number) => {
       track.scrollTo({
         left: Math.min(Math.max(i, 0), last) * track.clientWidth,
-        behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
-          ? "auto"
-          : "smooth",
+        behavior: calm.matches ? "auto" : "smooth",
       });
     };
 
@@ -127,9 +128,57 @@ const { slides, label, class: className, imageClass } = Astro.props;
       next.disabled = i === last;
     };
 
+    // taking hold of the carousel ends the unattended advance for good; merely
+    // hovering, focusing, scrolling it out of sight or hiding the tab holds it.
+    let timer = 0;
+    let step = 1;
+    let held = false;
+    let onScreen = true;
+    let done = calm.matches;
+
+    const advance = () => {
+      const i = current();
+      if (i >= last) step = -1;
+      if (i <= 0) step = 1;
+      go(i + step);
+    };
+
+    const pace = () => {
+      clearInterval(timer);
+      if (!done && !held && onScreen && !document.hidden) {
+        timer = setInterval(advance, ADVANCE_MS);
+      }
+    };
+
+    const stop = () => {
+      done = true;
+      pace();
+    };
+    const hold = (on: boolean) => {
+      held = on;
+      pace();
+    };
+
     prev.addEventListener("click", () => go(current() - 1));
     next.addEventListener("click", () => go(current() + 1));
     dots.forEach((dot, i) => dot.addEventListener("click", () => go(i)));
+
+    root.addEventListener("pointerdown", stop);
+    // Tab only passes through the carousel — it is not a grab
+    root.addEventListener("keydown", (e) => e.key !== "Tab" && stop());
+    root.addEventListener("pointerenter", () => hold(true));
+    root.addEventListener("pointerleave", () => hold(false));
+    root.addEventListener("focusin", () => hold(true));
+    root.addEventListener("focusout", () => hold(false));
+    document.addEventListener("visibilitychange", pace);
+    calm.addEventListener("change", () => {
+      done ||= calm.matches;
+      pace();
+    });
+    new IntersectionObserver(([entry]) => {
+      onScreen = entry.isIntersecting;
+      pace();
+    }).observe(root);
 
     let queued = false;
     track.addEventListener("scroll", () => {
@@ -143,5 +192,6 @@ const { slides, label, class: className, imageClass } = Astro.props;
     // a resize changes clientWidth, so the snapped slide has to be re-read
     addEventListener("resize", sync);
     sync();
+    pace();
   }
 </script>

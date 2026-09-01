@@ -1,2 +1,2 @@
 - minimalism
-- no animations nor transitions
+- no decorative animation; motion only where it carries meaning (the /about carousel advances on its own, and holds the moment anyone touches it)
