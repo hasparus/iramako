@@ -10,12 +10,18 @@
   "devDependencies": {
     "@tailwindcss/vite": "4.3.0",
     "@types/bun": "latest",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.5",
     "tailwindcss": "4.3.0"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.3",
     "@vercel/analytics": "2.0.1",
     "astro": "6.4.4",
-    "plaiceholder": "3.0.0"
+    "dialkit": "1.4.3",
+    "motion": "13.1.1",
+    "plaiceholder": "3.0.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
   }
 }
