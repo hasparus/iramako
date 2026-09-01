@@ -13,10 +13,13 @@ interface Props {
 
 const { slides, label, class: className, imageClass } = Astro.props;
 
-const arrow = "flex size-9 cursor-pointer items-center justify-center border border-rule text-ink hover:border-ink disabled:opacity-30 disabled:hover:border-rule";
+// the controls sit on the photo, so they carry their own ground: a cream
+// hairline over a dark wash reads on the meadow and on the ferns alike
+const arrow =
+  "absolute top-1/2 z-10 flex size-10 -translate-y-1/2 cursor-pointer items-center justify-center border border-cream/70 bg-ink/40 text-cream hover:bg-ink/65";
 ---
 
-<div class:list={["flex flex-col", className]} data-carousel>
+<div class:list={["relative", className]} data-carousel>
   <div
     data-track
     role="group"
@@ -39,7 +42,7 @@ const arrow = "flex size-9 cursor-pointer items-center justify-center border bor
             src={slide.image}
             alt={slide.alt}
             widths={[480, 768, 1024, 1280, 1600]}
-            sizes="(min-width: 768px) min(46vw, 700px), 100vw"
+            sizes="(min-width: 768px) min(54vw, 800px), 100vw"
             loading="eager"
             fetchpriority={i === 0 ? "high" : "low"}
             quality={85}
@@ -49,52 +52,74 @@ const arrow = "flex size-9 cursor-pointer items-center justify-center border bor
     }
   </div>
 
-  <div class="mt-4 flex items-center justify-between gap-6">
-    {/* hairline indicators, in the same register as the rules across the site */}
-    <div class="-ml-2 flex">
-      {
-        slides.map((_, i) => (
-          <button
-            type="button"
-            data-dot
-            aria-label={`zdjęcie ${i + 1}`}
-            aria-current={i === 0 ? "true" : "false"}
-            class="group flex h-9 w-9 cursor-pointer items-center justify-center"
-          >
-            <span class="h-px w-5 bg-rule group-aria-[current=true]:h-0.5 group-aria-[current=true]:bg-ink" />
-          </button>
-        ))
-      }
-    </div>
+  <button
+    type="button"
+    data-prev
+    data-arrow
+    aria-label="poprzednie zdjęcie"
+    class:list={[arrow, "left-3 sm:left-4"]}
+  >
+    <svg
+      class="size-4 rotate-180"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      aria-hidden="true"
+    >
+      <path d="M5 12h14M13 6l6 6-6 6"></path>
+    </svg>
+  </button>
+  <button
+    type="button"
+    data-next
+    data-arrow
+    aria-label="następne zdjęcie"
+    class:list={[arrow, "right-3 sm:right-4"]}
+  >
+    <svg
+      class="size-4"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      aria-hidden="true"
+    >
+      <path d="M5 12h14M13 6l6 6-6 6"></path>
+    </svg>
+  </button>
 
-    <div class="flex gap-2">
-      <button type="button" data-prev aria-label="poprzednie zdjęcie" class={arrow}>
-        <svg
-          class="size-4 rotate-180"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.5"
-          aria-hidden="true"
+  <div class="absolute bottom-2 left-2 z-10 flex">
+    {
+      slides.map((_, i) => (
+        <button
+          type="button"
+          data-dot
+          aria-label={`zdjęcie ${i + 1}`}
+          aria-current={i === 0 ? "true" : "false"}
+          class="group flex size-8 cursor-pointer items-center justify-center"
         >
-          <path d="M5 12h14M13 6l6 6-6 6"></path>
-        </svg>
-      </button>
-      <button type="button" data-next aria-label="następne zdjęcie" class={arrow}>
-        <svg
-          class="size-4"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.5"
-          aria-hidden="true"
-        >
-          <path d="M5 12h14M13 6l6 6-6 6"></path>
-        </svg>
-      </button>
-    </div>
+          <span class="size-2.5 border border-cream/85 drop-shadow-[0_1px_2px_rgba(0,0,0,0.45)] group-aria-[current=true]:bg-cream" />
+        </button>
+      ))
+    }
   </div>
 </div>
+
+<style>
+  /* the arrows only surface under the pointer (or on keyboard focus) so the
+     photo is unobstructed at rest — no fade, per DESIGN.md */
+  [data-arrow] {
+    opacity: 0;
+  }
+  [data-carousel]:hover [data-arrow],
+  [data-arrow]:focus-visible {
+    opacity: 1;
+  }
+  [data-carousel]:hover [data-arrow]:disabled {
+    opacity: 0.25;
+  }
+</style>
 
 <script>
   // unattended pace: slow enough to read a photo, and it walks back down the
