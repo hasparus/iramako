@@ -45,7 +45,9 @@ const schema = {
 
 <BaseLayout
   title={`${product.name} | iramako`}
-  description={product.intro}
+  {/* intro to cały akapit — na kartę i do wyniku wyszukiwania idzie
+      nazwa produktu i to, dla kogo jest */}
+  description={`${product.fullName}. ${product.forWhom}`}
   {...product.image.src !== placeholder.src && {
     image: product.image.src,
     imageAlt: product.alt,
