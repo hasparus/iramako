@@ -6,7 +6,9 @@ import FormulaCard from "../components/FormulaCard.astro";
 import Section from "../components/Section.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import Navbar from "../components/Navbar.astro";
+import Photo from "../components/Image.astro";
 import heroImage from "../assets/4 słoiki_miękki cień.png";
+import sloikWPaprociach from "../assets/sloik-w-paprociach.webp";
 import { products, productsByCategory } from "../data/products";
 import placeholder from "../assets/products/placeholder.webp";
 
@@ -93,6 +95,18 @@ const productListSchema = {
         description="i napoi, i nakarmi."
       />
     </Section>
+
+    {/* pełna szerokość strony — celowo poza <Container> */}
+    <figure class="m-0">
+      <Photo
+        blur
+        class="h-[clamp(220px,38vw,560px)] w-full object-cover"
+        src={sloikWPaprociach}
+        alt="Słoik kremu iramako wśród paproci"
+        loading="lazy"
+        quality={85}
+      />
+    </figure>
 
     <Section
       id="produkty"

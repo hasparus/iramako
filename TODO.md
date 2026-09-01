@@ -11,7 +11,7 @@
 - Arbuz i neroli — dodane (generyczne foto, patrz wyżej).
 
 ## Sekcja kontakt
-- Dane firmy (nazwa, NIP, REGON) zdjęte z `/contact` — zostaje sam kontakt (e-mail, telefon, Instagram). Czeka na zdjęcie od Ireny, żeby sekcja nie była tak minimalistyczna.
+- Dane firmy (nazwa, NIP, REGON) zdjęte z `/contact` — zostaje e-mail i Instagram. Telefon tylko w stopce. Czeka na zdjęcie od Ireny, żeby sekcja nie była tak minimalistyczna.
 
 ## Prawne
 - Pełna nazwa firmy + NIP/REGON są na `/privacy` (sekcja „Administrator danych"). Gdy sklep zacznie sprzedawać (checkout), dodać Regulamin i wpisać je również tam.
