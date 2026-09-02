@@ -100,7 +100,7 @@ const productListSchema = {
     <figure class="m-0">
       <Photo
         blur
-        class="h-[clamp(220px,60vw,var(--photo-max-h,560px))] w-full object-cover"
+        class="h-[clamp(220px,60vw,590px)] w-full object-cover"
         src={sloikWPaprociach}
         alt="Słoik kremu iramako wśród paproci"
         loading="lazy"
@@ -273,10 +273,10 @@ const productListSchema = {
   </main>
 
   <script>
-    // pokrętło do wysokości zdjęcia wjeżdża tylko na żądanie (/?dial), żeby
-    // React i dialkit nie lądowały w paczce zwykłego odwiedzającego
+    // panel z pokrętłami wjeżdża tylko na żądanie (/?dial), żeby React
+    // i dialkit nie lądowały w paczce zwykłego odwiedzającego
     if (new URLSearchParams(location.search).has("dial")) {
-      import("../scripts/height-dial");
+      import("../scripts/dials");
     }
   </script>
 </BaseLayout>

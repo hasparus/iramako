@@ -17,5 +17,5 @@
 - Pełna nazwa firmy + NIP/REGON są na `/privacy` (sekcja „Administrator danych"). Gdy sklep zacznie sprzedawać (checkout), dodać Regulamin i wpisać je również tam.
 - `/privacy` — potwierdzić, że host to Vercel i że dostawcą poczty jest [do uzupełnienia]; w razie zmiany zaktualizować sekcję „Komu powierzamy dane".
 
-## Wysokość zdjęcia na głównej
-- Pokrętło pod `iramako.pl/?dial` (dialkit). Irena ustawia wysokość, mówi liczbę, my wpisujemy ją na sztywno w `src/pages/index.astro` zamiast `560px` w `clamp(220px,60vw,var(--photo-max-h,560px))`. Wartość z pokrętła siedzi tylko w jej `localStorage`.
+## Pokrętła dla Ireny (dialkit)
+- `iramako.pl/?dial` wciąga `src/scripts/dials.tsx` z panelem dialkitu. Teraz nie ma w nim żadnego pokrętła; wysokość zdjęcia na głównej jest już ustalona (590 px). Jak trzeba będzie coś kolejnego dostroić na żywo, wzór jest w komentarzu w tym pliku.
