@@ -16,3 +16,6 @@
 ## Prawne
 - Pełna nazwa firmy + NIP/REGON są na `/privacy` (sekcja „Administrator danych"). Gdy sklep zacznie sprzedawać (checkout), dodać Regulamin i wpisać je również tam.
 - `/privacy` — potwierdzić, że host to Vercel i że dostawcą poczty jest [do uzupełnienia]; w razie zmiany zaktualizować sekcję „Komu powierzamy dane".
+
+## Pokrętła dla Ireny (dialkit)
+- `iramako.pl/?dial` wciąga `src/scripts/dials.tsx` z panelem dialkitu. Teraz nie ma w nim żadnego pokrętła; wysokość zdjęcia na głównej jest już ustalona (590 px). Jak trzeba będzie coś kolejnego dostroić na żywo, wzór jest w komentarzu w tym pliku.

@@ -100,7 +100,7 @@ const productListSchema = {
     <figure class="m-0">
       <Photo
         blur
-        class="h-[clamp(220px,38vw,560px)] w-full object-cover"
+        class="h-[clamp(220px,60vw,590px)] w-full object-cover"
         src={sloikWPaprociach}
         alt="Słoik kremu iramako wśród paproci"
         loading="lazy"
@@ -271,4 +271,12 @@ const productListSchema = {
 
     <SiteFooter instagramUrl={instagramUrl} />
   </main>
+
+  <script>
+    // panel z pokrętłami wjeżdża tylko na żądanie (/?dial), żeby React
+    // i dialkit nie lądowały w paczce zwykłego odwiedzającego
+    if (new URLSearchParams(location.search).has("dial")) {
+      import("../scripts/dials");
+    }
+  </script>
 </BaseLayout>
