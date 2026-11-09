@@ -1,7 +1,7 @@
 # TODO
 
 ## Zdjęcia produktów (placeholdery do podmiany)
-- **Olejek do twarzy — lawenda + werbena** (`olejki`) — używa `src/assets/products/placeholder.webp`. Dane w `src/data/products.ts` przy `slug: olejek-do-twarzy-lawenda-werbena`. Bez zdjęcia nie ma też własnego og:image (ma domyślny strony); dostanie go sam, gdy podmieni się zdjęcie.
+- **Olejek do twarzy — lawenda + werbena** — zdjęcie to montaż: ujęcie 11 (rozmaryn) z podmienionym napisem na etykiecie i kolorem tekstu wziętym ze zdjęć prawdziwej butelki. Przy następnej sesji zrobić mu prawdziwe zdjęcie i podmienić `src/assets/products/olejek-lawenda.webp`.
 - Pozostałe produkty mają już zdjęcia z sesji produktowej (30.07.2026), wycięte z białego tła. Wszystkie 17 oryginałów leży w `zdjecia/sesja-produktowa-2026-07-30/` — kremy 60 ml mają już własne zdjęcia (przełącznik pojemności w siatce podmienia fotkę); niewykorzystane ujęcia (boki etykiet z logo / nazwą linii) przydadzą się, gdyby karta produktu miała dostać galerię.
 
 ## Sekcja „Kosmetyki bez nadmiaru" na stronie głównej (mail #7)

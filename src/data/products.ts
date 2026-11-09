@@ -8,7 +8,7 @@ import hydrolatRozany from "../assets/products/hydrolat-rozany.webp";
 import hydrolatArbuz from "../assets/products/hydrolat-arbuzowy.webp";
 import hydrolatNeroli from "../assets/products/hydrolat-neroli.webp";
 import olejekRozmaryn from "../assets/products/olejek-rozmaryn.webp";
-import placeholder from "../assets/products/placeholder.webp";
+import olejekLawenda from "../assets/products/olejek-lawenda.webp";
 
 export type Category = "kremy" | "hydrolaty" | "glinki" | "olejki";
 
@@ -376,8 +376,8 @@ export const products: Product[] = [
     fullName: "Lekki olejek do twarzy",
     variants: [{ size: "30 ml", price: "50 zł" }],
     accent: "#7d639b",
-    image: placeholder,
-    alt: "Placeholder — zdjęcie lekkiego olejku do twarzy iramako wkrótce",
+    image: olejekLawenda,
+    alt: "Butelka z pipetą — olejek do twarzy lawenda + werbena iramako",
     intro:
       "Lekki roślinny olejek do codziennej pielęgnacji twarzy. Połączenie oleju migdałowego, jojoba i witaminy E pozostawia skórę miękką, gładką i pełną naturalnego blasku. Świeży aromat lawendy i werbeny sprawia, że pielęgnacja staje się przyjemnym rytuałem.",
     forWhom: "Dla skóry normalnej, wrażliwej, suchej, wymagającej odżywienia.",

@@ -12,6 +12,7 @@ Na stronie są już wycięte (przezroczyste tło, `src/assets/products/`):
 | 08-krem-nawilzajacy-30ml-front | `krem-nawilzajacy.webp` |
 | 10-hydrolat-neroli-front | `hydrolat-neroli.webp` |
 | 11-olejek-rozmaryn-werbena | `olejek-rozmaryn.webp` |
+| 11b-olejek-lawenda-werbena-montaz | `olejek-lawenda.webp` — **montaż**, nie osobne zdjęcie: ujęcie 11 z napisem „lawenda + werbena” złożonym z liter z tej samej etykiety, tekst przebarwiony na kolor z prawdziwej butelki |
 | 13-hydrolat-arbuzowy-front | `hydrolat-arbuzowy.webp` |
 | 15-hydrolat-rozany-front | `hydrolat-rozany.webp` |
 | 17-glinka-front | `glinka.webp` |
