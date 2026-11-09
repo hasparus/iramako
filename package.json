@@ -16,8 +16,8 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.3",
+    "@hasparus/definitely-not-vercel-og": "1.0.3",
     "@vercel/analytics": "2.0.1",
-    "@vercel/og": "0.11.1",
     "astro": "6.4.4",
     "dialkit": "1.4.3",
     "motion": "13.1.1",

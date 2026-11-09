@@ -1,7 +1,8 @@
-// og:image dla kart produktów, renderowany przy buildzie przez @vercel/og
-// (satori + resvg). Satori czyta tylko PNG/JPEG/SVG i fonty OTF/TTF, więc
+// og:image dla kart produktów, renderowany przy buildzie przez
+// @hasparus/definitely-not-vercel-og (@vercel/og 1.0.3 przebudowany na
+// aktualnym satori). Satori czyta tylko PNG/JPEG/SVG i fonty OTF/TTF, więc
 // zdjęcia (webp) przechodzą przez sharp, a fonty to te same OTF co na stronie.
-import { ImageResponse } from "@vercel/og";
+import { ImageResponse } from "@hasparus/definitely-not-vercel-og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import sharp from "sharp";
@@ -235,7 +236,13 @@ function Photo({ photo }: { photo: Photo }) {
           style={{ position: "absolute", left: s.left, top: s.top }}
         />
       ))}
-      <img src={photo.src} width={photo.width} height={photo.height} />
+      {/* positioned too, so it paints after (over) the shadows like in CSS */}
+      <img
+        src={photo.src}
+        width={photo.width}
+        height={photo.height}
+        style={{ position: "relative" }}
+      />
     </div>
   );
 }
@@ -508,13 +515,15 @@ const etykieta: Design = async (product) => {
         background: CREAM,
         fontFamily: "Greycliff CF",
         color: INK,
-        padding: 36,
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
       <div
         style={{
           display: "flex",
-          flex: 1,
+          width: OG_WIDTH - 72,
+          height: CARD_H,
           background: PAPER,
           borderRadius: 18,
           boxShadow: "0 1px 3px rgba(40,36,29,0.12)",
