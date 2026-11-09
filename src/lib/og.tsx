@@ -1,4 +1,4 @@
-// og:image dla kart produktów, renderowany przy buildzie przez
+// og:image dla kart produktów („plama”), renderowany przy buildzie przez
 // @hasparus/definitely-not-vercel-og (@vercel/og 1.0.3 przebudowany na
 // aktualnym satori). Satori czyta tylko PNG/JPEG/SVG i fonty OTF/TTF, więc
 // zdjęcia (webp) przechodzą przez sharp, a fonty to te same OTF co na stronie.
@@ -6,7 +6,7 @@ import { ImageResponse } from "@hasparus/definitely-not-vercel-og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import sharp from "sharp";
-import type { Product, Category } from "../data/products";
+import type { Product } from "../data/products";
 import placeholder from "../assets/products/placeholder.webp";
 import szary from "../assets/splashes/szary.webp";
 
@@ -16,8 +16,6 @@ export const OG_HEIGHT = 630;
 const INK = "#34312d";
 const MUTED = "#463e37";
 const CREAM = "#F8F5EE";
-const PAPER = "#fbfbfa";
-const RULE = "rgba(40, 36, 29, 0.38)";
 
 // the build runs from the project root; import.meta.url would point into the
 // bundled chunk in dist/, not here
@@ -54,7 +52,7 @@ const fonts = once(async () => [
   },
 ]);
 
-// the wordmark from favicon.svg, recoloured per design
+// the wordmark from favicon.svg
 const logoSvg = once(async () =>
   (await fromRoot("public/favicon.svg")).toString(),
 );
@@ -201,22 +199,8 @@ async function splash(accent: string, size: number) {
   return dataUri(png);
 }
 
-const isPlaceholder = (product: Product) =>
+export const isPlaceholder = (product: Product) =>
   product.image.src === placeholder.src;
-
-const singular: Record<Category, string> = {
-  kremy: "krem",
-  hydrolaty: "hydrolat",
-  glinki: "glinka",
-  olejki: "olejek",
-};
-
-// "odżywianie - krem", like the vertical text on the side of the label
-const labelSide = (product: Product) => {
-  const line = product.line.toLowerCase();
-  const kind = singular[product.category];
-  return line === kind ? kind : `${line} - ${kind}`;
-};
 
 const prices = (product: Product) =>
   product.variants.map((v) => `${v.price} · ${v.size}`);
@@ -247,100 +231,8 @@ function Photo({ photo }: { photo: Photo }) {
   );
 }
 
-type Design = (product: Product) => Promise<React.ReactElement>;
-
-// 1 — katalog: like the product grid. Photo on cream, type on the right.
-const katalog: Design = async (product) => {
-  const photo = await productPhoto(
-    product,
-    photoHeight(product, 390, 500),
-    0.6,
-  );
-  return (
-    <div
-      style={{
-        display: "flex",
-        width: "100%",
-        height: "100%",
-        background: CREAM,
-        fontFamily: "Greycliff CF",
-        color: INK,
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          width: 520,
-          alignItems: "center",
-          justifyContent: "center",
-          paddingTop: 20,
-        }}
-      >
-        <Photo photo={photo} />
-      </div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          flex: 1,
-          padding: "72px 80px 64px 24px",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            fontSize: 22,
-            fontWeight: 700,
-            letterSpacing: 3.5,
-            textTransform: "uppercase",
-            color: MUTED,
-            paddingBottom: 18,
-            borderBottom: `1.5px solid ${RULE}`,
-          }}
-        >
-          {product.line}
-        </div>
-        <div
-          style={{
-            display: "flex",
-            marginTop: 40,
-            fontSize: 60,
-            fontWeight: 500,
-            lineHeight: 1.08,
-            letterSpacing: -0.5,
-          }}
-        >
-          {product.name}
-        </div>
-        <div
-          style={{ display: "flex", marginTop: 18, fontSize: 28, color: MUTED }}
-        >
-          {product.fullName}
-        </div>
-        <div
-          style={{
-            display: "flex",
-            marginTop: "auto",
-            alignItems: "flex-end",
-            justifyContent: "space-between",
-          }}
-        >
-          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            {prices(product).map((p) => (
-              <div style={{ display: "flex", fontSize: 28, fontWeight: 700 }}>
-                {p}
-              </div>
-            ))}
-          </div>
-          <img src={await logo(INK)} width={96} height={96 / LOGO_RATIO} />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// 2 — plama: the label's watercolour dot, grown huge behind the product
-const plama: Design = async (product) => {
+// the label's watercolour dot, grown huge behind the product, dyed its colour
+async function plama(product: Product) {
   const photo = await productPhoto(
     product,
     photoHeight(product, 380, 490),
@@ -410,201 +302,10 @@ const plama: Design = async (product) => {
       </div>
     </div>
   );
-};
+}
 
-// 3 — kolor: the whole card in the product's accent, cream type
-const kolor: Design = async (product) => {
-  const photo = await productPhoto(
-    product,
-    photoHeight(product, 400, 520),
-    0.7,
-  );
-  return (
-    <div
-      style={{
-        display: "flex",
-        width: "100%",
-        height: "100%",
-        background: product.accent,
-        fontFamily: "Greycliff CF",
-        color: CREAM,
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          flex: 1,
-          padding: "64px 0 60px 80px",
-        }}
-      >
-        <img src={await logo(CREAM)} width={104} height={104 / LOGO_RATIO} />
-        <div
-          style={{
-            display: "flex",
-            marginTop: "auto",
-            fontSize: 22,
-            fontWeight: 700,
-            letterSpacing: 3.5,
-            textTransform: "uppercase",
-            opacity: 0.8,
-          }}
-        >
-          {product.line}
-        </div>
-        <div
-          style={{
-            display: "flex",
-            marginTop: 16,
-            fontSize: 68,
-            fontWeight: 700,
-            lineHeight: 1.02,
-            letterSpacing: -1,
-          }}
-        >
-          {product.name}
-        </div>
-        <div
-          style={{
-            display: "flex",
-            marginTop: 18,
-            fontSize: 28,
-            opacity: 0.85,
-          }}
-        >
-          {product.fullName}
-        </div>
-        <div
-          style={{ display: "flex", marginTop: 10, fontSize: 28, fontWeight: 700 }}
-        >
-          {prices(product).join("  /  ")}
-        </div>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          width: 470,
-          alignItems: "center",
-          justifyContent: "center",
-          paddingTop: 30,
-        }}
-      >
-        <Photo photo={photo} />
-      </div>
-    </div>
-  );
-};
-
-const CARD_H = OG_HEIGHT - 72; // the paper card inside a 36px margin
-const EDGE_X = 620; // where the label-edge text runs, within the card
-
-// 4 — etykieta: built like the label itself. Big wordmark, the vertical
-// "linia - rodzaj" in the accent colour, the product beside it.
-const etykieta: Design = async (product) => {
-  const photo = await productPhoto(
-    product,
-    photoHeight(product, 380, 500),
-    0.55,
-  );
-  return (
-    <div
-      style={{
-        display: "flex",
-        width: "100%",
-        height: "100%",
-        background: CREAM,
-        fontFamily: "Greycliff CF",
-        color: INK,
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          width: OG_WIDTH - 72,
-          height: CARD_H,
-          background: PAPER,
-          borderRadius: 18,
-          boxShadow: "0 1px 3px rgba(40,36,29,0.12)",
-          position: "relative",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            flex: 1,
-            padding: "56px 0 52px 64px",
-          }}
-        >
-          <img src={await logo(INK)} width={250} height={250 / LOGO_RATIO} />
-          <div
-            style={{
-              display: "flex",
-              marginTop: "auto",
-              fontSize: 42,
-              fontWeight: 500,
-              lineHeight: 1.1,
-              paddingRight: 40,
-            }}
-          >
-            {product.name}
-          </div>
-          <div
-            style={{
-              display: "flex",
-              marginTop: 12,
-              fontSize: 24,
-              color: MUTED,
-            }}
-          >
-            {product.fullName}
-          </div>
-        </div>
-        {/* vertical label edge text, reading bottom to top like on the jar.
-            a horizontal strip as long as the card is tall, centred on the
-            column and turned about its own middle */}
-        <div
-          style={{
-            display: "flex",
-            position: "absolute",
-            left: EDGE_X - CARD_H / 2,
-            top: CARD_H / 2 - 22,
-            width: CARD_H,
-            height: 44,
-            alignItems: "center",
-            justifyContent: "center",
-            transform: "rotate(-90deg)",
-            transformOrigin: "center",
-            fontSize: 30,
-            fontWeight: 700,
-            color: product.accent,
-          }}
-        >
-          {labelSide(product)}
-        </div>
-        <div
-          style={{
-            display: "flex",
-            width: 430,
-            alignItems: "center",
-            justifyContent: "center",
-            paddingTop: 24,
-          }}
-        >
-          <Photo photo={photo} />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export const designs = { katalog, plama, kolor, etykieta } as const;
-export type DesignName = keyof typeof designs;
-
-export async function renderOg(product: Product, design: DesignName) {
-  return new ImageResponse(await designs[design](product), {
+export async function renderOg(product: Product) {
+  return new ImageResponse(await plama(product), {
     width: OG_WIDTH,
     height: OG_HEIGHT,
     fonts: await fonts(),

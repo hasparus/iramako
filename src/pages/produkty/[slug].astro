@@ -49,8 +49,9 @@ const schema = {
       nazwa produktu i to, dla kogo jest */}
   description={`${product.fullName}. ${product.forWhom}`}
   {...product.image.src !== placeholder.src && {
-    image: product.image.src,
-    imageAlt: product.alt,
+    // src/pages/og/produkty/[slug].png.ts
+    image: `/og/produkty/${product.slug}.png`,
+    imageAlt: `${product.name}: ${product.alt}`,
   }}
 >
   <script
