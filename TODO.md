@@ -2,13 +2,13 @@
 
 ## Zdjęcia produktów (placeholdery do podmiany)
 - **Olejek do twarzy — lawenda + werbena** (`olejki`) — używa `src/assets/products/placeholder.webp`. Dane w `src/data/products.ts` przy `slug: olejek-do-twarzy-lawenda-werbena`.
-- **Hydrolaty arbuz + neroli** (`hydrolaty`) — tymczasowo używają generycznego `hydrolat.webp`. Podmienić na właściwe foto, gdy będą. Dane przy `slug: hydrolat-arbuzowy` i `hydrolat-neroli`.
+- Pozostałe produkty mają już zdjęcia z sesji produktowej (30.07.2026), wycięte z białego tła. W paczce są też niewykorzystane ujęcia: słoiki 60 ml i boki etykiet z logo / nazwą linii — przydadzą się, gdyby karta produktu miała dostać galerię albo osobne zdjęcie dla 60 ml.
 
 ## Sekcja „Kosmetyki bez nadmiaru" na stronie głównej (mail #7)
 - Czeka na zdjęcia w wersji z miękkim cieniem (Drive). Wrzucić pliki do `src/assets/` i przeprojektować sekcję: zostawić róża / malina / arbuz + odnośnik do `/produkty`, mniejsze zdjęcia, bez hovera.
 
 ## Warianty hydrolatów (mail #3)
-- Arbuz i neroli — dodane (generyczne foto, patrz wyżej).
+- Arbuz i neroli — dodane, z własnymi zdjęciami.
 
 ## Sekcja kontakt
 - Dane firmy (nazwa, NIP, REGON) zdjęte z `/contact` — zostaje e-mail i Instagram. Telefon tylko w stopce. Czeka na zdjęcie od Ireny, żeby sekcja nie była tak minimalistyczna.

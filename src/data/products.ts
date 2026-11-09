@@ -1,10 +1,11 @@
 import type { ImageMetadata } from "astro";
-import kremRetinol from "../assets/products/krem-retinol.webp";
-import kremB3 from "../assets/products/krem-b3.webp";
+import kremOdzywczy from "../assets/products/krem-odzywczy.webp";
+import kremNawilzajacy from "../assets/products/krem-nawilzajacy.webp";
 import glinka from "../assets/products/glinka.webp";
-import hydrolat from "../assets/products/hydrolat.webp";
-import hydrolatArbuz from "../assets/products/hydrolat-arbuz.webp";
+import hydrolatRozany from "../assets/products/hydrolat-rozany.webp";
+import hydrolatArbuz from "../assets/products/hydrolat-arbuzowy.webp";
 import hydrolatNeroli from "../assets/products/hydrolat-neroli.webp";
+import olejekRozmaryn from "../assets/products/olejek-rozmaryn.webp";
 import placeholder from "../assets/products/placeholder.webp";
 
 export type Category = "kremy" | "hydrolaty" | "glinki" | "olejki";
@@ -62,7 +63,7 @@ export const products: Product[] = [
       { size: "60 ml", price: "150 zł" },
     ],
     accent: "#a80070",
-    image: kremRetinol,
+    image: kremOdzywczy,
     alt: "Słoik kremu odżywczego z retinolem roślinnym z fuksjową plamą na etykiecie",
     intro:
       "Codzienna dawka emolientów, witamin i antyoksydantów. Odżywczy olej shea, nawilżający olej migdałowy, łagodzący hydrolat z róży damasceńskiej, regenerująca alantoina, ochronny olej z nasion malin, łagodny retinol roślinny, wzmacniający niacynamid oraz naturalne olejki eteryczne. Stworzony, by przywrócić skórze blask, elastyczność i komfort.",
@@ -135,7 +136,7 @@ export const products: Product[] = [
       { size: "60 ml", price: "150 zł" },
     ],
     accent: "#1b2a96",
-    image: kremB3,
+    image: kremNawilzajacy,
     alt: "Słoik kremu nawilżającego z kobaltową plamą na etykiecie",
     intro:
       "Codzienna dawka emolientów, witamin i antyoksydantów. Odżywczy olej shea, nawilżający olej migdałowy, łagodzący hydrolat z róży damasceńskiej, regenerująca alantoina, ochronny olej z nasion malin, wzmacniający niacynamid oraz naturalne olejki eteryczne. Stworzony, by przywrócić skórze komfort i nawilżenie.",
@@ -212,8 +213,8 @@ export const products: Product[] = [
     fullName: "Hydrolat z płatków róży damasceńskiej",
     variants: [{ size: "100 ml", price: "40 zł" }],
     accent: "#b5235c",
-    image: hydrolat,
-    alt: "Szklana butelka hydrolatu różanego iramako",
+    image: hydrolatRozany,
+    alt: "Butelka hydrolatu różanego z fuksjową plamą na etykiecie",
     intro:
       "Naturalny hydrolat bez konserwantów — idealny element codziennej pielęgnacji jako tonik po oczyszczaniu lub mgiełka odświeżająca w ciągu dnia. Pomaga przywrócić skórze naturalne pH po demakijażu i przygotowuje ją do kolejnych etapów pielęgnacji.",
     forWhom:
@@ -251,7 +252,7 @@ export const products: Product[] = [
     variants: [{ size: "100 ml", price: "40 zł" }],
     accent: "#D97A66",
     image: hydrolatNeroli,
-    alt: "Szklana butelka hydrolatu neroli iramako",
+    alt: "Butelka hydrolatu neroli z brzoskwiniową plamą na etykiecie",
     intro:
       "Naturalny hydrolat — idealny element codziennej pielęgnacji jako tonik po oczyszczaniu lub mgiełka odświeżająca w ciągu dnia. Pomaga przywrócić skórze naturalne pH po oczyszczaniu i przygotowuje ją do kolejnych etapów pielęgnacji. Pozostawia skórę odświeżoną, miękką i pełną komfortu.",
     forWhom:
@@ -289,7 +290,7 @@ export const products: Product[] = [
     variants: [{ size: "100 ml", price: "40 zł" }],
     accent: "#e45050",
     image: hydrolatArbuz,
-    alt: "Szklana butelka hydrolatu z arbuza iramako",
+    alt: "Butelka hydrolatu z arbuza z czerwoną plamą na etykiecie",
     intro:
       "Naturalny hydrolat bez konserwantów — idealny element codziennej pielęgnacji jako tonik po oczyszczaniu lub mgiełka odświeżająca w ciągu dnia. Sprawdza się jako mgiełka, która nawilża i chłodzi skórę, zwłaszcza w gorące letnie dni. Pomaga przywrócić skórze naturalne pH po demakijażu i przygotowuje ją do kolejnych etapów pielęgnacji.",
     forWhom:
@@ -327,7 +328,7 @@ export const products: Product[] = [
     variants: [{ size: "40 g", price: "40 zł" }],
     accent: "#5f6f8c",
     image: glinka,
-    alt: "Słoik białej glinki kaolinowej z logo iramako",
+    alt: "Butelka glinki kaolinowej z niebieskimi kropkami na etykiecie",
     intro:
       "Minimalistyczna biała glinka kaolinowa — mineralna pielęgnacja każdego typu cery, również suchej i wrażliwej. Działa oczyszczająco, absorbując nadmiar sebum, pomaga zmniejszyć widoczność porów i pozostawia skórę świeżą oraz matową.",
     forWhom:
@@ -429,8 +430,8 @@ export const products: Product[] = [
     fullName: "Lekki olejek do twarzy",
     variants: [{ size: "30 ml", price: "50 zł" }],
     accent: "#6b8c5e",
-    image: placeholder,
-    alt: "Placeholder — zdjęcie lekkiego olejku do twarzy iramako wkrótce",
+    image: olejekRozmaryn,
+    alt: "Butelka z pipetą — olejek do twarzy rozmaryn + werbena iramako",
     intro:
       "Lekki roślinny olejek do codziennej pielęgnacji twarzy. Połączenie oleju migdałowego, jojoba i witaminy E wspiera naturalną równowagę skóry, pozostawiając ją miękką, gładką i pełną blasku. Świeży aromat werbeny i rozmarynu sprawia, że pielęgnacja staje się przyjemnym rytuałem.",
     forWhom: "Dla skóry normalnej, wrażliwej i suchej.",
