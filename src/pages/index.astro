@@ -193,7 +193,11 @@ const productListSchema = {
                           </button>
                         ))}
                       </div>
-                      <span data-size-price class="font-bold text-ink">
+                      <span
+                        data-size-price
+                        aria-live="polite"
+                        class="font-bold text-ink"
+                      >
                         {product.variants[0].price}
                       </span>
                     </div>

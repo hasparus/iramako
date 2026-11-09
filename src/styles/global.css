@@ -29,7 +29,7 @@
 
 @layer base {
   html {
-    @apply scroll-smooth bg-cream selection:bg-cobalt/20
+    @apply motion-safe:scroll-smooth bg-cream selection:bg-cobalt/20
   }
 
   body {
