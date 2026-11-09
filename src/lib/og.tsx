@@ -64,12 +64,130 @@ const logo = async (color: string) =>
     "image/svg+xml",
   );
 
-async function productPhoto(product: Product, height: number) {
+type Shadow = { src: string; left: number; top: number; width: number; height: number };
+type Photo = {
+  src: string;
+  width: number;
+  height: number;
+  shadows?: Shadow[];
+};
+
+const silhouette = async (photo: Buffer) => {
+  const { data, info } = await sharp(photo)
+    .ensureAlpha()
+    .extractChannel(3)
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+  return { data, w: info.width, h: info.height };
+};
+
+// a 1-channel alpha mask → a dark, transparent PNG
+async function darkFrom(alpha: Buffer, width: number, height: number) {
+  return sharp({
+    create: { width, height, channels: 3, background: "#1e1812" },
+  })
+    .joinChannel(alpha, { raw: { width, height, channels: 1 } })
+    .png()
+    .toBuffer();
+}
+
+// cast shadow, the same recipe as the product grid and the product page
+// (src/pages/index.astro): the photo's silhouette, faded towards its top and
+// its left side, flattened onto the floor, leaned up-right as if lit from the
+// lower left, and blurred. Satori can't blur or mask, so it's baked here.
+const CAST = {
+  scaleX: 0.92,
+  scaleY: 0.26,
+  skew: Math.tan((30 * Math.PI) / 180),
+  fadeTop: 0.62, // fully gone 62% of the way up the silhouette
+  fadeLeft: [0.42, 0.54], // hidden left of 42%, full right of 54%
+  blur: 14,
+  lift: 8, // tucks the shadow's base under the product's base
+};
+
+async function castShadow(photo: Buffer, opacity: number): Promise<Shadow> {
+  const { data, w, h } = await silhouette(photo);
+  const [l0, l1] = CAST.fadeLeft;
+  for (let y = 0; y < h; y++) {
+    const up = Math.max(0, 1 - (h - y) / h / CAST.fadeTop);
+    for (let x = 0; x < w; x++) {
+      const right = Math.min(1, Math.max(0, (x / w - l0) / (l1 - l0)));
+      data[y * w + x] = Math.round(data[y * w + x] * up * right * opacity);
+    }
+  }
+  const sw = Math.round(w * CAST.scaleX);
+  const sh = Math.max(1, Math.round(h * CAST.scaleY));
+  const m = CAST.blur * 3; // room for the blur to spread
+  const alpha = await sharp(data, { raw: { width: w, height: h, channels: 1 } })
+    .resize(sw, sh, { fit: "fill" })
+    // x' = x - skew·y: the top row stays put, lower rows slide left, so the
+    // shadow leans up and to the right of its base
+    .affine([1, -CAST.skew, 0, 1], { background: "#000" })
+    .extend({ top: m, bottom: m, left: m, right: m, background: "#000" })
+    .blur(CAST.blur)
+    .toColourspace("b-w")
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+  const { width, height } = alpha.info;
+  // after the skew the base row starts at the left edge of the sheared box,
+  // so it sits m px in from the image's left and m px up from its bottom
+  return {
+    src: dataUri(await darkFrom(alpha.data, width, height)),
+    left: (w - sw) / 2 - m,
+    top: h - CAST.lift - sh - m,
+    width,
+    height,
+  };
+}
+
+// contact shadow: the product's footprint squashed to a sliver and blurred,
+// so it reads as standing on the surface rather than floating over it
+const CONTACT = { thickness: 6, widen: 1.04, blur: 7, lift: 3 };
+
+async function contactShadow(photo: Buffer, opacity: number): Promise<Shadow> {
+  const { data, w, h } = await silhouette(photo);
+  for (let i = 0; i < data.length; i++) data[i] = Math.round(data[i] * opacity);
+  const sw = Math.round(w * CONTACT.widen);
+  const m = CONTACT.blur * 3;
+  const alpha = await sharp(data, { raw: { width: w, height: h, channels: 1 } })
+    .resize(sw, CONTACT.thickness, { fit: "fill" })
+    .extend({ top: m, bottom: m, left: m, right: m, background: "#000" })
+    .blur(CONTACT.blur)
+    .toColourspace("b-w")
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+  const { width, height } = alpha.info;
+  return {
+    src: dataUri(await darkFrom(alpha.data, width, height)),
+    left: (w - sw) / 2 - m,
+    top: h - CONTACT.lift - CONTACT.thickness / 2 - m,
+    width,
+    height,
+  };
+}
+
+async function productPhoto(
+  product: Product,
+  height: number,
+  shadow: number,
+): Promise<Photo> {
   const { data, info } = await sharp(await readFile(fsPathOf(product.image)))
     .resize({ height })
     .png()
     .toBuffer({ resolveWithObject: true });
-  return { src: dataUri(data), width: info.width, height: info.height };
+  return {
+    src: dataUri(data),
+    width: info.width,
+    height: info.height,
+    // the placeholder is a line drawing: nothing solid to cast a shadow
+    ...(!isPlaceholder(product) &&
+      shadow > 0 && {
+        shadows: [
+          await castShadow(data, shadow),
+          await contactShadow(data, shadow * 0.7),
+        ],
+      }),
+  };
 }
 
 // the grey watercolour splash, dyed the product's accent colour
@@ -106,39 +224,17 @@ const prices = (product: Product) =>
 const photoHeight = (product: Product, jar: number, bottle: number) =>
   product.category === "kremy" ? jar : bottle;
 
-// soft elliptical floor shadow under the product
-function FloorShadow({ width, dark = 0.22 }: { width: number; dark?: number }) {
+function Photo({ photo }: { photo: Photo }) {
   return (
-    <div
-      style={{
-        position: "absolute",
-        bottom: -12,
-        width: width * 1.2,
-        height: 32,
-        borderRadius: "50%",
-        backgroundImage: `radial-gradient(closest-side, rgba(30,24,18,${dark}), rgba(30,24,18,0))`,
-      }}
-    />
-  );
-}
-
-function Photo({
-  photo,
-  shadow = 0.22,
-}: {
-  photo: { src: string; width: number; height: number };
-  shadow?: number;
-}) {
-  return (
-    <div
-      style={{
-        display: "flex",
-        position: "relative",
-        justifyContent: "center",
-        alignItems: "flex-end",
-      }}
-    >
-      {shadow > 0 && <FloorShadow width={photo.width} dark={shadow} />}
+    <div style={{ display: "flex", position: "relative" }}>
+      {photo.shadows?.map((s) => (
+        <img
+          src={s.src}
+          width={s.width}
+          height={s.height}
+          style={{ position: "absolute", left: s.left, top: s.top }}
+        />
+      ))}
       <img src={photo.src} width={photo.width} height={photo.height} />
     </div>
   );
@@ -148,7 +244,11 @@ type Design = (product: Product) => Promise<React.ReactElement>;
 
 // 1 — katalog: like the product grid. Photo on cream, type on the right.
 const katalog: Design = async (product) => {
-  const photo = await productPhoto(product, photoHeight(product, 390, 500));
+  const photo = await productPhoto(
+    product,
+    photoHeight(product, 390, 500),
+    0.6,
+  );
   return (
     <div
       style={{
@@ -169,7 +269,7 @@ const katalog: Design = async (product) => {
           paddingTop: 20,
         }}
       >
-        <Photo photo={photo} shadow={isPlaceholder(product) ? 0 : 0.22} />
+        <Photo photo={photo} />
       </div>
       <div
         style={{
@@ -234,7 +334,11 @@ const katalog: Design = async (product) => {
 
 // 2 — plama: the label's watercolour dot, grown huge behind the product
 const plama: Design = async (product) => {
-  const photo = await productPhoto(product, photoHeight(product, 380, 490));
+  const photo = await productPhoto(
+    product,
+    photoHeight(product, 380, 490),
+    0.6,
+  );
   return (
     <div
       style={{
@@ -262,7 +366,7 @@ const plama: Design = async (product) => {
           paddingTop: 30,
         }}
       >
-        <Photo photo={photo} shadow={isPlaceholder(product) ? 0 : 0.3} />
+        <Photo photo={photo} />
       </div>
       <div
         style={{
@@ -303,7 +407,11 @@ const plama: Design = async (product) => {
 
 // 3 — kolor: the whole card in the product's accent, cream type
 const kolor: Design = async (product) => {
-  const photo = await productPhoto(product, photoHeight(product, 400, 520));
+  const photo = await productPhoto(
+    product,
+    photoHeight(product, 400, 520),
+    0.7,
+  );
   return (
     <div
       style={{
@@ -374,7 +482,7 @@ const kolor: Design = async (product) => {
           paddingTop: 30,
         }}
       >
-        <Photo photo={photo} shadow={isPlaceholder(product) ? 0 : 0.45} />
+        <Photo photo={photo} />
       </div>
     </div>
   );
@@ -386,7 +494,11 @@ const EDGE_X = 620; // where the label-edge text runs, within the card
 // 4 — etykieta: built like the label itself. Big wordmark, the vertical
 // "linia - rodzaj" in the accent colour, the product beside it.
 const etykieta: Design = async (product) => {
-  const photo = await productPhoto(product, photoHeight(product, 380, 500));
+  const photo = await productPhoto(
+    product,
+    photoHeight(product, 380, 500),
+    0.55,
+  );
   return (
     <div
       style={{
@@ -472,7 +584,7 @@ const etykieta: Design = async (product) => {
             paddingTop: 24,
           }}
         >
-          <Photo photo={photo} shadow={isPlaceholder(product) ? 0 : 0.2} />
+          <Photo photo={photo} />
         </div>
       </div>
     </div>
