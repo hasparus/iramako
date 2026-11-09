@@ -244,6 +244,28 @@ const productListSchema = {
             ?.querySelectorAll<HTMLElement>("[data-size-photo]") ?? []),
         ];
 
+        // the other sizes' photos sit hidden with loading="lazy", so they'd
+        // only download on the click and blink in. once the card's first photo
+        // is in, fetch and decode the rest so switching is instant.
+        const warm = () => {
+          for (const img of photos.flatMap((p) => [
+            ...p.querySelectorAll("img"),
+          ])) {
+            img.loading = "eager";
+            img.decode().catch(() => {});
+          }
+        };
+        const first = photos[0]?.querySelector<HTMLImageElement>(
+          "img[data-fade]:not([alt=''])",
+        );
+        if (photos.length > 1) {
+          if (!first || first.complete) warm();
+          else first.addEventListener("load", warm, { once: true });
+          // a hover or focus before the first photo lands warms up early too
+          picker.addEventListener("pointerenter", warm, { once: true });
+          picker.addEventListener("focusin", warm, { once: true });
+        }
+
         const select = (i: number, focus = false) => {
           options.forEach((o, j) => {
             const on = i === j;
