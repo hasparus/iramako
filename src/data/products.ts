@@ -1,6 +1,8 @@
 import type { ImageMetadata } from "astro";
 import kremOdzywczy from "../assets/products/krem-odzywczy.webp";
 import kremNawilzajacy from "../assets/products/krem-nawilzajacy.webp";
+import kremOdzywczy60 from "../assets/products/krem-odzywczy-60ml.webp";
+import kremNawilzajacy60 from "../assets/products/krem-nawilzajacy-60ml.webp";
 import glinka from "../assets/products/glinka.webp";
 import hydrolatRozany from "../assets/products/hydrolat-rozany.webp";
 import hydrolatArbuz from "../assets/products/hydrolat-arbuzowy.webp";
@@ -18,6 +20,9 @@ export interface Ingredient {
 export interface Variant {
   size: string;
   price: string;
+  /** zdjęcie tej pojemności; bez niego wariant pokazuje `Product.image` */
+  image?: ImageMetadata;
+  alt?: string;
 }
 
 export interface Product {
@@ -60,7 +65,12 @@ export const products: Product[] = [
     fullName: "Krem do twarzy z retinolem roślinnym 2%",
     variants: [
       { size: "30 ml", price: "90 zł" },
-      { size: "60 ml", price: "150 zł" },
+      {
+        size: "60 ml",
+        price: "150 zł",
+        image: kremOdzywczy60,
+        alt: "Słoik 60 ml kremu odżywczego z fuksjową plamą na etykiecie",
+      },
     ],
     accent: "#a80070",
     image: kremOdzywczy,
@@ -133,7 +143,12 @@ export const products: Product[] = [
     fullName: "Nawilżający krem do twarzy z witaminą B3",
     variants: [
       { size: "30 ml", price: "90 zł" },
-      { size: "60 ml", price: "150 zł" },
+      {
+        size: "60 ml",
+        price: "150 zł",
+        image: kremNawilzajacy60,
+        alt: "Słoik 60 ml kremu nawilżającego z kobaltową plamą na etykiecie",
+      },
     ],
     accent: "#1b2a96",
     image: kremNawilzajacy,
@@ -496,3 +511,19 @@ export const productsByCategory = (
     items: products.filter((p) => p.category === category),
   }))
   .filter((group) => group.items.length > 0);
+
+/**
+ * zdjęcia do siatki produktów: po jednym na pojemność, gdy któraś pojemność
+ * ma własne zdjęcie (wariant bez zdjęcia bierze to produktu), inaczej jedno.
+ */
+export function photosOf(
+  product: Product,
+): { image: ImageMetadata; alt: string }[] {
+  if (!product.variants.some((v) => v.image)) {
+    return [{ image: product.image, alt: product.alt }];
+  }
+  return product.variants.map((v) => ({
+    image: v.image ?? product.image,
+    alt: v.alt ?? product.alt,
+  }));
+}

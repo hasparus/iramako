@@ -7,6 +7,8 @@ Na stronie są już wycięte (przezroczyste tło, `src/assets/products/`):
 | plik | gdzie na stronie |
 |---|---|
 | 03-krem-odzywczy-30ml-front | `krem-odzywczy.webp` |
+| 05-krem-odzywczy-60ml-front-2 | `krem-odzywczy-60ml.webp` (wariant 60 ml) |
+| 06-krem-nawilzajacy-60ml-front | `krem-nawilzajacy-60ml.webp` (wariant 60 ml) |
 | 08-krem-nawilzajacy-30ml-front | `krem-nawilzajacy.webp` |
 | 10-hydrolat-neroli-front | `hydrolat-neroli.webp` |
 | 11-olejek-rozmaryn-werbena | `olejek-rozmaryn.webp` |
@@ -14,6 +16,6 @@ Na stronie są już wycięte (przezroczyste tło, `src/assets/products/`):
 | 15-hydrolat-rozany-front | `hydrolat-rozany.webp` |
 | 17-glinka-front | `glinka.webp` |
 
-Reszta (słoiki 60 ml, boki etykiet z logo i nazwą linii) czeka na później, np. na galerię na karcie produktu.
+Reszta (drugie ujęcie słoika 60 ml, boki etykiet z logo i nazwą linii) czeka na później, np. na galerię na karcie produktu.
 
 Folder leży poza `src/` i `public/`, więc nie trafia do builda.

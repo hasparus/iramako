@@ -9,7 +9,7 @@ import Navbar from "../components/Navbar.astro";
 import Photo from "../components/Image.astro";
 import heroImage from "../assets/4 słoiki_miękki cień.png";
 import sloikWPaprociach from "../assets/sloik-w-paprociach.webp";
-import { products, productsByCategory } from "../data/products";
+import { photosOf, products, productsByCategory } from "../data/products";
 import placeholder from "../assets/products/placeholder.webp";
 
 const instagramUrl = "https://www.instagram.com/ira.mako/";
@@ -140,25 +140,32 @@ const productListSchema = {
                           the "floor" and skewed up-right as if lit from lower-left.
                           blur on the wrapper (after the mask) softens its edge.
                           skipped for the placeholder — no real photo to cast. */}
-                      {product.image.src !== placeholder.src && (
-                        <div
-                          aria-hidden="true"
-                          class="pointer-events-none absolute bottom-1 left-[calc(50%-var(--shadow-x))] -z-10 blur-xs"
-                        >
+                      {photosOf(product).map((photo, i) => (
+                        // one photo per size; the size picker below unhides
+                        // the one that matches. `contents` keeps the shadow
+                        // positioned against the figure.
+                        <div data-size-photo class="contents" hidden={i > 0}>
+                          {photo.image.src !== placeholder.src && (
+                            <div
+                              aria-hidden="true"
+                              class="pointer-events-none absolute bottom-1 left-[calc(50%-var(--shadow-x))] -z-10 blur-xs"
+                            >
+                              <Image
+                                class="max-h-40 w-auto origin-bottom object-contain filter-[brightness(0)_blur(12px)] mask-intersect mask-[linear-gradient(to_top,black_0%,transparent_48%),linear-gradient(to_right,transparent_47%,black_57%)] transform-[translateX(-50%)_scaleX(0.94)_scaleY(0.29)_skewX(-22deg)] transition-[opacity,transform] duration-500 ease-out group-hover:opacity-60 sm:max-h-48"
+                                src={photo.image}
+                                alt=""
+                                loading="lazy"
+                              />
+                            </div>
+                          )}
                           <Image
-                            class="max-h-40 w-auto origin-bottom object-contain filter-[brightness(0)_blur(12px)] mask-intersect mask-[linear-gradient(to_top,black_0%,transparent_48%),linear-gradient(to_right,transparent_47%,black_57%)] transform-[translateX(-50%)_scaleX(0.94)_scaleY(0.29)_skewX(-22deg)] transition-[opacity,transform] duration-500 ease-out group-hover:opacity-60 sm:max-h-48"
-                            src={product.image}
-                            alt=""
+                            class="max-h-full w-auto object-contain"
+                            src={photo.image}
+                            alt={photo.alt}
                             loading="lazy"
                           />
                         </div>
-                      )}
-                      <Image
-                        class="max-h-full w-auto object-contain"
-                        src={product.image}
-                        alt={product.alt}
-                        loading="lazy"
-                      />
+                      ))}
                     </figure>
                     <h4 class="mt-4 text-[clamp(1.02rem,1.3vw,1.22rem)] font-medium text-ink transition-colors group-hover:text-(--accent)">
                       {product.name}
@@ -224,12 +231,18 @@ const productListSchema = {
     </Section>
 
     <script>
-      // size radiogroup: arrow-key nav + roving tabindex, reflect price
+      // size radiogroup: arrow-key nav + roving tabindex, reflect price and,
+      // where a size has its own photo, swap the photo
       for (const picker of document.querySelectorAll("[data-size-picker]")) {
         const options = [
           ...picker.querySelectorAll<HTMLButtonElement>("[data-size-option]"),
         ];
         const price = picker.querySelector("[data-size-price]");
+        const photos = [
+          ...(picker
+            .closest("li")
+            ?.querySelectorAll<HTMLElement>("[data-size-photo]") ?? []),
+        ];
 
         const select = (i: number, focus = false) => {
           options.forEach((o, j) => {
@@ -238,6 +251,9 @@ const productListSchema = {
             o.tabIndex = on ? 0 : -1;
           });
           if (price) price.textContent = options[i].dataset.price ?? "";
+          if (photos.length === options.length) {
+            photos.forEach((p, j) => (p.hidden = i !== j));
+          }
           if (focus) options[i].focus();
         };
 
