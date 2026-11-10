@@ -259,8 +259,9 @@ const productListSchema = {
             img.decode().catch(() => {});
           }
         };
+        // the visible photo itself, not its cast shadow (that one has alt="")
         const first = photos[0]?.querySelector<HTMLImageElement>(
-          "img[data-fade]:not([alt=''])",
+          "img:not([alt=''])",
         );
         if (photos.length > 1) {
           if (!first || first.complete) warm();

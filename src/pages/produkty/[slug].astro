@@ -9,6 +9,7 @@ import Button from "../../components/Button.astro";
 import ContactIcon from "../../components/icons/Contact.astro";
 import { products, categoryLabels } from "../../data/products";
 import placeholder from "../../assets/products/placeholder.webp";
+import { ogImagePath } from "../../lib/og";
 
 export function getStaticPaths() {
   return products.map((product) => ({
@@ -50,8 +51,11 @@ const schema = {
   description={`${product.fullName}. ${product.forWhom}`}
   {...product.image.src !== placeholder.src && {
     // src/pages/og/produkty/[slug].png.ts
-    image: `/og/produkty/${product.slug}.png`,
-    imageAlt: `${product.name}: ${product.alt}`,
+    image: ogImagePath(product),
+    // the image shows the prices too, so the alt says them
+    imageAlt: `${product.name}: ${product.alt}. ${product.variants
+      .map((v) => `${v.price} · ${v.size}`)
+      .join(", ")}`,
   }}
 >
   <script

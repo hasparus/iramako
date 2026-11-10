@@ -5,10 +5,14 @@
 import { ImageResponse } from "@hasparus/definitely-not-vercel-og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import { createHash } from "node:crypto";
 import sharp from "sharp";
 import type { Product } from "../data/products";
 import placeholder from "../assets/products/placeholder.webp";
 import szary from "../assets/splashes/szary.webp";
+
+// bump when the design changes, so the image gets a new URL (see ogImagePath)
+const OG_DESIGN = "plama-1";
 
 export const OG_WIDTH = 1200;
 export const OG_HEIGHT = 630;
@@ -310,4 +314,17 @@ export async function renderOg(product: Product) {
     height: OG_HEIGHT,
     fonts: await fonts(),
   });
+}
+
+// Facebook and Slack cache an og:image by its URL, so the URL carries a hash
+// of everything the image is drawn from: a new price or photo gets a new URL
+export function ogImagePath(product: Product) {
+  const { name, fullName, accent, variants } = product;
+  const v = createHash("sha1")
+    .update(
+      JSON.stringify([OG_DESIGN, name, fullName, accent, variants, product.image.src]),
+    )
+    .digest("hex")
+    .slice(0, 8);
+  return `/og/produkty/${product.slug}.png?v=${v}`;
 }

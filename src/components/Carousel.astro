@@ -126,6 +126,12 @@ const arrow =
     </button>
   </div>
 
+  {
+    /* what a screen reader hears after the reader changes the photo: scrolling
+       alone changes no text, so the live region needs words of its own */
+  }
+  <p data-status class="sr-only" aria-live="polite"></p>
+
   {/* hairline indicators, in the same register as the rules across the site */}
   <div class="-ml-2 flex">
     {
@@ -171,6 +177,10 @@ const arrow =
     const next = root.querySelector<HTMLButtonElement>("[data-next]");
     const dots = [...root.querySelectorAll<HTMLButtonElement>("[data-dot]")];
     const toggle = root.querySelector<HTMLButtonElement>("[data-pause]");
+    const status = root.querySelector<HTMLElement>("[data-status]");
+    const alts = [...track.querySelectorAll<HTMLImageElement>("figure img[alt]")]
+      .map((img) => img.alt)
+      .filter(Boolean);
     if (!track || !prev || !next) continue;
 
     const last = dots.length - 1;
@@ -183,6 +193,7 @@ const arrow =
       });
     };
 
+    let announced = 0;
     const sync = () => {
       const i = current();
       dots.forEach((dot, j) =>
@@ -190,6 +201,11 @@ const arrow =
       );
       prev.disabled = i === 0;
       next.disabled = i === last;
+      // only once stopped: while it moves on its own, changes stay quiet
+      if (done && status && i !== announced) {
+        announced = i;
+        status.textContent = `zdjęcie ${i + 1} z ${last + 1}: ${alts[i] ?? ""}`;
+      }
     };
 
     // taking hold of the carousel ends the unattended advance for good; merely
@@ -211,9 +227,6 @@ const arrow =
       );
       toggle.querySelector<SVGElement>("[data-icon=pause]")!.toggleAttribute("hidden", done);
       toggle.querySelector<SVGElement>("[data-icon=play]")!.toggleAttribute("hidden", !done);
-      // while it moves on its own, slide changes stay quiet; once stopped,
-      // a change the reader makes is announced
-      track.setAttribute("aria-live", done ? "polite" : "off");
     };
 
     const advance = () => {
@@ -271,6 +284,7 @@ const arrow =
     document.addEventListener("visibilitychange", pace);
     calm.addEventListener("change", () => {
       done ||= calm.matches;
+      show();
       pace();
     });
     new IntersectionObserver(([entry]) => {
