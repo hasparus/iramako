@@ -12,14 +12,15 @@ import placeholder from "../assets/products/placeholder.webp";
 import szary from "../assets/splashes/szary.webp";
 
 // bump when the design changes, so the image gets a new URL (see ogImagePath)
-const OG_DESIGN = "plama-1";
+const OG_DESIGN = "plama-2";
 
 export const OG_WIDTH = 1200;
 export const OG_HEIGHT = 630;
 
 const INK = "#34312d";
 const MUTED = "#463e37";
-const CREAM = "#F8F5EE";
+// a touch lighter than the site's cream (#F8F5EE), still warm, not white
+const BACKGROUND = "#FBF9F4";
 
 // the build runs from the project root; import.meta.url would point into the
 // bundled chunk in dist/, not here
@@ -248,7 +249,7 @@ async function plama(product: Product) {
         display: "flex",
         width: "100%",
         height: "100%",
-        background: CREAM,
+        background: BACKGROUND,
         fontFamily: "Greycliff CF",
         color: INK,
         position: "relative",
