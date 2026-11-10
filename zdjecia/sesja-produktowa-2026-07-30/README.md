@@ -20,3 +20,7 @@ Na stronie są już wycięte (przezroczyste tło, `src/assets/products/`):
 Reszta (drugie ujęcie słoika 60 ml, boki etykiet z logo i nazwą linii) czeka na później, np. na galerię na karcie produktu.
 
 Folder leży poza `src/` i `public/`, więc nie trafia do builda.
+
+## Odbarwienie różowej poświaty
+
+Na wszystkich zdjęciach prawa krawędź etykiety była różowa (odbicie w studiu). Wycięcia w `src/assets/products/` przeszły przez `zdjecia/odbarw-etykiety.py`, który zdejmuje sam róż z papieru etykiety; plamy, szkło i druk zostają. Przy nowym wycięciu z oryginału trzeba go przepuścić jeszcze raz.
