@@ -96,6 +96,10 @@ const { instagramUrl } = Astro.props;
   </Container>
 </header>
 
+{/* where the skip link in BaseLayout lands: right after the header, on every
+    page. tabindex lets it take focus, so the next Tab goes into the content */}
+<div id="tresc" tabindex="-1" class="outline-none"></div>
+
 <script>
   const nav = document.getElementById("site-nav");
   const desktop = window.matchMedia("(width >= 40rem)");

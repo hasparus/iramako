@@ -1,11 +1,14 @@
 import type { ImageMetadata } from "astro";
-import kremRetinol from "../assets/products/krem-retinol.webp";
-import kremB3 from "../assets/products/krem-b3.webp";
+import kremOdzywczy from "../assets/products/krem-odzywczy.webp";
+import kremNawilzajacy from "../assets/products/krem-nawilzajacy.webp";
+import kremOdzywczy60 from "../assets/products/krem-odzywczy-60ml.webp";
+import kremNawilzajacy60 from "../assets/products/krem-nawilzajacy-60ml.webp";
 import glinka from "../assets/products/glinka.webp";
-import hydrolat from "../assets/products/hydrolat.webp";
-import hydrolatArbuz from "../assets/products/hydrolat-arbuz.webp";
+import hydrolatRozany from "../assets/products/hydrolat-rozany.webp";
+import hydrolatArbuz from "../assets/products/hydrolat-arbuzowy.webp";
 import hydrolatNeroli from "../assets/products/hydrolat-neroli.webp";
-import placeholder from "../assets/products/placeholder.webp";
+import olejekRozmaryn from "../assets/products/olejek-rozmaryn.webp";
+import olejekLawenda from "../assets/products/olejek-lawenda.webp";
 
 export type Category = "kremy" | "hydrolaty" | "glinki" | "olejki";
 
@@ -17,6 +20,9 @@ export interface Ingredient {
 export interface Variant {
   size: string;
   price: string;
+  /** zdjęcie tej pojemności; bez niego wariant pokazuje `Product.image` */
+  image?: ImageMetadata;
+  alt?: string;
 }
 
 export interface Product {
@@ -59,10 +65,15 @@ export const products: Product[] = [
     fullName: "Krem do twarzy z retinolem roślinnym 2%",
     variants: [
       { size: "30 ml", price: "90 zł" },
-      { size: "60 ml", price: "150 zł" },
+      {
+        size: "60 ml",
+        price: "150 zł",
+        image: kremOdzywczy60,
+        alt: "Słoik 60 ml kremu odżywczego z fuksjową plamą na etykiecie",
+      },
     ],
     accent: "#a80070",
-    image: kremRetinol,
+    image: kremOdzywczy,
     alt: "Słoik kremu odżywczego z retinolem roślinnym z fuksjową plamą na etykiecie",
     intro:
       "Codzienna dawka emolientów, witamin i antyoksydantów. Odżywczy olej shea, nawilżający olej migdałowy, łagodzący hydrolat z róży damasceńskiej, regenerująca alantoina, ochronny olej z nasion malin, łagodny retinol roślinny, wzmacniający niacynamid oraz naturalne olejki eteryczne. Stworzony, by przywrócić skórze blask, elastyczność i komfort.",
@@ -132,10 +143,15 @@ export const products: Product[] = [
     fullName: "Nawilżający krem do twarzy z witaminą B3",
     variants: [
       { size: "30 ml", price: "90 zł" },
-      { size: "60 ml", price: "150 zł" },
+      {
+        size: "60 ml",
+        price: "150 zł",
+        image: kremNawilzajacy60,
+        alt: "Słoik 60 ml kremu nawilżającego z kobaltową plamą na etykiecie",
+      },
     ],
     accent: "#1b2a96",
-    image: kremB3,
+    image: kremNawilzajacy,
     alt: "Słoik kremu nawilżającego z kobaltową plamą na etykiecie",
     intro:
       "Codzienna dawka emolientów, witamin i antyoksydantów. Odżywczy olej shea, nawilżający olej migdałowy, łagodzący hydrolat z róży damasceńskiej, regenerująca alantoina, ochronny olej z nasion malin, wzmacniający niacynamid oraz naturalne olejki eteryczne. Stworzony, by przywrócić skórze komfort i nawilżenie.",
@@ -212,8 +228,8 @@ export const products: Product[] = [
     fullName: "Hydrolat z płatków róży damasceńskiej",
     variants: [{ size: "100 ml", price: "40 zł" }],
     accent: "#b5235c",
-    image: hydrolat,
-    alt: "Szklana butelka hydrolatu różanego iramako",
+    image: hydrolatRozany,
+    alt: "Butelka hydrolatu różanego z fuksjową plamą na etykiecie",
     intro:
       "Naturalny hydrolat bez konserwantów — idealny element codziennej pielęgnacji jako tonik po oczyszczaniu lub mgiełka odświeżająca w ciągu dnia. Pomaga przywrócić skórze naturalne pH po demakijażu i przygotowuje ją do kolejnych etapów pielęgnacji.",
     forWhom:
@@ -251,7 +267,7 @@ export const products: Product[] = [
     variants: [{ size: "100 ml", price: "40 zł" }],
     accent: "#D97A66",
     image: hydrolatNeroli,
-    alt: "Szklana butelka hydrolatu neroli iramako",
+    alt: "Butelka hydrolatu neroli z brzoskwiniową plamą na etykiecie",
     intro:
       "Naturalny hydrolat — idealny element codziennej pielęgnacji jako tonik po oczyszczaniu lub mgiełka odświeżająca w ciągu dnia. Pomaga przywrócić skórze naturalne pH po oczyszczaniu i przygotowuje ją do kolejnych etapów pielęgnacji. Pozostawia skórę odświeżoną, miękką i pełną komfortu.",
     forWhom:
@@ -289,7 +305,7 @@ export const products: Product[] = [
     variants: [{ size: "100 ml", price: "40 zł" }],
     accent: "#e45050",
     image: hydrolatArbuz,
-    alt: "Szklana butelka hydrolatu z arbuza iramako",
+    alt: "Butelka hydrolatu z arbuza z czerwoną plamą na etykiecie",
     intro:
       "Naturalny hydrolat bez konserwantów — idealny element codziennej pielęgnacji jako tonik po oczyszczaniu lub mgiełka odświeżająca w ciągu dnia. Sprawdza się jako mgiełka, która nawilża i chłodzi skórę, zwłaszcza w gorące letnie dni. Pomaga przywrócić skórze naturalne pH po demakijażu i przygotowuje ją do kolejnych etapów pielęgnacji.",
     forWhom:
@@ -327,7 +343,7 @@ export const products: Product[] = [
     variants: [{ size: "40 g", price: "40 zł" }],
     accent: "#5f6f8c",
     image: glinka,
-    alt: "Słoik białej glinki kaolinowej z logo iramako",
+    alt: "Butelka glinki kaolinowej z niebieskimi kropkami na etykiecie",
     intro:
       "Minimalistyczna biała glinka kaolinowa — mineralna pielęgnacja każdego typu cery, również suchej i wrażliwej. Działa oczyszczająco, absorbując nadmiar sebum, pomaga zmniejszyć widoczność porów i pozostawia skórę świeżą oraz matową.",
     forWhom:
@@ -360,8 +376,8 @@ export const products: Product[] = [
     fullName: "Lekki olejek do twarzy",
     variants: [{ size: "30 ml", price: "50 zł" }],
     accent: "#7d639b",
-    image: placeholder,
-    alt: "Placeholder — zdjęcie lekkiego olejku do twarzy iramako wkrótce",
+    image: olejekLawenda,
+    alt: "Butelka z pipetą — olejek do twarzy lawenda + werbena iramako",
     intro:
       "Lekki roślinny olejek do codziennej pielęgnacji twarzy. Połączenie oleju migdałowego, jojoba i witaminy E pozostawia skórę miękką, gładką i pełną naturalnego blasku. Świeży aromat lawendy i werbeny sprawia, że pielęgnacja staje się przyjemnym rytuałem.",
     forWhom: "Dla skóry normalnej, wrażliwej, suchej, wymagającej odżywienia.",
@@ -429,8 +445,8 @@ export const products: Product[] = [
     fullName: "Lekki olejek do twarzy",
     variants: [{ size: "30 ml", price: "50 zł" }],
     accent: "#6b8c5e",
-    image: placeholder,
-    alt: "Placeholder — zdjęcie lekkiego olejku do twarzy iramako wkrótce",
+    image: olejekRozmaryn,
+    alt: "Butelka z pipetą — olejek do twarzy rozmaryn + werbena iramako",
     intro:
       "Lekki roślinny olejek do codziennej pielęgnacji twarzy. Połączenie oleju migdałowego, jojoba i witaminy E wspiera naturalną równowagę skóry, pozostawiając ją miękką, gładką i pełną blasku. Świeży aromat werbeny i rozmarynu sprawia, że pielęgnacja staje się przyjemnym rytuałem.",
     forWhom: "Dla skóry normalnej, wrażliwej i suchej.",
@@ -495,3 +511,19 @@ export const productsByCategory = (
     items: products.filter((p) => p.category === category),
   }))
   .filter((group) => group.items.length > 0);
+
+/**
+ * zdjęcia do siatki produktów: po jednym na pojemność, gdy któraś pojemność
+ * ma własne zdjęcie (wariant bez zdjęcia bierze to produktu), inaczej jedno.
+ */
+export function photosOf(
+  product: Product,
+): { image: ImageMetadata; alt: string }[] {
+  if (!product.variants.some((v) => v.image)) {
+    return [{ image: product.image, alt: product.alt }];
+  }
+  return product.variants.map((v) => ({
+    image: v.image ?? product.image,
+    alt: v.alt ?? product.alt,
+  }));
+}

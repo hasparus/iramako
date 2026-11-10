@@ -9,6 +9,7 @@ import Button from "../../components/Button.astro";
 import ContactIcon from "../../components/icons/Contact.astro";
 import { products, categoryLabels } from "../../data/products";
 import placeholder from "../../assets/products/placeholder.webp";
+import { ogImagePath } from "../../lib/og";
 
 export function getStaticPaths() {
   return products.map((product) => ({
@@ -49,8 +50,12 @@ const schema = {
       nazwa produktu i to, dla kogo jest */}
   description={`${product.fullName}. ${product.forWhom}`}
   {...product.image.src !== placeholder.src && {
-    image: product.image.src,
-    imageAlt: product.alt,
+    // src/pages/og/produkty/[slug].png.ts
+    image: ogImagePath(product),
+    // the image shows the prices too, so the alt says them
+    imageAlt: `${product.name}: ${product.alt}. ${product.variants
+      .map((v) => `${v.price} · ${v.size}`)
+      .join(", ")}`,
   }}
 >
   <script
@@ -74,7 +79,7 @@ const schema = {
     >
       <figure
         class="relative isolate m-0 flex items-center justify-center"
-        style={`--accent: ${product.accent}; --shadow-x: ${product.category === "hydrolaty" ? "36px" : "18px"}`}
+        style={`--accent: ${product.accent}; --shadow-x: ${product.category !== "kremy" ? "36px" : "18px"}`}
       >
         {
           /* cast shadow: a flattened copy of the photo, same as the product list
@@ -246,7 +251,7 @@ const schema = {
               </p>
             )
           }
-          <h3 class="mt-10 mb-4 text-lg font-bold text-ink">Sposób użycia</h3>
+          <h2 class="mt-10 mb-4 text-lg font-bold text-ink">Sposób użycia</h2>
           <ol class="m-0 flex list-decimal flex-col gap-2 pl-5">
             {product.usage.map((step) => <li>{step}</li>)}
           </ol>

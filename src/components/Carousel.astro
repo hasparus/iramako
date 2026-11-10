@@ -90,7 +90,47 @@ const arrow =
         <path d="M5 12h14M13 6l6 6-6 6"></path>
       </svg>
     </button>
+
+    {
+      /* stops and restarts the unattended advance (WCAG 2.2.2). Tiny glyph on
+         the photo, a 24px target; the script shows it, since without JS
+         nothing advances. */
+    }
+    <button
+      type="button"
+      data-pause
+      hidden
+      aria-label="zatrzymaj przewijanie zdjęć"
+      class="absolute top-2 right-2 z-10 flex size-6 cursor-pointer items-center justify-center text-cream opacity-70 drop-shadow-[0_1px_2px_rgba(0,0,0,0.35)] outline-none hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-1 focus-visible:outline-cream"
+    >
+      <svg
+        data-icon="pause"
+        class="size-2"
+        viewBox="0 0 8 8"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <rect x="1" y="0.5" width="2" height="7"></rect>
+        <rect x="5" y="0.5" width="2" height="7"></rect>
+      </svg>
+      <svg
+        data-icon="play"
+        hidden
+        class="size-2"
+        viewBox="0 0 8 8"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path d="M1.5 0.5 7.5 4l-6 3.5z"></path>
+      </svg>
+    </button>
   </div>
+
+  {
+    /* what a screen reader hears after the reader changes the photo: scrolling
+       alone changes no text, so the live region needs words of its own */
+  }
+  <p data-status class="sr-only" aria-live="polite"></p>
 
   {/* hairline indicators, in the same register as the rules across the site */}
   <div class="-ml-2 flex">
@@ -136,6 +176,11 @@ const arrow =
     const prev = root.querySelector<HTMLButtonElement>("[data-prev]");
     const next = root.querySelector<HTMLButtonElement>("[data-next]");
     const dots = [...root.querySelectorAll<HTMLButtonElement>("[data-dot]")];
+    const toggle = root.querySelector<HTMLButtonElement>("[data-pause]");
+    const status = root.querySelector<HTMLElement>("[data-status]");
+    const alts = [...track.querySelectorAll<HTMLImageElement>("figure img[alt]")]
+      .map((img) => img.alt)
+      .filter(Boolean);
     if (!track || !prev || !next) continue;
 
     const last = dots.length - 1;
@@ -148,6 +193,7 @@ const arrow =
       });
     };
 
+    let announced = 0;
     const sync = () => {
       const i = current();
       dots.forEach((dot, j) =>
@@ -155,15 +201,33 @@ const arrow =
       );
       prev.disabled = i === 0;
       next.disabled = i === last;
+      // only once stopped: while it moves on its own, changes stay quiet
+      if (done && status && i !== announced) {
+        announced = i;
+        status.textContent = `zdjęcie ${i + 1} z ${last + 1}: ${alts[i] ?? ""}`;
+      }
     };
 
     // taking hold of the carousel ends the unattended advance for good; merely
     // hovering, focusing, scrolling it out of sight or hiding the tab holds it.
+    // The pause button stops it too, and is the one way to start it again;
+    // a restart from there ignores hover and focus until the next stop.
     let timer = 0;
     let step = 1;
     let held = false;
     let onScreen = true;
     let done = calm.matches;
+    let restarted = false;
+
+    const show = () => {
+      if (!toggle) return;
+      toggle.setAttribute(
+        "aria-label",
+        done ? "wznów przewijanie zdjęć" : "zatrzymaj przewijanie zdjęć",
+      );
+      toggle.querySelector<SVGElement>("[data-icon=pause]")!.toggleAttribute("hidden", done);
+      toggle.querySelector<SVGElement>("[data-icon=play]")!.toggleAttribute("hidden", !done);
+    };
 
     const advance = () => {
       const i = current();
@@ -174,13 +238,15 @@ const arrow =
 
     const pace = () => {
       clearInterval(timer);
-      if (!done && !held && onScreen && !document.hidden) {
+      if (!done && (!held || restarted) && onScreen && !document.hidden) {
         timer = setInterval(advance, ADVANCE_MS);
       }
     };
 
     const stop = () => {
       done = true;
+      restarted = false;
+      show();
       pace();
     };
     const hold = (on: boolean) => {
@@ -192,9 +258,25 @@ const arrow =
     next.addEventListener("click", () => go(current() + 1));
     dots.forEach((dot, i) => dot.addEventListener("click", () => go(i)));
 
-    root.addEventListener("pointerdown", stop);
+    if (toggle) {
+      toggle.hidden = false;
+      toggle.addEventListener("click", () => {
+        if (!done) return stop();
+        done = false;
+        restarted = true;
+        show();
+        pace();
+      });
+    }
+    // the pause button runs its own logic, so a press on it is not a grab
+    const onToggle = (e: Event) =>
+      (e.target as Element | null)?.closest("[data-pause]") != null;
+    root.addEventListener("pointerdown", (e) => onToggle(e) || stop());
     // Tab only passes through the carousel — it is not a grab
-    root.addEventListener("keydown", (e) => e.key !== "Tab" && stop());
+    root.addEventListener(
+      "keydown",
+      (e) => e.key !== "Tab" && !onToggle(e) && stop(),
+    );
     root.addEventListener("pointerenter", () => hold(true));
     root.addEventListener("pointerleave", () => hold(false));
     root.addEventListener("focusin", () => hold(true));
@@ -202,6 +284,7 @@ const arrow =
     document.addEventListener("visibilitychange", pace);
     calm.addEventListener("change", () => {
       done ||= calm.matches;
+      show();
       pace();
     });
     new IntersectionObserver(([entry]) => {
@@ -221,6 +304,7 @@ const arrow =
     // a resize changes clientWidth, so the snapped slide has to be re-read
     addEventListener("resize", sync);
     sync();
+    show();
     pace();
   }
 </script>
